@@ -1,0 +1,15 @@
+.logInBtn, .signUpBtn {
+    border: 1px solid white;
+    float: right;
+    font-family: 'Lato';
+    color: white;
+    padding: 0px 30px;
+    margin-right: 10px;
+    font-weight: 700;
+    border-radius: 10px;
+}
+
+#log{
+    width: 100%;
+    justify-content: flex-end;
+}
