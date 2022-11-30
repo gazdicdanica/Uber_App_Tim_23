@@ -1,11 +1,11 @@
 <mat-toolbar id="toolbar" color="primary">
-    <div id="logo" [routerLink]="['/home']">
+    <div id="logo">
         <h1 style="color: #f57804;"><b>Air</b></h1>
         <h1 style="color: #545454"><b>Ride</b></h1>
     </div>
     <div id="log">
         <button mat-raised-button class="signUpBtn" color="accent">Sign up</button>
-        <button mat-raised-button class="logInBtn" color="primary">Log in</button>
+        <button mat-raised-button class="logInBtn" color="primary" [routerLink]="['/login']">Log in</button>
     </div>
     
 </mat-toolbar>
