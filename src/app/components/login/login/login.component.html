@@ -1,1 +1,22 @@
-<p>login works!</p>
+<div>
+    <div id="main-view">
+        <h1>What's your email and password?</h1>
+    
+        <form class="login-form">
+            <mat-form-field appearance="outline">
+                <mat-label>E-mail</mat-label>
+                <input class="form-input" matInput type="email" name="email" formControlName="name"/>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input class="form-input" matInput type="password" name="password" formControlName="password"/>
+            </mat-form-field>
+            <div style="text-align: right; width: 400px; margin-bottom:16px"><a>Forgot password?</a></div>
+            <button class="form-btn" color="primary" type="submit" mat-raised-button>Log in</button>
+        </form>
+        
+    </div>
+    <div class="bottom-link"><p>Don't have an account? <a>SIGN UP</a></p></div>
+</div>
+
+
