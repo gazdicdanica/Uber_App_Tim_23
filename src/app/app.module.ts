@@ -6,11 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './components/navigationBar/navigation-bar/navigation-bar.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
+import { LoginComponent } from './components/login/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
