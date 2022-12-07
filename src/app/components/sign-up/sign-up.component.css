@@ -1,0 +1,39 @@
+#main-view{
+    text-align: center;
+    padding-top: 10px;
+}
+
+.sign-up-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-input{
+    border-width: 1px !important;
+}
+
+mat-form-field{
+    width: 400px;
+    border-radius: 10px !important;
+}
+
+.form-btn{
+    width: 400px;
+    font-weight: 400;
+    font-size: large;
+    padding: 30px;
+}
+
+.bottom-link{
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.bottom-link a{
+    color: #f57804;
+    text-decoration: underline;
+}
