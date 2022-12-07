@@ -15,8 +15,16 @@
     border-radius: 10px !important;
 }
 
-.form-input input{
-    width: 100%;
+.form-input-half{
+    width: 45%;
+}
+
+mat-form-field{
+    width: fit-content;
+}
+
+.input-wrapper{
+    width: fit-content;
 }
 
 .form-btn{
