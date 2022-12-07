@@ -8,13 +8,17 @@ import { NavigationBarComponent } from './components/navigationBar/navigation-ba
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { LoginComponent } from './components/login/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationBarComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
