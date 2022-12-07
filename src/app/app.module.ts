@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './components/navigationBar/navigation-bar/navigation-bar.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { LoginComponent } from './components/login/login/login.component';
+import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationBarComponent,
-    LoginComponent
+    LoginComponent,
+    SignUpFormComponent
   ],
   imports: [
     BrowserModule,
