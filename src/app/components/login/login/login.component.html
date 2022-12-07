@@ -11,7 +11,7 @@
                 <mat-label>Password</mat-label>
                 <input matInput type="password" name="password" formControlName="password"/>
             </mat-form-field>
-            <div style="text-align: right; width: 400px; margin-bottom:16px"><a>Forgot password?</a></div>
+            <div style="text-align: right; width: 400px; margin-bottom:16px"><a [routerLink]="['/resetPw']">Forgot password?</a></div>
             <button class="form-btn" color="primary" type="submit" mat-raised-button>Log in</button>
         </form>
         
