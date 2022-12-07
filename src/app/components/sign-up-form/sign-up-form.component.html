@@ -26,9 +26,9 @@
                 <input matInput type="password" name="password" formControlName="password"/>
             </mat-form-field>
 
-            <button class="form-btn" color="primary" type="submit" mat-raised-button>Log in</button>
+            <button class="form-btn" color="primary" type="submit" mat-raised-button>Sign up</button>
         </form>
         
     </div>
-    <div class="bottom-link"><p>Already have an account? <a>LOG IN</a></p></div>
+    <div class="bottom-link"><p>Already have an account? <a [routerLink]="['/login']">LOG IN</a></p></div>
 </div>
