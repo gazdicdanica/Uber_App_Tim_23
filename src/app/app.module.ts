@@ -4,13 +4,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavigationBarComponent } from './components/navigationBar/navigation-bar/navigation-bar.component';
+import { NavigationBarComponent } from './modules/layout-module/navigation-bar/navigation-bar.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
-import { LoginComponent } from './components/login/login/login.component';
-import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { LoginComponent } from './modules/auth/login/login.component';
+import { SignUpFormComponent } from './modules/auth/sign-up-form/sign-up-form.component';
+import { SignUpComponent } from './modules/auth/sign-up/sign-up.component';
+import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './modules/auth/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     NavigationBarComponent,
     LoginComponent,
     ResetPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
     SignUpFormComponent,
     SignUpComponent
   ],
