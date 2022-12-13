@@ -11,6 +11,7 @@ import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.comp
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   declarations: [
@@ -18,9 +19,10 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     NavigationBarComponent,
     LoginComponent,
     ResetPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
     SignUpFormComponent,
-    SignUpComponent
+    SignUpComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
