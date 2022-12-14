@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { LayoutModule } from '@angular/cdk/layout';
+import { LayoutModuleModule } from './modules/layout-module/layout.module'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -22,7 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    LayoutModule,
+    LayoutModuleModule,
     AuthModule
   ],
   providers: [],

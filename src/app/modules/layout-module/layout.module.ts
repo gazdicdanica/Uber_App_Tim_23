@@ -5,6 +5,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { CommonModule } from '@angular/common';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { UnregisteredMainComponent } from './unregistered-main/unregistered-main.component';
+import { MaterialModule } from 'src/infrastructure/material.module';
 
 
 
@@ -17,7 +18,8 @@ import { UnregisteredMainComponent } from './unregistered-main/unregistered-main
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    MaterialModule
   ],
   exports: [NavigationBarComponent]
 })
