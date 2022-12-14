@@ -13,7 +13,8 @@ const routes: Routes = [
   {path: 'resetPw', component: ResetPasswordComponent},
   {path: 'changePw', component: ChangePasswordComponent},
   {path: 'signUpForm', component: SignUpFormComponent},
-  {path: 'main', component: MainComponent}
+  {path: 'main', component: MainComponent},
+  { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 
 @NgModule({
