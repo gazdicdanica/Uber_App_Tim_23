@@ -7,6 +7,8 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { UnregisteredMainComponent } from './unregistered-main/unregistered-main.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { SideNavbarComponent } from './side-navbar/side-navbar.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -14,7 +16,9 @@ import { SideNavbarComponent } from './side-navbar/side-navbar.component';
   declarations: [
     NavigationBarComponent,
     UnregisteredMainComponent,
-    SideNavbarComponent
+    SideNavbarComponent,
+    PersonalInfoComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +27,6 @@ import { SideNavbarComponent } from './side-navbar/side-navbar.component';
     CommonModule,
     MaterialModule
   ],
-  exports: [NavigationBarComponent, SideNavbarComponent]
+  exports: [NavigationBarComponent, SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
 export class LayoutModuleModule { }
