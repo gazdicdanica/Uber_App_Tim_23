@@ -20,6 +20,13 @@ import { MaterialModule } from 'src/infrastructure/material.module';
   imports: [
     CommonModule,
     MaterialModule
+  ],
+  exports: [
+    LoginComponent,
+    SignUpComponent,
+    SignUpFormComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent
   ]
 })
 export class AuthModule { }

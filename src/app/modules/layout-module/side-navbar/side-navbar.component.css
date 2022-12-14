@@ -1,0 +1,28 @@
+
+.side-nav{
+    width: 15%;
+    float:left;
+    height: 100%;
+    position: fixed;
+    border-right: 1px solid black;
+}
+
+.side-nav ul{
+    list-style-type: none;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.side-nav ul li{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    text-decoration: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.side-nav ul li:hover{
+    opacity: 50%;
+    cursor: pointer;
+}
+
