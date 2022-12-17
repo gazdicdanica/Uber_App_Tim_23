@@ -1,11 +1,10 @@
 .map-div{
-    height:500px
+    height:550px
 }
 
 #company-info-columns{
     display: flex;
     width: 100%;
-    /* align-content: center; */
     flex-direction: row;
     margin: auto;
     text-align: justify;
@@ -78,7 +77,6 @@ h3{
 #links{
     display: flex;
     flex-direction: column;
-    /* pad */
 }
 
 #links a{

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { UnregisteredMainComponent } from './unregistered-main/unregistered-main.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
+import { MapModule } from '../map/map.module';
 
 
 
@@ -19,7 +20,8 @@ import { MaterialModule } from 'src/infrastructure/material.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    MapModule
   ],
   exports: [NavigationBarComponent]
 })
