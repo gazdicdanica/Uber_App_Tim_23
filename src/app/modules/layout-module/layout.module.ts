@@ -6,13 +6,19 @@ import { CommonModule } from '@angular/common';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { UnregisteredMainComponent } from './unregistered-main/unregistered-main.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
+import { SideNavbarComponent } from './side-navbar/side-navbar.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
 @NgModule({
   declarations: [
     NavigationBarComponent,
-    UnregisteredMainComponent
+    UnregisteredMainComponent,
+    SideNavbarComponent,
+    PersonalInfoComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +27,6 @@ import { MaterialModule } from 'src/infrastructure/material.module';
     CommonModule,
     MaterialModule
   ],
-  exports: [NavigationBarComponent]
+  exports: [NavigationBarComponent, SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
 export class LayoutModuleModule { }
