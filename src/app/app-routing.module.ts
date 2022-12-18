@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'changePw', component: ChangePasswordComponent},
   {path: 'signUpForm', component: SignUpFormComponent},
   {path: 'main', component: UnregisteredMainComponent},
-  // { path: '', pathMatch: 'full', redirectTo: 'main' }
+  { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 
 @NgModule({

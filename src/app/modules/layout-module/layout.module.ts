@@ -7,8 +7,9 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { UnregisteredMainComponent } from './unregistered-main/unregistered-main.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { MapModule } from '../map/map.module';
-
-
+import { SideNavbarComponent } from './side-navbar/side-navbar.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
