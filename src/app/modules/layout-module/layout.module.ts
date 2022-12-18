@@ -13,7 +13,10 @@ import { MapModule } from '../map/map.module';
 @NgModule({
   declarations: [
     NavigationBarComponent,
-    UnregisteredMainComponent
+    UnregisteredMainComponent,
+    SideNavbarComponent,
+    PersonalInfoComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +26,6 @@ import { MapModule } from '../map/map.module';
     MaterialModule,
     MapModule
   ],
-  exports: [NavigationBarComponent]
+  exports: [NavigationBarComponent, SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
 export class LayoutModuleModule { }
