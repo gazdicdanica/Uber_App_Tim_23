@@ -29,12 +29,30 @@ export class MapComponent implements AfterViewInit{
       }
     );
     tiles.addTo(this.map);
+
+    this.registerOnClick();
+  }
+
+  registerOnClick(): void {
+    this.map.on('click', (e: any) => {
+      const coord = e.latlng;
+      const lat = coord.lat;
+      const lng = coord.lng;
+      this.mapService.reverseSearch(lat, lng).subscribe((res) => {
+        console.log(res.display_name);
+      });
+      console.log(
+        'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
+      );
+      const mp = new L.Marker([lat, lng]).addTo(this.map);
+      alert(mp.getLatLng());
+    });
   }
 
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
-      iconUrl: 'https://banner2.cleanpng.com/20180528/hqc/kisspng-google-map-maker-google-maps-seo-5b0c09bd379351.5864217515275155812276.jpg',
+      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;

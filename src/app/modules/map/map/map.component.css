@@ -1,4 +1,4 @@
-@import 'leaflet/dist/leaflet.css';
+/* @import 'leaflet/dist/leaflet.css'; */
 
 .map-container {
     /* position: absolute;
@@ -6,7 +6,9 @@
     left: 0;
     right: 0;
     bottom: 0; */
+    z-index: -1;
     height: 100%;
+    position: relative;
 }
   
 .map-frame {

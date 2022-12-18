@@ -2,6 +2,13 @@
     height:550px
 }
 
+#search-component{
+    width: fit-content;
+    position: relative;
+    bottom: 70px;
+    left: 32%;
+}
+
 #company-info-columns{
     display: flex;
     width: 100%;
