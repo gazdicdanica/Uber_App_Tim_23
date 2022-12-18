@@ -9,6 +9,7 @@ import { MaterialModule } from 'src/infrastructure/material.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { LayoutModuleModule } from './modules/layout-module/layout.module'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MapModule } from './modules/map/map.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     LayoutModuleModule,
-    AuthModule
+    AuthModule,
+    MapModule
   ],
   providers: [],
   bootstrap: [AppComponent]
