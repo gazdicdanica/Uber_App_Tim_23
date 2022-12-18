@@ -1,13 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
 
+  private startLocationValue$ = new BehaviorSubject<any>({});
+  startSelectedValue$ = this.startLocationValue$.asObservable();
+
+  private endLocationValue$ = new BehaviorSubject<any>({});
+  endSelectedValue$ = this.endLocationValue$.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  setStartValue(value: object){
+    this.startLocationValue$.next(value);
+  }
+
+  setEndValue(value: object){
+    this.endLocationValue$.next(value);
+  }
 
   search(street: string): Observable<any> {
     return this.http.get(

@@ -33,6 +33,10 @@ export class MapComponent implements AfterViewInit{
     this.registerOnClick();
   }
 
+  search(): void{
+    
+  }
+
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
@@ -45,7 +49,6 @@ export class MapComponent implements AfterViewInit{
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
       );
       const mp = new L.Marker([lat, lng]).addTo(this.map);
-      alert(mp.getLatLng());
     });
   }
 

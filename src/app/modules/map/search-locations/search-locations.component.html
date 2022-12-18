@@ -1,10 +1,10 @@
 <div class="search-container">
-    <input class="input-data" id="start-point" type="text" placeholder="Starting point">
-    <input class="input-data" id="end-point" type="text" placeholder="Ending point">
+    <input class="input-data" id="start-point" type="text" [(ngModel)]="startLocation" placeholder="Starting point">
+    <input class="input-data" id="end-point" type="text" [(ngModel)]="endLocation" placeholder="Ending point">
     <select class="input-data" id="time-select" name="time" type="text">
         <option value="">Now</option>
     </select>
-    <button id="next-btn" class="orange-btn">
+    <button (click)="sendSearchValues()" id="next-btn" class="orange-btn">
         <img id="forward-arrow" src="../../../../assets/images/pngwing.com.png">
     </button>
 </div>

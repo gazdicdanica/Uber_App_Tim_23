@@ -52,3 +52,12 @@ select{
 #end-point{
     border-right: 1px solid;
 }
+
+#next-btn:hover{
+    background-color: rgb(234, 134, 42);
+    cursor: pointer;
+}
+
+#next-btn:active{
+    background-color: rgb(220, 169, 122);
+}

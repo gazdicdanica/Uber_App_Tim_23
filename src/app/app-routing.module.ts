@@ -5,7 +5,7 @@ import { SignUpFormComponent } from './modules/auth/sign-up-form/sign-up-form.co
 import { SignUpComponent } from './modules/auth/sign-up/sign-up.component';
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './modules/auth/change-password/change-password.component';
-import { UnregisteredMainComponent } from './modules/layout-module/unregistered-main/unregistered-main.component';
+import { MainComponent } from './modules/layout-module/main/main.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'resetPw', component: ResetPasswordComponent},
   {path: 'changePw', component: ChangePasswordComponent},
   {path: 'signUpForm', component: SignUpFormComponent},
-  {path: 'main', component: UnregisteredMainComponent},
+  {path: 'main', component: MainComponent},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 
