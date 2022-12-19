@@ -11,13 +11,13 @@ export class MainComponent implements OnInit{
 
 
   ngOnInit(): void {
-    // this.mapService.startSelectedValue$.subscribe((value) => {
-    //   console.log(value);    
-    // });
+    this.mapService.startSelectedValue$.subscribe((value) => {
+      console.log(value);    
+    });
 
-    // this.mapService.endSelectedValue$.subscribe((value) => {
-    //   console.log(value);
-    // });
+    this.mapService.endSelectedValue$.subscribe((value) => {
+      console.log(value);
+    });
   }
 
 }
