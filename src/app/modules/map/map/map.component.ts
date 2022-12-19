@@ -33,10 +33,25 @@ export class MapComponent implements AfterViewInit{
     this.registerOnClick();
   }
 
-  search(): void{
-    
+  ngOnInit(): void{
+    // this.mapService.startSelectedValue$.subscribe((value) => {
+    //   const coord = value[0].latlng;
+    //   const lat = coord.lat;
+    //   const lng = coord.lng;
+    //   const mp = new L.Marker([lat, lng]).addTo(this.map);
+    // });
+
+    // this.mapService.endSelectedValue$.subscribe((value) => {
+    //   const coord = value[0].latlng;
+    //   const lat = coord.lat;
+    //   const lng = coord.lng;
+    //   const mp = new L.Marker([lat, lng]).addTo(this.map);
+    // });
   }
 
+
+
+  //TODO Fill input fields with results of reverse search
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
       const coord = e.latlng;

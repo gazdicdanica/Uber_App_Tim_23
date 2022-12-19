@@ -13,10 +13,6 @@ export class SearchLocationsComponent {
   startLocation='';
   endLocation='';
   sendSearchValues() {
-
-    let start;
-    let end;
-
     this.mapService.search(this.startLocation).subscribe({
       next: (result) => {
         this.mapService.setStartValue(result);
