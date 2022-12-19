@@ -7,13 +7,17 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { MainComponent } from './main/main.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { MapModule } from '../map/map.module';
+import { RideInfoComponent } from './ride-info/ride-info.component';
+import { VehicleRideComponent } from './vehicle-ride/vehicle-ride.component';
 
 
 
 @NgModule({
   declarations: [
     NavigationBarComponent,
-    MainComponent
+    MainComponent,
+    RideInfoComponent,
+    VehicleRideComponent
   ],
   imports: [
     BrowserModule,

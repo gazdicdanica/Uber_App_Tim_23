@@ -6,6 +6,7 @@ import { SignUpComponent } from './modules/auth/sign-up/sign-up.component';
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './modules/auth/change-password/change-password.component';
 import { MainComponent } from './modules/layout-module/main/main.component';
+import { RideInfoComponent } from './modules/layout-module/ride-info/ride-info.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'changePw', component: ChangePasswordComponent},
   {path: 'signUpForm', component: SignUpFormComponent},
   {path: 'main', component: MainComponent},
+  {path: 'rideInfo', component: RideInfoComponent},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 

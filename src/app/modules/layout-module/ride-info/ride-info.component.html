@@ -1,0 +1,22 @@
+<div class="map-div">
+    <app-map></app-map>
+</div>
+
+<app-search-locations id="search-component"></app-search-locations>
+
+<div id="ride-info">
+    <div id="time-div">
+        <p id="time-estimate">14 min</p>
+        <p id="distance">(5,5 km)</p>
+
+        <!-- <div style="width: 90%;"> -->
+        <button mat-raised-button class="start-ride-btn" color="accent">Start ride</button>
+        <!-- </div> -->
+    </div>
+    <div class="vehicle-container">
+        <app-vehicle-ride class="column"></app-vehicle-ride>
+        <app-vehicle-ride class="column"></app-vehicle-ride>
+        <app-vehicle-ride class="column"></app-vehicle-ride>
+    </div>
+</div>
+
