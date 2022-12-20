@@ -14,6 +14,7 @@ export class MapComponent implements AfterViewInit{
   constructor(private mapService: MapService){}
 
   private initMap() : void{
+
     this.map = L.map('map', {
       center: [45.2496, 19.8227],
       zoom: 13
@@ -74,7 +75,10 @@ export class MapComponent implements AfterViewInit{
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
-    this.initMap();
+    if(this.map ==null){
+      this.initMap();
+    }
+    
   }
 
 }

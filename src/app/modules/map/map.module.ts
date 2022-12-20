@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MapComponent } from './map/map.component';
 import { SearchLocationsComponent } from './search-locations/search-locations.component';
 import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   exports: [
     MapComponent,
