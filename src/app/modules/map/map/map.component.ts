@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Input } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapService } from '../map.service';
@@ -9,12 +9,22 @@ import { MapService } from '../map.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements AfterViewInit{
-  private map: any;
+
+  @Input()
+  startLocation! : string;
+  @Input()
+  endLocation! : string;
+
+  private map!: L.Map;
+
+  @ViewChild('map')
+  private mapContainer!: ElementRef<HTMLElement>;
 
   constructor(private mapService: MapService){}
 
   private initMap() : void{
-    this.map = L.map('map', {
+
+    this.map = L.map(this.mapContainer.nativeElement, {
       center: [45.2496, 19.8227],
       zoom: 13
     });
@@ -29,10 +39,9 @@ export class MapComponent implements AfterViewInit{
       }
     );
     tiles.addTo(this.map);
-
-    this.registerOnClick();
   }
 
+  //TODO Fill input fields with results of reverse search
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
       const coord = e.latlng;
@@ -45,7 +54,6 @@ export class MapComponent implements AfterViewInit{
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
       );
       const mp = new L.Marker([lat, lng]).addTo(this.map);
-      alert(mp.getLatLng());
     });
   }
 
@@ -56,7 +64,13 @@ export class MapComponent implements AfterViewInit{
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
-    this.initMap();
+    if(this.map ==null){
+      this.initMap();
+    }
+    this.registerOnClick();
+
+    // this.startLocation.subscribe()
+    
   }
 
 }

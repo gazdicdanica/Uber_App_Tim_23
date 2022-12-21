@@ -6,14 +6,13 @@
     width: fit-content;
     position: relative;
     bottom: 70px;
-    left: 32%;
+    left: 27%;
 }
 
 #company-info-columns{
     display: flex;
     width: 100%;
     flex-direction: row;
-    margin: auto;
     text-align: justify;
 }
 
@@ -69,12 +68,12 @@ h3{
     text-align: justify;
 }
 
-.footer{
+/* .footer{
     background-color: black;
     align-items: center;
     color: white;
-}
-
+} */
+/* 
 #logo{
     font-family: 'Comfortaa';
     display: flex;
@@ -88,4 +87,4 @@ h3{
 
 #links a{
     margin-top: 5px;
-}
+} */
