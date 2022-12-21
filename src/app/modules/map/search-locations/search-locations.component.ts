@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MapService } from '../map.service';
 
 @Component({
@@ -10,21 +10,14 @@ export class SearchLocationsComponent {
 
   constructor(private mapService: MapService) {}
 
-  startLocation='';
-  endLocation='';
+  @Input()
+  startLocation! : string;
+  @Input()
+  endLocation! : string;
   sendSearchValues() {
-    this.mapService.search(this.startLocation).subscribe({
-      next: (result) => {
-        this.mapService.setStartValue(result);
-      }
-    });
+    this.mapService.setStartValue(this.startLocation);
 
-    this.mapService.search(this.endLocation).subscribe({
-      next: (result) => {
-        this.mapService.setEndValue(result);
-      }
-    });
-
+    this.mapService.setEndValue(this.endLocation);
     
   }
 

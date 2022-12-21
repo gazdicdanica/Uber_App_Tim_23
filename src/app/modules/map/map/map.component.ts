@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Input } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapService } from '../map.service';
@@ -9,6 +9,11 @@ import { MapService } from '../map.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements AfterViewInit{
+
+  @Input()
+  startLocation! : string;
+  @Input()
+  endLocation! : string;
 
   private map!: L.Map;
 
@@ -34,27 +39,7 @@ export class MapComponent implements AfterViewInit{
       }
     );
     tiles.addTo(this.map);
-
-    this.registerOnClick();
   }
-
-  ngOnInit(): void{
-    // this.mapService.startSelectedValue$.subscribe((value) => {
-    //   const coord = value[0].latlng;
-    //   const lat = coord.lat;
-    //   const lng = coord.lng;
-    //   const mp = new L.Marker([lat, lng]).addTo(this.map);
-    // });
-
-    // this.mapService.endSelectedValue$.subscribe((value) => {
-    //   const coord = value[0].latlng;
-    //   const lat = coord.lat;
-    //   const lng = coord.lng;
-    //   const mp = new L.Marker([lat, lng]).addTo(this.map);
-    // });
-  }
-
-
 
   //TODO Fill input fields with results of reverse search
   registerOnClick(): void {
@@ -82,6 +67,9 @@ export class MapComponent implements AfterViewInit{
     if(this.map ==null){
       this.initMap();
     }
+    this.registerOnClick();
+
+    // this.startLocation.subscribe()
     
   }
 

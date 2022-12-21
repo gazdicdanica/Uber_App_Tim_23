@@ -15,11 +15,11 @@ export class MapService {
 
   constructor(private http: HttpClient) { }
 
-  setStartValue(value: object){
+  setStartValue(value: string){
     this.startLocationValue$.next(value);
   }
 
-  setEndValue(value: object){
+  setEndValue(value: string){
     this.endLocationValue$.next(value);
   }
 
