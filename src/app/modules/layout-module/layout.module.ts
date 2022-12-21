@@ -9,15 +9,20 @@ import { MaterialModule } from 'src/infrastructure/material.module';
 import { MapModule } from '../map/map.module';
 import { RideInfoComponent } from './ride-info/ride-info.component';
 import { VehicleRideComponent } from './vehicle-ride/vehicle-ride.component';
-
-
+import { SideNavbarComponent } from './side-navbar/side-navbar.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
     NavigationBarComponent,
     MainComponent,
     RideInfoComponent,
-    VehicleRideComponent
+    VehicleRideComponent,
+    MainComponent,
+    SideNavbarComponent,
+    PersonalInfoComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +32,6 @@ import { VehicleRideComponent } from './vehicle-ride/vehicle-ride.component';
     MaterialModule,
     MapModule
   ],
-  exports: [NavigationBarComponent]
+  exports: [NavigationBarComponent, SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
 export class LayoutModuleModule { }
