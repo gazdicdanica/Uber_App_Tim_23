@@ -7,6 +7,7 @@
     position: relative;
     bottom: 70px;
     left: 27%;
+    z-index: 100000;
 }
 
 #company-info-columns{
