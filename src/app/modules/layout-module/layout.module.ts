@@ -4,9 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { CommonModule } from '@angular/common';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
-import { UnregisteredMainComponent } from './unregistered-main/unregistered-main.component';
+import { MainComponent } from './main/main.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { MapModule } from '../map/map.module';
+import { RideInfoComponent } from './ride-info/ride-info.component';
+import { VehicleRideComponent } from './vehicle-ride/vehicle-ride.component';
 import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -14,7 +16,10 @@ import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   declarations: [
     NavigationBarComponent,
-    UnregisteredMainComponent,
+    MainComponent,
+    RideInfoComponent,
+    VehicleRideComponent,
+    MainComponent,
     SideNavbarComponent,
     PersonalInfoComponent,
     ProfileComponent
