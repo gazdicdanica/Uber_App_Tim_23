@@ -70,6 +70,23 @@ export class MapComponent implements AfterViewInit{
     this.registerOnClick();
 
     // this.startLocation.subscribe()
+
+    if(this.startLocation!=null && this.endLocation != null){
+      this.mapService.search(this.startLocation).subscribe({
+        next: (result) => {
+          L.marker([result[0].lat, result[0].lon])
+          .addTo(this.map);
+        },
+        error: () => {}
+      });
+      this.mapService.search(this.endLocation).subscribe({
+        next: (result) => {
+          L.marker([result[0].lat, result[0].lon])
+          .addTo(this.map);
+        },
+        error: () => {}
+      });
+    }
     
   }
 
