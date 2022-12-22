@@ -4,11 +4,13 @@ import { MapComponent } from './map/map.component';
 import { SearchLocationsComponent } from './search-locations/search-locations.component';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from 'src/app/app-routing.module';
+import { LocationsPipePipe } from './locations-pipe.pipe';
 
 @NgModule({
   declarations: [
     MapComponent,
-    SearchLocationsComponent
+    SearchLocationsComponent,
+    LocationsPipePipe
   ],
   imports: [
     CommonModule,

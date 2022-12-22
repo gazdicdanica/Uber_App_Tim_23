@@ -57,6 +57,17 @@ export class MapComponent implements AfterViewInit{
     });
   }
 
+  addMarker(location : string): void{
+    this.mapService.search(location).subscribe({
+      next:(result) => {
+        L.marker([result[0].lat, result[0].lon]).addTo(this.map);
+      },
+      error: () => {}
+    });
+  }
+
+  
+
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
@@ -67,25 +78,12 @@ export class MapComponent implements AfterViewInit{
     if(this.map ==null){
       this.initMap();
     }
+
     this.registerOnClick();
 
-    // this.startLocation.subscribe()
-
     if(this.startLocation!=null && this.endLocation != null){
-      this.mapService.search(this.startLocation).subscribe({
-        next: (result) => {
-          L.marker([result[0].lat, result[0].lon])
-          .addTo(this.map);
-        },
-        error: () => {}
-      });
-      this.mapService.search(this.endLocation).subscribe({
-        next: (result) => {
-          L.marker([result[0].lat, result[0].lon])
-          .addTo(this.map);
-        },
-        error: () => {}
-      });
+      this.addMarker(this.startLocation);
+      this.addMarker(this.endLocation);
     }
     
   }
