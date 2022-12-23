@@ -11,8 +11,12 @@ export class SearchLocationsComponent {
 
   constructor(private mapService: MapService) {}
 
+  @Input()
   startLocation! : string;
+  @Input()
   endLocation! : string;
+
+
   sendSearchValues() {
 
     this.mapService.search(this.startLocation).subscribe({

@@ -32,6 +32,9 @@ export class MapComponent implements AfterViewInit{
     return this._endLocation.getValue();
   }
 
+  private startClick! : Location;
+  private endClick! : Location;
+
   private markerNum: number = 0;
 
   private map!: L.Map;
@@ -67,23 +70,26 @@ export class MapComponent implements AfterViewInit{
       const lat = coord.lat;
       const lng = coord.lng;
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-        if(this.markerNum == 0){
-          this.mapService.setStartValue(res.display_name);
+        if(this.startClick == null){
+          this.startClick = res;
+          this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
         }else{
-          this.mapService.setEndValue(res.display_name);
+          this.endClick = res;
+          this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
         }
-        console.log(res.display_name);
       });
       console.log(
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
       );
-      const mp = new L.Marker([lat, lng]).addTo(this.map);
+      this.addMarker(lat, lng);
+      
     });
-    this.markerNum+=1;
   }
 
-  addMarker(location : Location): void{
-    L.marker([location.latitude, location.longitude], {draggable:true}).addTo(this.map);
+  //TODO add on drag marker listener
+
+  addMarker(latitude: number, longitude: number): void{
+    L.marker([latitude, longitude], {draggable:true}).addTo(this.map);
   }
 
   ngAfterViewInit(): void {
@@ -100,13 +106,13 @@ export class MapComponent implements AfterViewInit{
 
     this._startLocation.subscribe(
       x => {
-        this.addMarker(x);
+        this.addMarker(x.latitude, x.longitude);
       }
     )
 
     this._endLocation.subscribe(
       x=> {
-        this.addMarker(x);
+        this.addMarker(x.latitude, x.longitude);
       }
     )
     

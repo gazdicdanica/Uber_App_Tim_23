@@ -18,11 +18,6 @@ export class MapService {
 
   setStartValue(value: Location){
     this.startLocationValue$.next(value);
-    // this.endSelectedValue$.subscribe({
-    //   next:(res) => {
-    //     console.log(res);
-    //   }
-    // });
   }
 
   setEndValue(value: Location){
