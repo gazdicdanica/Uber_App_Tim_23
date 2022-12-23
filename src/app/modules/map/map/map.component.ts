@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, Input } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapService } from '../map.service';
+import { Location } from '../Location';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -10,10 +12,30 @@ import { MapService } from '../map.service';
 })
 export class MapComponent implements AfterViewInit{
 
-  @Input()
-  startLocation! : string;
-  @Input()
-  endLocation! : string;
+  
+  private _startLocation = new BehaviorSubject<Location>(new Location(0,0,""));
+  private _endLocation= new BehaviorSubject<Location>(new Location(0,0,""));
+
+  @Input() set startLocation(value: Location){
+    this._startLocation.next(value);
+  }
+
+  get startLocation(){
+    return this._startLocation.getValue();
+  }
+
+  @Input() set endLocation(value: Location){
+    this._endLocation.next(value);
+  }
+
+  get endLocation(){
+    return this._endLocation.getValue();
+  }
+
+  private startClick! : Location;
+  private endClick! : Location;
+
+  private markerNum: number = 0;
 
   private map!: L.Map;
 
@@ -48,15 +70,27 @@ export class MapComponent implements AfterViewInit{
       const lat = coord.lat;
       const lng = coord.lng;
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-        console.log(res.display_name);
+        if(this.startClick == null){
+          this.startClick = res;
+          this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
+        }else{
+          this.endClick = res;
+          this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
+        }
       });
       console.log(
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
       );
-      const mp = new L.Marker([lat, lng]).addTo(this.map);
+      this.addMarker(lat, lng);
+      
     });
   }
 
+  //TODO add on drag marker listener
+
+  addMarker(latitude: number, longitude: number): void{
+    L.marker([latitude, longitude], {draggable:true}).addTo(this.map);
+  }
 
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
@@ -67,10 +101,22 @@ export class MapComponent implements AfterViewInit{
     if(this.map ==null){
       this.initMap();
     }
+
     this.registerOnClick();
 
-    // this.startLocation.subscribe()
+    this._startLocation.subscribe(
+      x => {
+        this.addMarker(x.latitude, x.longitude);
+      }
+    )
+
+    this._endLocation.subscribe(
+      x=> {
+        this.addMarker(x.latitude, x.longitude);
+      }
+    )
     
   }
+
 
 }
