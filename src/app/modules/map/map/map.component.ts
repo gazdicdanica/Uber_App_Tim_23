@@ -89,7 +89,7 @@ export class MapComponent implements AfterViewInit{
       let m : L.Marker = <L.Marker>this.markers.shift();
       this.map.removeLayer(m);
     }
-    this.markers.push(L.marker([latitude, longitude], {draggable:true}).addTo(this.map));
+    this.markers.push(L.marker([latitude, longitude]).addTo(this.map));
   }
 
   ngAfterViewInit(): void {
