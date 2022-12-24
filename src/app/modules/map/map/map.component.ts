@@ -36,6 +36,7 @@ export class MapComponent implements AfterViewInit{
   private endClick! : Location;
 
   private markers : Array<L.Marker> = new Array<L.Marker>();
+  private clicks : number = 0;
 
   private map!: L.Map;
 
@@ -66,18 +67,15 @@ export class MapComponent implements AfterViewInit{
   //TODO Fill input fields with results of reverse search
   registerOnClick(): void {
     this.map.on('click', (e: any) => {
+      this.clicks+=1;
       const coord = e.latlng;
       const lat = coord.lat;
       const lng = coord.lng;
       this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-        if(this.startClick == null){
-          this.startClick = res;
+        if(this.clicks % 2 === 1){
           this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
-        }else if(this.endClick == null){
-          this.endClick = res;
-          this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
         }else{
-          
+          this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
         }
       });
       console.log(
