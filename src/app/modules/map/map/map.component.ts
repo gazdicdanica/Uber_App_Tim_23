@@ -32,9 +32,6 @@ export class MapComponent implements AfterViewInit{
     return this._endLocation.getValue();
   }
 
-  private startClick! : Location;
-  private endClick! : Location;
-
   private markers : Array<L.Marker> = new Array<L.Marker>();
   private clicks : number = 0;
 
@@ -48,8 +45,8 @@ export class MapComponent implements AfterViewInit{
   private initMap() : void{
 
     this.map = L.map(this.mapContainer.nativeElement, {
-      center: [45.2496, 19.8227],
-      zoom: 13
+      center: [45.25327, 19.8227],
+      zoom: 14
     });
 
     const tiles = L.tileLayer(
@@ -81,7 +78,6 @@ export class MapComponent implements AfterViewInit{
       console.log(
         'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
       );
-      this.addMarker(lat, lng);
       
     });
   }

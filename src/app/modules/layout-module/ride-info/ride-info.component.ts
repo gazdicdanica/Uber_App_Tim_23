@@ -17,11 +17,10 @@ export class RideInfoComponent implements OnInit{
 
   ngOnInit():void{
 
-    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
     this.mapService.startSelectedValue$.subscribe((value) => {
       this.startLocation = value;
-      console.log(this.startLocation);
     });
 
     this.mapService.endSelectedValue$.subscribe((value) => {
