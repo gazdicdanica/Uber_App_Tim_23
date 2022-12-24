@@ -35,7 +35,7 @@ export class MapComponent implements AfterViewInit{
   private startClick! : Location;
   private endClick! : Location;
 
-  private markerNum: number = 0;
+  private markers : Array<L.Marker> = new Array<L.Marker>();
 
   private map!: L.Map;
 
@@ -73,9 +73,11 @@ export class MapComponent implements AfterViewInit{
         if(this.startClick == null){
           this.startClick = res;
           this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
-        }else{
+        }else if(this.endClick == null){
           this.endClick = res;
           this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
+        }else{
+          
         }
       });
       console.log(
@@ -89,7 +91,11 @@ export class MapComponent implements AfterViewInit{
   //TODO add on drag marker listener
 
   addMarker(latitude: number, longitude: number): void{
-    L.marker([latitude, longitude], {draggable:true}).addTo(this.map);
+    if(this.markers.length == 2){
+      let m : L.Marker = <L.Marker>this.markers.shift();
+      this.map.removeLayer(m);
+    }
+    this.markers.push(L.marker([latitude, longitude], {draggable:true}).addTo(this.map));
   }
 
   ngAfterViewInit(): void {
