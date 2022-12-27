@@ -1,5 +1,5 @@
 <div class="map-div">
-    <app-map></app-map>
+    <app-map [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
 </div>
 
 <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" id="search-component"></app-search-locations>
