@@ -12,3 +12,7 @@
 #map {
     height: 100%;
 }
+
+.leafler-routing-alternatives{
+    background-color: white !important;
+}

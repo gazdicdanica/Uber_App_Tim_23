@@ -12,6 +12,9 @@ export class RideInfoComponent implements OnInit{
 
   startLocation! : Location;
   endLocation! : Location;
+  estimationValue = ["", ""];
+
+  drawRoute : boolean = false;
 
   constructor(private mapService: MapService, private router:Router) {}
 
@@ -27,7 +30,13 @@ export class RideInfoComponent implements OnInit{
       this.endLocation = value;
     });
 
+    this.mapService.setDrawRoute(true);
+
     
+  }
+
+  addItem(estimationValue: string[]){
+    this.estimationValue = estimationValue;
   }
 
 

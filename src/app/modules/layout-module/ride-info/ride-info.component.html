@@ -1,5 +1,7 @@
 <div class="map-div">
-    <app-map [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
+    <app-map 
+    (estimationEvent)="addItem($event)"
+    [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
 </div>
 
 <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" id="search-component"></app-search-locations>
@@ -7,8 +9,8 @@
 <div id="ride-info">
     <div id="time-div">
         <div style="display: flex; width: 10%; align-items: center;">
-            <p id="time-estimate">14 min</p>
-            <p id="distance">(5,5 km)</p>
+            <p id="time-estimate">{{ estimationValue[1] }} min</p>
+            <p id="distance">({{estimationValue[0]}} km)</p>
         </div>
     
         <div style="width: 90%; display: flex; align-items: center; justify-content: flex-end;">

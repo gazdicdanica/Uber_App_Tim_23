@@ -14,7 +14,14 @@ export class MapService {
   private endLocationValue$ = new BehaviorSubject<Location>(new Location(0,0,""));
   endSelectedValue$ = this.endLocationValue$.asObservable();
 
+  private drawRoute = new BehaviorSubject<boolean>(false);
+  drawRoute$ = this.drawRoute.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  setDrawRoute(value: boolean){
+    this.drawRoute.next(value);
+  }
 
   setStartValue(value: Location){
     this.startLocationValue$.next(value);
