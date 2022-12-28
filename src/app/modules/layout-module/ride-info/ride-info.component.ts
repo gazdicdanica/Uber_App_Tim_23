@@ -14,8 +14,6 @@ export class RideInfoComponent implements OnInit{
   endLocation! : Location;
   estimationValue = ["", ""];
 
-  drawRoute : boolean = false;
-
   constructor(private mapService: MapService, private router:Router) {}
 
   ngOnInit():void{

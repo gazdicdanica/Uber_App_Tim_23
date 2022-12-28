@@ -25,6 +25,7 @@ export class LoginComponent {
   hasError: boolean = false;
 
   login(): void {
+    console.log("test")
     const loginVal = {
       username: this.loginForm.value.email,
       password: this.loginForm.value.password,

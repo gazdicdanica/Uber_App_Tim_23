@@ -6,6 +6,7 @@ import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -19,6 +20,7 @@ import { MaterialModule } from 'src/infrastructure/material.module';
   ],
   imports: [
     CommonModule,
+    BrowserModule,
     MaterialModule
   ],
   exports: [

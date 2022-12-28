@@ -3,7 +3,8 @@ import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapService } from '../map.service';
 import { Location } from '../Location';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { SelectorContext } from '@angular/compiler';
 
 @Component({
   selector: 'app-map',
@@ -39,7 +40,7 @@ export class MapComponent implements AfterViewInit{
     return this._endLocation.getValue();
   }
 
-  private drawRoute:boolean = false;
+  private drawRoute!:boolean;
 
   private markers : Array<L.Marker> = new Array<L.Marker>();
   private clicks : number = 0;
@@ -115,8 +116,15 @@ export class MapComponent implements AfterViewInit{
     if(this.routingControl != null){
       this.routingControl.remove();
     }
-    this.routingControl = L.Routing.control({waypoints: [L.marker([start.latitude, start.longitude]).getLatLng(),
-       L.marker([end.latitude, end.longitude]).getLatLng()], show: false, 
+
+    if(this.markers.length > 0){
+      for(let marker of this.markers){
+        this.map.removeLayer(marker);
+      }
+    }
+
+    this.routingControl = L.Routing.control({show:false, waypoints: [L.marker([start.latitude, start.longitude]).getLatLng(),
+       L.marker([end.latitude, end.longitude]).getLatLng()],
        plan: L.Routing.plan([this.makeMarker(this.startLocation).getLatLng(), this.makeMarker(this.endLocation).getLatLng()],
        {createMarker: function(i: number, waypoint: L.Routing.Waypoint){
         return L.marker(waypoint.latLng, {draggable:false})
@@ -128,8 +136,6 @@ export class MapComponent implements AfterViewInit{
 
       this.estimationEvent.emit([this.distance.toPrecision(2), this.timeInMinutes.toPrecision(2)]);
     });
-
-    this.routingControl.hide();
   }
 
   ngAfterViewInit(): void {
@@ -153,14 +159,15 @@ export class MapComponent implements AfterViewInit{
     this._endLocation.subscribe(
       x => {
         this.addMarker(x.latitude, x.longitude);
+        if(this.drawRoute && this.startLocation.latitude !== 0 && this.endLocation.latitude !== 0){
+          this.route(this.startLocation, this.endLocation);
+        }
       }
     );
 
     this.mapService.drawRoute$.subscribe(
       e => {
         this.drawRoute = e;
-        if(this.drawRoute)
-          this.route(this.startLocation, this.endLocation);
       }
     )
   }
