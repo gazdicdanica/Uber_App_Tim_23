@@ -14,6 +14,9 @@ export class MapComponent implements AfterViewInit{
 
   @Output() estimationEvent = new EventEmitter<string[]>();
 
+  private availableVehicles : L.LatLngTuple[] = [[45.25949, 19.8377], [45.25466, 19.81555], [45.25010, 19.8112], [45.2407, 19.84817]];
+  private unavailableVehicles : L.LatLngTuple[] = [[45.2436, 19.831], [45.2552, 19.8495], [45.29498, 19.8227]];
+
   private _startLocation = new BehaviorSubject<Location>(new Location(0,0,""));
   private _endLocation= new BehaviorSubject<Location>(new Location(0,0,""));
 
@@ -45,6 +48,19 @@ export class MapComponent implements AfterViewInit{
   private clicks : number = 0;
 
   private map!: L.Map;
+
+  private availableIcon = L.icon({
+    iconUrl: 'assets/images/available-car.png',
+    iconSize: [40,40],
+    iconAnchor: [22, 94]
+  })
+
+  private unavailableIcon = L.icon({
+    iconUrl: 'assets/images/unavailable-car.png',
+    iconSize: [40,40],
+    iconAnchor: [22, 20]
+  })
+
 
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
@@ -132,6 +148,17 @@ export class MapComponent implements AfterViewInit{
     this.routingControl.hide();
   }
 
+
+  private addCarMarkers() : void{
+    for(let carLatLng of this.availableVehicles){
+      L.marker(carLatLng, {draggable:false, icon: this.availableIcon}).addTo(this.map);
+    }
+
+    for(let carLatLng of this.unavailableVehicles){
+      L.marker(carLatLng, {draggable: false, icon: this.unavailableIcon}).addTo(this.map);
+    }
+  }
+
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
@@ -163,6 +190,8 @@ export class MapComponent implements AfterViewInit{
           this.route(this.startLocation, this.endLocation);
       }
     )
+
+    this.addCarMarkers();
   }
 
 }
