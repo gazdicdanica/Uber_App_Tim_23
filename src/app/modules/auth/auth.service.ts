@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   login(auth: any): Observable<Token> {
-    return this.http.post<Token>(environment.apiHost + '/user/login', auth, {
+    return this.http.post<Token>(environment.apiHost + '/login', auth, {
       headers: this.headers,
     });
   }

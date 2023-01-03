@@ -7,6 +7,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 
 
@@ -21,7 +23,9 @@ import { BrowserModule } from '@angular/platform-browser';
   imports: [
     CommonModule,
     BrowserModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   exports: [
     LoginComponent,

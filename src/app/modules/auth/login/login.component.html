@@ -4,7 +4,7 @@
         <mat-error *ngIf="hasError"
         >Korisničko ime ili lozinka nisu ispravni.</mat-error
       >
-        <form [attr.formGroup]="loginForm" (ngSubmit)="login()">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="form">
                 <mat-form-field class="form-input" appearance="outline">
                     <mat-label>E-mail</mat-label>
@@ -20,7 +20,7 @@
         </form>
         
     </div>
-    <div class="bottom-link"><p>Don't have an account? <a [attr.routerLink]="['/signUp']">SIGN UP</a></p></div>
+    <div class="bottom-link"><p>Don't have an account? <a [routerLink]="['/signUp']">SIGN UP</a></p></div>
 </div>
 
 
