@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { environment } from 'src/enviroments/environment';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,6 @@ export class LoginComponent {
   hasError: boolean = false;
 
   login(): void {
-    console.log("test")
     const loginVal = {
       email: this.loginForm.value.email,
       password: this.loginForm.value.password,
@@ -37,7 +36,8 @@ export class LoginComponent {
           localStorage.setItem('user', JSON.stringify(result));
         
           this.authService.setUser();
-          console.log("ulogovan");
+          this.router.navigate(['/main']);
+
         },
         error: (error) => {
           if (error instanceof HttpErrorResponse) {

@@ -10,10 +10,12 @@ import { AuthModule } from './modules/auth/auth.module';
 import { LayoutModuleModule } from './modules/layout-module/layout.module'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapModule } from './modules/map/map.module';
+import { NavbarModule } from './modules/navbar/navbar.module';
+import { LoginComponent } from './modules/auth/login/login.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ import { MapModule } from './modules/map/map.module';
     ReactiveFormsModule,
     LayoutModuleModule,
     AuthModule,
-    MapModule
+    MapModule,
+    NavbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
