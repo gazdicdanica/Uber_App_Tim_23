@@ -34,19 +34,20 @@ export class AuthService {
     });
   }
 
-  //   setUser(): void {
-  //   this.user$.next(this.getRole());
-  // }
+    setUser(): void {
+    this.user$.next(this.getRole());
+  }
 
-  // getRole(): any {
-  //   if (this.isLoggedIn()) {
-  //     const accessToken: any = localStorage.getItem('user');
-  //     const helper = new JwtHelperService();
-  //     const role = helper.decodeToken(accessToken).role[0].authority;
-  //     return role;
-  //   }
-  //   return null;
-  // }
-
+  getRole(): any {
+    if (this.isLoggedIn()) {
+      const accessToken: any = localStorage.getItem('user');
+      const helper = new JwtHelperService();
+      let role = helper.decodeToken(accessToken).role[0].name;
+      console.log("test1" + role);
+      console.log("test2" + role);
+      return role;
+    }
+    return null;
+  }
 
 }

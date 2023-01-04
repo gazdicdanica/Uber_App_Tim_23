@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { CommonModule } from '@angular/common';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { MainComponent } from './main/main.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { MapModule } from '../map/map.module';
@@ -15,7 +14,6 @@ import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
-    NavigationBarComponent,
     MainComponent,
     RideInfoComponent,
     VehicleRideComponent,
@@ -32,6 +30,6 @@ import { ProfileComponent } from './profile/profile.component';
     MaterialModule,
     MapModule
   ],
-  exports: [NavigationBarComponent, SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
+  exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
 export class LayoutModuleModule { }
