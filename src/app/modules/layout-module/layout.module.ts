@@ -11,6 +11,7 @@ import { VehicleRideComponent } from './vehicle-ride/vehicle-ride.component';
 import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ProfileComponent } from './profile/profile.component';
     MainComponent,
     SideNavbarComponent,
     PersonalInfoComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,

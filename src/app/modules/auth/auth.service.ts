@@ -34,7 +34,8 @@ export class AuthService {
     });
   }
 
-    setUser(): void {
+
+  setUser(): void {
     this.user$.next(this.getRole());
   }
 

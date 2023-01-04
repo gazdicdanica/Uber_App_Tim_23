@@ -23,7 +23,8 @@ export class SignUpFormComponent {
 
   signUp(){
     if(this.signUpForm.valid) {
-      this.authService
+      alert("An activation mail has been sent.\nTo continue click the link in mail!");
+      this.router.navigate(['/main']);
     }
   }
 
