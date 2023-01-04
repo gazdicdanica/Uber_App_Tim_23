@@ -2,7 +2,11 @@
     <div id="main-view">
         <h1>Create a new account</h1>
     
-        <form class="form">
+        <form class="form" [formGroup]="signUpForm" (ngSubmit)="signUp()">
+            <mat-form-field class="form-input" appearance="outline">
+                <mat-label>E-mail</mat-label>
+                <input  matInput type="email" name="email" formControlName="name"/>
+            </mat-form-field>
             <div class="input-wrapper">
                 <mat-form-field class="form-input-half" style="margin-right: 5px;" appearance="outline">
                     <mat-label>Name</mat-label>
@@ -23,7 +27,7 @@
             </mat-form-field>
             <mat-form-field class="form-input" appearance="outline">
                 <mat-label>Confirm password</mat-label>
-                <input matInput type="password" name="password" formControlName="password"/>
+                <input matInput type="password" name="confirmPassword" formControlName="confirmPassword"/>
             </mat-form-field>
 
             <button class="form-btn" color="primary" type="submit" mat-raised-button>Sign up</button>

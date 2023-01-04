@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +35,7 @@ export class LoginComponent {
         next: (result) => {
           localStorage.setItem('user', JSON.stringify(result));
         
-          this.authService.setUser();
+          // this.authService.setUser();
           console.log("ulogovan");
         },
         error: (error) => {

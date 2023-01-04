@@ -1,9 +1,9 @@
 <div>
     <div id="main-view">
         <h1>What's your email and password?</h1>
-        <mat-error *ngIf="hasError"
-        >Korisničko ime ili lozinka nisu ispravni.</mat-error
-      >
+        <mat-error *ngIf="hasError">
+            Korisničko ime ili lozinka nisu ispravni.
+        </mat-error>
         <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="form">
                 <mat-form-field class="form-input" appearance="outline">
