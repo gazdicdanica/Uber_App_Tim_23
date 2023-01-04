@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { confirmPasswordValidator } from '../confirm-password.directive';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -10,22 +11,35 @@ import { AuthService } from '../auth.service';
 })
 export class SignUpFormComponent {
 
+  confirmPasswordError: boolean = false;
+
   signUpForm = new FormGroup({
-    email: new FormControl('', [Validators.required]),
-    name: new FormControl(),
-    surname: new FormControl(),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    name: new FormControl('', [Validators.required]),
+    surname: new FormControl('', [Validators.required]),
     telNum: new FormControl('', [Validators.required]),
-    password: new FormControl(),
-    confirmPassword: new FormControl()
-  });
+    password: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required])
+  }, {validators: confirmPasswordValidator});
+
 
   constructor(private authService: AuthService, private router: Router){}
 
   signUp(){
     if(this.signUpForm.valid) {
-      alert("An activation mail has been sent.\nTo continue click the link in mail!");
-      this.router.navigate(['/main']);
+      console.log("CAO");
+      this.authService.signup(this.signUpForm.value)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.router.navigate(['/main']);
+          alert("An activation mail has been sent.\nTo continue click the link in mail!");
+        }
+      });
+    
     }
   }
+
+
 
 }

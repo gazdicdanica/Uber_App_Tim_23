@@ -34,6 +34,18 @@ export class AuthService {
     });
   }
 
+  signup(user: any): Observable<any>{
+    const options: any={
+      responseType: 'text'
+    };
+
+    return this.http.post<string>(
+      environment.apiHost + '/passenger',
+      user,
+      options
+    );
+  }
+
 
   setUser(): void {
     this.user$.next(this.getRole());
