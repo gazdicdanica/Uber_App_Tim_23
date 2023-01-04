@@ -2,8 +2,8 @@
     <div id="main-view">
         <h1>Create a new account</h1>
     
-        <form class="form" [formGroup]="signUpForm" (ngSubmit)="signUp()">
-            <mat-error *ngIf="">
+        <form #form="ngForm" class="form" [formGroup]="signUpForm" (ngSubmit)="signUp()">
+            <mat-error *ngIf="signUpForm.controls.email.errors?.['email'] &&  form.submitted">
                 Invalid e-mail format.
             </mat-error>
             <mat-form-field class="form-input" appearance="outline">
@@ -20,6 +20,9 @@
                     <input matInput type="text" name="surname" formControlName="surname"/>
                 </mat-form-field>
             </div>
+            <mat-error *ngIf="signUpForm.controls.telNum.errors?.['pattern'] &&  form.submitted">
+                Invalid telephone number format.
+            </mat-error>
             <mat-form-field class="form-input" appearance="outline">
                 <mat-label>Phone</mat-label>
                 <input matInput type="tel" name="telNum" formControlName="telNum"/>
@@ -28,6 +31,9 @@
                 <mat-label>Password</mat-label>
                 <input matInput type="password" name="password" formControlName="password"/>
             </mat-form-field>
+            <mat-error *ngIf="signUpForm.errors?.['invalidConfirm']  && form.submitted">
+                Passwords don't match.
+            </mat-error>
             <mat-form-field class="form-input" appearance="outline">
                 <mat-label>Confirm password</mat-label>
                 <input matInput type="password" name="confirmPassword" formControlName="confirmPassword"/>
