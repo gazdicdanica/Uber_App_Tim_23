@@ -27,11 +27,9 @@ export class SignUpFormComponent {
 
   signUp(){
     if(this.signUpForm.valid) {
-      console.log("CAO");
       this.authService.signup(this.signUpForm.value)
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.router.navigate(['/main']);
           alert("An activation mail has been sent.\nTo continue click the link in mail!");
         }

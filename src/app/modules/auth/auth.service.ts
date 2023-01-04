@@ -46,6 +46,12 @@ export class AuthService {
     );
   }
 
+  activate(activationId: number): Observable<any>{
+    return this.http.get<string>(
+      environment.apiHost+'/passenger/activate/' + activationId
+      );
+  }
+
 
   setUser(): void {
     this.user$.next(this.getRole());
@@ -56,8 +62,6 @@ export class AuthService {
       const accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
       let role = helper.decodeToken(accessToken).role[0].name;
-      console.log("test1" + role);
-      console.log("test2" + role);
       return role;
     }
     return null;

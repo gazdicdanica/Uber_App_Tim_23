@@ -12,6 +12,7 @@ import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     AppRoutingModule,
     CommonModule,
     MaterialModule,
-    MapModule
+    MapModule,
+    AuthModule
   ],
   exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
