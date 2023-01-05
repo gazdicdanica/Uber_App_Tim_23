@@ -13,6 +13,10 @@ import { AuthService } from '../../auth/auth.service';
 export class NavbarDriverComponent implements OnInit{
   constructor(private readonly formBuilder: FormBuilder, private authService: AuthService, private router: Router) {}
 
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/main']);
+  }
   ngOnInit(): void {
 
   }

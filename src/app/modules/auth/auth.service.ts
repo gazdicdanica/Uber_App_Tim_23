@@ -3,7 +3,9 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "src/enviroments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { Token } from '@angular/compiler'
+import { Token } from '@angular/compiler';
+import { UserService } from '../user/user.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +19,8 @@ export class AuthService {
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
 
-  constructor(private http: HttpClient) {
-    // this.user$.next(this.getRole());
+  constructor(private http: HttpClient, private userService: UserService, private router: Router) {
+    this.user$.next(this.getRole());
   }
 
   isLoggedIn(): boolean {
@@ -67,4 +69,30 @@ export class AuthService {
     return null;
   }
 
+  getId(): number{
+    if(this.isLoggedIn()) {
+      return new JwtHelperService().decodeToken(localStorage.getItem('user')!).id;
+    }
+    return 0;
+  }
+
+  logout(): void {
+    this.user$.next(null);
+    localStorage.clear();
+    // window.location.reload();
+    console.log("Obrisan");
+  }
+
 }
+
+
+// this.userService.setInactive(this.getUserId()).subscribe({
+//   next: (result) => {
+//       localStorage.clear();
+//       window.location.reload();
+//   },
+//   error: (error) => {
+//       console.error("Could not log out: " + error);
+//       this.sharedService.showSnackBar("Could not sign out.", 3000);
+//   }
+// })
