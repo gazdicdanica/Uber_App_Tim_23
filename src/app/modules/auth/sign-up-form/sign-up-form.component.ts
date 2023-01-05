@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,7 +12,7 @@ import { confirmPasswordValidator } from '../confirm-password.directive';
 })
 export class SignUpFormComponent {
 
-  confirmPasswordError: boolean = false;
+  responseError: boolean = false;
 
   signUpForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -32,7 +33,12 @@ export class SignUpFormComponent {
         next: (res) => {
           this.router.navigate(['/main']);
           alert("An activation mail has been sent.\nTo continue click the link in mail!");
-        }
+        },
+        error: (error) => {
+          if (error instanceof HttpErrorResponse) {
+            this.responseError = true;
+          }
+        },
       });
     
     }
