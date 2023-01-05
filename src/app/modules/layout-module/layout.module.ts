@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { CommonModule } from '@angular/common';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { MainComponent } from './main/main.component';
 import { MaterialModule } from 'src/infrastructure/material.module';
 import { MapModule } from '../map/map.module';
@@ -12,17 +11,19 @@ import { VehicleRideComponent } from './vehicle-ride/vehicle-ride.component';
 import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
-    NavigationBarComponent,
     MainComponent,
     RideInfoComponent,
     VehicleRideComponent,
     MainComponent,
     SideNavbarComponent,
     PersonalInfoComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -30,8 +31,9 @@ import { ProfileComponent } from './profile/profile.component';
     AppRoutingModule,
     CommonModule,
     MaterialModule,
-    MapModule
+    MapModule,
+    AuthModule
   ],
-  exports: [NavigationBarComponent, SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
+  exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
 export class LayoutModuleModule { }

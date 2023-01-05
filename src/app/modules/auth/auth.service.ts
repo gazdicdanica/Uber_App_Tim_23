@@ -18,7 +18,7 @@ export class AuthService {
   userState$ = this.user$.asObservable();
 
   constructor(private http: HttpClient) {
-    this.user$.next(this.getRole());
+    // this.user$.next(this.getRole());
   }
 
   isLoggedIn(): boolean {
@@ -34,7 +34,26 @@ export class AuthService {
     });
   }
 
-    setUser(): void {
+  signup(user: any): Observable<any>{
+    const options: any={
+      responseType: 'text'
+    };
+
+    return this.http.post<string>(
+      environment.apiHost + '/passenger',
+      user,
+      options
+    );
+  }
+
+  activate(activationId: number): Observable<any>{
+    return this.http.get<string>(
+      environment.apiHost+'/passenger/activate/' + activationId
+      );
+  }
+
+
+  setUser(): void {
     this.user$.next(this.getRole());
   }
 
@@ -42,11 +61,10 @@ export class AuthService {
     if (this.isLoggedIn()) {
       const accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
-      const role = helper.decodeToken(accessToken).role[0].authority;
+      let role = helper.decodeToken(accessToken).role[0].name;
       return role;
     }
     return null;
   }
-
 
 }
