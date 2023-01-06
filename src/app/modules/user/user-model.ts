@@ -4,7 +4,7 @@ export class User{
     surname: string;
     profilePicture: string;
     email: string;
-    phone: string;
+    telephoneNumber: string;
     address: string;
 
     constructor(id: number, name: string, surname: string, profilePic: string, email : string, address: string, phone: string){
@@ -13,7 +13,7 @@ export class User{
         this.surname = surname;
         this.profilePicture = profilePic;
         this.email = email;
-        this.phone = phone;
+        this.telephoneNumber = phone;
         this.address = address;
     }
 }

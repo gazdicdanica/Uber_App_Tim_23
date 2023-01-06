@@ -10,8 +10,5 @@ import { User } from './user-model';
 export class UserService {
   constructor(private httpClient: HttpClient) { }
 
-  getData(id: number): Observable<User>{
-    return this.httpClient.get<User>(environment.apiHost+ '/passenger/' + id);
-  }
 
 }

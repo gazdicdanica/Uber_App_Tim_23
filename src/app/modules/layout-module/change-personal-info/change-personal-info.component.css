@@ -1,0 +1,24 @@
+.personal-info-wrapper{
+    /* float: left; */
+    display: flex;
+    padding: 0;
+    padding-top: 30px;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+form{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+.form-btn{
+    width: 400px;
+    font-weight: 400;
+    font-size: large;
+    padding: 30px;
+}
+mat-form-field{
+    width: 400px;
+}

@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '../../user/user-model';
 
 
 @Component({
@@ -12,11 +13,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class PersonalInfoComponent implements OnInit{
   constructor(private authService: AuthService, private router: Router) {}
-  data: any;
+  data!: User;
+  fullName!: string;
   // @Input() name: string;
 
   profileForm = new FormGroup({
-    fullname: new FormControl(''),
     email: new FormControl(''),
     phone: new FormControl(''),
     address: new FormControl(''),
@@ -29,10 +30,7 @@ export class PersonalInfoComponent implements OnInit{
 
 
   ngOnInit(): void {
-    // this.profileForm.disable();
-    // const user = localStorage.getItem('user');
-
-
+    this.profileForm.disable();
   }
 
   // readURL(input: any) {
@@ -59,13 +57,12 @@ export class PersonalInfoComponent implements OnInit{
     this.authService.getUserData().subscribe({
       next: (result) => {
         this.data = result;
-        console.log(this.data);
         this.profileForm.patchValue({
-          fullname: this.data.name + ' ' + this.data.surname,
           address: this.data.address,
           email: this.data.email,
           phone: this.data.telephoneNumber
         });
+        this.fullName = this.data.name + " " + this.data.surname;
       },
       error: (error) => {
         console.log(error);
@@ -73,32 +70,4 @@ export class PersonalInfoComponent implements OnInit{
     });
   }
 
-  updateUser(): void {
-    const saveData = {
-      name: this.data.name,
-      surname: this.data.surname,
-      profilePicture: this.data.profilePicture,
-      email: this.data.email,
-      address: this.profileForm.value.address,
-      telephoneNumber: this.profileForm.value.phone,
-    };
-    if (this.profileForm.valid){
-      if(saveData.address != this.data.address ||
-        saveData.telephoneNumber != this.data.telephoneNumber){
-          this.authService.updateUserData(saveData).subscribe({
-          next: (result) => {
-            console.log(result);
-            
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        });
-      }
-    }
-  }
-
-  jmpToChangePw(): void {
-    this.router.navigate(['/changePw'])
-  }
 }

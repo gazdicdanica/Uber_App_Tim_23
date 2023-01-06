@@ -32,11 +32,9 @@ export class ChangePasswordComponent {
           old_password: changePwVal.password,
           new_password: changePwVal.password1,
         }
-        console.log("1");
-        console.log("VALUEEEEEEE"+value.old_password + " "+ value.new_password)
         this.authService.changePw(value).subscribe({
         next: (result) => {
-            console.log(result);
+            alert("Password successfuly updated");
             this.router.navigate(['/profile']);
         },
         error: (error) => {

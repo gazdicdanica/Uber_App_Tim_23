@@ -4,7 +4,7 @@
         <div class="avatar-upload">
             <div class="avatar-edit">
                 <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
-                <!-- <label for="imageUpload"></label> -->
+                <label for="imageUpload"></label>
             </div>
             <div class="avatar-preview">
                 <div id="imagePreview" style="background-image: url('http://i.pravatar.cc/500?img=7');">
@@ -14,16 +14,15 @@
     </div>
     <!-- img -->
     <!-- full name -->
-    <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
-        <h1 id="full-name">Danica Gazdic</h1>
-        <!-- TODO: when text is pressed display mat-form-field -->
-        <mat-form-field appearance="outline">
+    <h1 id="full-name"> {{fullName}}</h1>
+    <form [formGroup]="profileForm">
+        <!-- <mat-form-field appearance="outline">
             <mat-label>full name</mat-label>
-            <input matInput type="text" name="name" formControlName="fullname" readonly="">
-        </mat-form-field>
+            <input matInput type="text" name="name" formControlName="fullname">
+        </mat-form-field> -->
         <mat-form-field appearance="outline">
             <mat-label>e-mail</mat-label>
-            <input matInput type="email" name="email" formControlName="email" readonly="">
+            <input matInput type="email" name="email" formControlName="email">
         </mat-form-field>
         <mat-form-field appearance="outline">
             
@@ -34,7 +33,7 @@
             <mat-label>address</mat-label>
             <input matInput type="text" name="address" formControlName="address">
         </mat-form-field>
-        <button class="form-btn" color="primary" mat-raised-button>Edit data</button>
+        <button class="form-btn" color="primary" [routerLink]="['/changePersonalInfo']" mat-raised-button>Edit data</button>
     </form>
 
     <button id="log-out-btn" (click)="logout()" mat-raised-button>Log out</button>

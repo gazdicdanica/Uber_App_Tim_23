@@ -15,6 +15,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ChangePersonalInfoComponent } from './change-personal-info/change-personal-info.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     SideNavbarComponent,
     PersonalInfoComponent,
     ProfileComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    ChangePersonalInfoComponent
   ],
   imports: [
     BrowserModule,
