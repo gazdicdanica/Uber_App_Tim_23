@@ -11,6 +11,7 @@ import { VehicleRideComponent } from './vehicle-ride/vehicle-ride.component';
 import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ProfileComponent } from './profile/profile.component';
     AppRoutingModule,
     CommonModule,
     MaterialModule,
-    MapModule
+    MapModule,
+    ReactiveFormsModule
   ],
   exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })

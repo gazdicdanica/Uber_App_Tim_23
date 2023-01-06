@@ -1,9 +1,7 @@
 <div>
     <div id="main-view">
         <h1>What's your email and password?</h1>
-        <mat-error *ngIf="hasError"
-        >Korisničko ime ili lozinka nisu ispravni.</mat-error
-      >
+        
         <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="form">
                 <mat-form-field class="form-input" appearance="outline">
@@ -14,7 +12,11 @@
                     <mat-label>Password</mat-label>
                     <input matInput type="password" name="password" formControlName="password"/>
                 </mat-form-field>
-                <div style="text-align: right; width: 400px; margin-bottom:16px"><a [attr.routerLink]="['/resetPw']">Forgot password?</a></div>
+                <div style="text-align: right; width: 400px; margin-bottom:16px; text-decoration: none;"><a [routerLink]="['/resetPw']">Forgot password?</a></div>
+                
+            <mat-error *ngIf="hasError === 1">Bad Credential</mat-error>
+            <mat-error *ngIf="hasError === 2">User Does Not Exist Or You Have Been Blocked</mat-error>
+            <mat-error *ngIf="hasError === 3">Account Not Activated</mat-error>
                 <button class="form-btn" color="primary" type="submit" mat-raised-button>Log in</button>
             </div>
         </form>

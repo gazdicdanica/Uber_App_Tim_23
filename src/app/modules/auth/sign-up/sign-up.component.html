@@ -7,10 +7,10 @@
                 <mat-label>E-mail</mat-label>
                 <input class="form-input" matInput type="email" name="email" formControlName="name"/>
             </mat-form-field>
-            <button class="form-btn" color="primary" type="submit" [attr.routerLink]="['/signUpForm']" mat-raised-button>Continue</button>
+            <button class="form-btn" color="primary" type="submit" [routerLink]="['/signUpForm']" mat-raised-button>Continue</button>
         </form>
         
     </div>
-    <div class="bottom-link"><p>Already a member? <a [attr.routerLink]="['/login']" >LOG IN</a></p></div>
+    <div class="bottom-link"><p>Already a member? <a [routerLink]="['/login']" >LOG IN</a></p></div>
 
 </div>

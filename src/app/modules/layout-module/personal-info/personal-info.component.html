@@ -14,29 +14,29 @@
     </div>
     <!-- img -->
     <!-- full name -->
-    <form>
-        <h1 id="full-name">Danica Gazdic</h1>
+    <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
+        <!-- <h1 id="full-name">Danica Gazdic</h1> -->
         <!-- TODO: when text is pressed display mat-form-field -->
-        <mat-form-field style="display:none;" appearance="outline">
+        <mat-form-field appearance="outline">
             <mat-label>full name</mat-label>
-            <input matInput type="text" name="name">
+            <input matInput type="text" name="name" formControlName="fullname" readonly="">
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>e-mail</mat-label>
-            <input matInput type="email" name="email">
+            <input matInput type="email" name="email" formControlName="email" readonly="">
         </mat-form-field>
         <mat-form-field appearance="outline">
             
             <mat-label>phone</mat-label>
-            <input matInput type="tel" name="phone">
+            <input matInput type="tel" name="phone" formControlName="phone">
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>address</mat-label>
-            <input matInput type="text" name="address">
+            <input matInput type="text" name="address" formControlName="address">
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" (click)="jmpToChangePw()">
             <mat-label>password</mat-label>
-            <input matInput type="password" name="password">
+            <input matInput type="password" name="password" readonly="">
         </mat-form-field>
 
         <button class="form-btn" color="primary" type="submit" mat-raised-button>Save changes</button>
