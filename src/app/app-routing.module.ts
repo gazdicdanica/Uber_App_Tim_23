@@ -7,8 +7,8 @@ import { ChangePasswordComponent } from './modules/auth/change-password/change-p
 import { ProfileComponent } from './modules/layout-module/profile/profile.component';
 import { MainComponent } from './modules/layout-module/main/main.component';
 import { RideInfoComponent } from './modules/layout-module/ride-info/ride-info.component';
-import { NavbarComponent } from './modules/navbar/navbar/navbar.component';
 import { ConfirmationComponent } from './modules/layout-module/confirmation/confirmation.component';
+import { ChangePersonalInfoComponent } from './modules/layout-module/change-personal-info/change-personal-info.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -20,6 +20,7 @@ const routes: Routes = [
   {path: 'main', component: MainComponent},
   {path: 'rideInfo', component: RideInfoComponent},
   {path: 'confirmation', component: ConfirmationComponent},
+  {path: 'changePersonalInfo', component: ChangePersonalInfoComponent},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 

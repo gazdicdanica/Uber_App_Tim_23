@@ -1,8 +1,21 @@
-<p>navbar-passenger works!</p>
 <mat-toolbar id="passenger" color="primary">
     <div id="logo" [routerLink]="['/main']">
         <h1 style="color: #f57804;"><b>Air</b></h1>
         <h1 style="color: #545454"><b>Ride</b></h1>
     </div>
-
+    <div id="accinfo" class="driver-navbar-container">
+        <div class="photo1">
+            <img id="profile-photo" [routerLink]="['/profile']" src="./../../../../assets/images/user_profile.png" alt="Avatar">
+        </div>
+        <div class="dropdown">
+            <img id="photo2" src="./../../../../assets/images/pngwing.com.png">
+            <div class="dropdown-content">
+                <a href="#" [routerLink]="['/main']">Home</a>
+                <a href="#">Ride History</a>
+                <a href="#">Favorite routes</a>
+                <a [routerLink]="['/profile']">Account</a>
+                <a (click)="logout()">Log out</a>
+            </div>
+        </div>
+    </div>
 </mat-toolbar>

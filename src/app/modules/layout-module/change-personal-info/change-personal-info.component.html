@@ -1,0 +1,25 @@
+<div class="personal-info-wrapper">
+    <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
+        <mat-form-field appearance="outline">
+            <mat-label>name</mat-label>
+            <input matInput type="text" name="name" formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>surname</mat-label>
+            <input matInput type="text" name="surname" formControlName="surname">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>phone</mat-label>
+            <input matInput type="tel" name="phone" formControlName="phone">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>address</mat-label>
+            <input matInput type="text" name="address" formControlName="address">
+        </mat-form-field>
+        <mat-form-field (click)="navigateToChangePassword()" appearance="outline">
+            <mat-label>password</mat-label>
+            <input matInput type="text" name="password" formControlName="password">
+        </mat-form-field>
+        <button class="form-btn" color="primary" type="submit" mat-raised-button>Save changes</button>
+    </form>
+</div>

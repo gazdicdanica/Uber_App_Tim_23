@@ -13,6 +13,10 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '../auth/auth.module';
+import { UserModule } from '../user/user.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ChangePersonalInfoComponent } from './change-personal-info/change-personal-info.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +27,8 @@ import { AuthModule } from '../auth/auth.module';
     SideNavbarComponent,
     PersonalInfoComponent,
     ProfileComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    ChangePersonalInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,9 @@ import { AuthModule } from '../auth/auth.module';
     CommonModule,
     MaterialModule,
     MapModule,
-    AuthModule
+    AuthModule,
+    UserModule,
+    ReactiveFormsModule
   ],
   exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
