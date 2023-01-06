@@ -3,23 +3,16 @@
     <div class="container">
         <div class="avatar-upload">
             <div class="avatar-edit">
-                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
                 <label for="imageUpload"></label>
             </div>
             <div class="avatar-preview">
-                <div id="imagePreview" style="background-image: url('http://i.pravatar.cc/500?img=7');">
+                <div id="imagePreview" style="background-image: url({{picturePath}});">
                 </div>
             </div>
         </div>
     </div>
-    <!-- img -->
-    <!-- full name -->
     <h1 id="full-name"> {{fullName}}</h1>
     <form [formGroup]="profileForm">
-        <!-- <mat-form-field appearance="outline">
-            <mat-label>full name</mat-label>
-            <input matInput type="text" name="name" formControlName="fullname">
-        </mat-form-field> -->
         <mat-form-field appearance="outline">
             <mat-label>e-mail</mat-label>
             <input matInput type="email" name="email" formControlName="email">

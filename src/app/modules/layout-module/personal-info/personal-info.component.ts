@@ -15,7 +15,7 @@ export class PersonalInfoComponent implements OnInit{
   constructor(private authService: AuthService, private router: Router) {}
   data!: User;
   fullName!: string;
-  // @Input() name: string;
+  picturePath!: string;
 
   profileForm = new FormGroup({
     email: new FormControl(''),
@@ -32,23 +32,6 @@ export class PersonalInfoComponent implements OnInit{
   ngOnInit(): void {
     this.profileForm.disable();
   }
-
-  // readURL(input: any) {
-  //   if (input.files && input.files[0]) {
-  //       var reader = new FileReader();
-  //       reader.onload = e => {
-  //           $('#imagePreview').css('background-image', 'url('+ e.target.result +')');
-  //           $('#imagePreview').hide();
-  //           $('#imagePreview').fadeIn(650);
-  //       }
-  //       reader.readAsDataURL(input.files[0]);
-  //   }
-  // }
-
-// $("#imageUpload").change(function() {
-//   this.readURL(this);
-// });
-
   ngAfterViewInit(): void {
     this.getUserData();
   }
@@ -63,6 +46,7 @@ export class PersonalInfoComponent implements OnInit{
           phone: this.data.telephoneNumber
         });
         this.fullName = this.data.name + " " + this.data.surname;
+        this.picturePath = '../../../../assets/images/uploads/' + result.profilePicture;
       },
       error: (error) => {
         console.log(error);
