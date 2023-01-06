@@ -14,7 +14,7 @@
     </div>
     <!-- img -->
     <!-- full name -->
-    <form>
+    <form [formGroup]="profileForm">
         <h1 id="full-name">Danica Gazdic</h1>
         <!-- TODO: when text is pressed display mat-form-field -->
         <mat-form-field style="display:none;" appearance="outline">
@@ -34,12 +34,8 @@
             <mat-label>address</mat-label>
             <input matInput type="text" name="address">
         </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>password</mat-label>
-            <input matInput type="password" name="password">
-        </mat-form-field>
 
-        <button class="form-btn" color="primary" type="submit" mat-raised-button>Save changes</button>
+        <button class="form-btn" color="primary" mat-raised-button>Edit data</button>
     </form>
 
     <button id="log-out-btn" (click)="logout()" mat-raised-button>Log out</button>

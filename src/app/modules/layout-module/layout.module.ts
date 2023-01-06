@@ -13,6 +13,8 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '../auth/auth.module';
+import { UserModule } from '../user/user.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,10 @@ import { AuthModule } from '../auth/auth.module';
     CommonModule,
     MaterialModule,
     MapModule,
-    AuthModule
+    AuthModule,
+    UserModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })
