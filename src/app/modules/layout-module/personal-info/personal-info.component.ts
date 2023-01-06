@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-personal-info',
@@ -10,11 +12,14 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class PersonalInfoComponent implements OnInit{
   constructor(private authService: AuthService, private router: Router) {}
+  data: any;
+  // @Input() name: string;
 
   profileForm = new FormGroup({
-    email: new FormControl(),
-    telNum: new FormControl(),
-    address: new FormControl()
+    fullname: new FormControl(''),
+    email: new FormControl(''),
+    phone: new FormControl(''),
+    address: new FormControl(''),
   });
 
   logout(): void {
@@ -22,9 +27,10 @@ export class PersonalInfoComponent implements OnInit{
     this.router.navigate(['/main']);
   }
 
+
   ngOnInit(): void {
-    this.profileForm.disable();
-    const user = localStorage.getItem('user');
+    // this.profileForm.disable();
+    // const user = localStorage.getItem('user');
 
 
   }
@@ -45,5 +51,54 @@ export class PersonalInfoComponent implements OnInit{
 //   this.readURL(this);
 // });
 
+  ngAfterViewInit(): void {
+    this.getUserData();
+  }
   
+  getUserData(): void {
+    this.authService.getUserData().subscribe({
+      next: (result) => {
+        this.data = result;
+        console.log(this.data);
+        this.profileForm.patchValue({
+          fullname: this.data.name + ' ' + this.data.surname,
+          address: this.data.address,
+          email: this.data.email,
+          phone: this.data.telephoneNumber
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  updateUser(): void {
+    const saveData = {
+      name: this.data.name,
+      surname: this.data.surname,
+      profilePicture: this.data.profilePicture,
+      email: this.data.email,
+      address: this.profileForm.value.address,
+      telephoneNumber: this.profileForm.value.phone,
+    };
+    if (this.profileForm.valid){
+      if(saveData.address != this.data.address ||
+        saveData.telephoneNumber != this.data.telephoneNumber){
+          this.authService.updateUserData(saveData).subscribe({
+          next: (result) => {
+            console.log(result);
+            
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+      }
+    }
+  }
+
+  jmpToChangePw(): void {
+    this.router.navigate(['/changePw'])
+  }
 }

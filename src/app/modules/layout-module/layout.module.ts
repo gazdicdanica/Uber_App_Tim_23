@@ -14,7 +14,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +37,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MapModule,
     AuthModule,
     UserModule,
-    FormsModule,
     ReactiveFormsModule
   ],
   exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]

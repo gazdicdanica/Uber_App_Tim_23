@@ -31,9 +31,7 @@ export class AuthService {
   }
 
   login(auth: any): Observable<Token> {
-    return this.http.post<Token>(environment.apiHost + '/login', auth, {
-      headers: this.headers,
-    });
+    return this.http.post<Token>(environment.apiHost + '/login', auth);
   }
 
   signup(user: any): Observable<any>{
@@ -54,6 +52,9 @@ export class AuthService {
       );
   }
 
+  changePw(value: any): Observable<any> {
+    return this.http.post<any>(environment.apiHost+'/user/'+this.getId()+'/changePassword', value);
+  }
 
   setUser(): void {
     this.user$.next(this.getRole());
@@ -83,16 +84,21 @@ export class AuthService {
     console.log("Obrisan");
   }
 
+  getUserData(): Observable<any>{
+    return this.http.get<any>(environment.apiHost+'/user/'+this.getId())
+  }
+
+  updateUserData(value: any): Observable<any>{
+    if(this.getRole() == 'driver'){
+      return this.http.post<any>(environment.apiHost+'/driver/'+this.getId(), value, {
+        headers: this.headers,
+      });
+    } else {
+      return this.http.post<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
+        headers: this.headers,
+      });
+    }
+  }
+
 }
 
-
-// this.userService.setInactive(this.getUserId()).subscribe({
-//   next: (result) => {
-//       localStorage.clear();
-//       window.location.reload();
-//   },
-//   error: (error) => {
-//       console.error("Could not log out: " + error);
-//       this.sharedService.showSnackBar("Could not sign out.", 3000);
-//   }
-// })
