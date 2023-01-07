@@ -1,5 +1,18 @@
 <div class="personal-info-wrapper">
     <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
+        <div class="container">
+            <div class="avatar-upload">
+                <div class="avatar-edit">
+                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" formControlName="picture" (change)="imageListener($event)"/>
+                    <label for="imageUpload"></label>
+                </div>
+                <div class="avatar-preview">
+                    <!-- <img id="imagePreview" [attr.src]="base64"/> -->
+                    <div id="imagePreview" style="background-image: url({{base64}});">
+                    </div>
+                </div>
+            </div>
+        </div>
         <mat-form-field appearance="outline">
             <mat-label>name</mat-label>
             <input matInput type="text" name="name" formControlName="name">
