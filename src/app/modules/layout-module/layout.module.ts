@@ -13,11 +13,12 @@ import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '../auth/auth.module';
-import { UserModule } from '../user/user.module';
+import { ModelModule } from '../model/model.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChangePersonalInfoComponent } from './change-personal-info/change-personal-info.component';
 import { DriverDataComponent } from './driver-data/driver-data.component';
-import { VehicleInfoComponent } from './vehicle-info/vehicle-info.component';
+import { VehicleModule } from '../vehicle/vehicle.module';
+
 
 
 @NgModule({
@@ -31,8 +32,7 @@ import { VehicleInfoComponent } from './vehicle-info/vehicle-info.component';
     ProfileComponent,
     ConfirmationComponent,
     ChangePersonalInfoComponent,
-    DriverDataComponent,
-    VehicleInfoComponent
+    DriverDataComponent
   ],
   imports: [
     BrowserModule,
@@ -42,8 +42,9 @@ import { VehicleInfoComponent } from './vehicle-info/vehicle-info.component';
     MaterialModule,
     MapModule,
     AuthModule,
-    UserModule,
-    ReactiveFormsModule
+    ModelModule,
+    ReactiveFormsModule,
+    VehicleModule
   ],
   exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })

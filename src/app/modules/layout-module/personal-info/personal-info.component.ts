@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '../../user/user-model';
+import { User } from '../../model/user';
 
 
 @Component({
