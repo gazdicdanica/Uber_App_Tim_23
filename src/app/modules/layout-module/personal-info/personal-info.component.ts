@@ -46,7 +46,7 @@ export class PersonalInfoComponent implements OnInit{
           phone: this.data.telephoneNumber
         });
         this.fullName = this.data.name + " " + this.data.surname;
-        this.picturePath = '../../../../assets/images/uploads/' + result.profilePicture;
+        this.picturePath = 'data:image/png;base64' + result.profilePicture;
       },
       error: (error) => {
         console.log(error);
