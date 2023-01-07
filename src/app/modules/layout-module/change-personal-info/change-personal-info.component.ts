@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { User } from '../../user/user-model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
-import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-change-personal-info',
@@ -13,7 +12,7 @@ import { ReplaySubject } from 'rxjs';
 export class ChangePersonalInfoComponent implements OnInit {
 
   data!: User;
-  picturePath: string = "";
+  // picturePath: string = "";
   base64: string = ""
 
   constructor(private router: Router, private authService: AuthService) { }
@@ -40,15 +39,14 @@ export class ChangePersonalInfoComponent implements OnInit {
     const saveData = {
       name: this.profileForm.value.name,
       surname: this.profileForm.value.surname,
-      profilePicture: this.profileForm.value.phone,
+      profilePicture: this.base64.split(',')[1],
       email: this.data.email,
       address: this.profileForm.value.address,
       telephoneNumber: this.profileForm.value.phone,
     };
     if (this.profileForm.valid) {
-      console.log(saveData.profilePicture);
 
-      if(saveData.profilePicture === ''){
+      if(this.profileForm.value.picture === ''){
         saveData.profilePicture = this.data.profilePicture;
       }
       this.authService.updateUserData(saveData).subscribe({
@@ -69,10 +67,11 @@ export class ChangePersonalInfoComponent implements OnInit {
     let file: File = input.files[0];
     let reader: FileReader = new FileReader();
 
-    reader.readAsBinaryString(file);
-    reader.onload = () => {
-      this.picturePath = URL.createObjectURL(file);
-      console.log(reader.result);
+    reader.readAsDataURL(file);
+    reader.onload = (e: any) => {
+      this.base64 = e.target.result;
+      // this.picturePath = URL.createObjectURL(file);
+      console.log(this.base64);
 
     }
     
@@ -94,7 +93,8 @@ export class ChangePersonalInfoComponent implements OnInit {
           email: this.data.email,
           phone: this.data.telephoneNumber
         });
-        this.picturePath =  result.profilePicture;
+        // this.picturePath =  result.profilePicture;
+        this.base64 = "data:image/png;base64," + result.profilePicture;
         
       },
       error: (error) => {

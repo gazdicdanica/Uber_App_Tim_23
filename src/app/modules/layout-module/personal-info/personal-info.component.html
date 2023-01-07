@@ -6,8 +6,7 @@
                 <label for="imageUpload"></label>
             </div>
             <div class="avatar-preview">
-                <div id="imagePreview" style="background-image: url({{picturePath}});">
-                </div>
+                <img id="imagePreview" [attr.src]="base64"/>
             </div>
         </div>
     </div>

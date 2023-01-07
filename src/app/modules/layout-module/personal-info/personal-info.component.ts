@@ -15,7 +15,7 @@ export class PersonalInfoComponent implements OnInit{
   constructor(private authService: AuthService, private router: Router) {}
   data!: User;
   fullName!: string;
-  picturePath!: string;
+  base64!: string;
 
   profileForm = new FormGroup({
     email: new FormControl(''),
@@ -46,7 +46,7 @@ export class PersonalInfoComponent implements OnInit{
           phone: this.data.telephoneNumber
         });
         this.fullName = this.data.name + " " + this.data.surname;
-        this.picturePath = 'data:image/png;base64' + result.profilePicture;
+        this.base64 = 'data:image/png;base64,' + result.profilePicture;
       },
       error: (error) => {
         console.log(error);
