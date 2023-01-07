@@ -1,0 +1,24 @@
+<div id="container">
+    <div id="no-vehicle" *ngIf="hasVehicle===false">
+
+        <button mat-raised-button id="add-vehicle" color="accent">Add vehicle</button>
+
+    </div>
+    <div id="yes-vehicle" *ngIf="hasVehicle === true">
+        <div class="type-model">
+            <div><p id="model">Skoda Fabia</p></div>
+            <div><p id="type">Standard</p></div>
+        </div>
+        <p id="registration">SO-069SR</p>
+        <p id="capacity">capacity: 5</p>
+        <div id="boolean-data">
+            <div>
+                <mat-checkbox [labelPosition]="'before'" [disabled]="true">babies</mat-checkbox>
+            </div>
+            <div>
+                <mat-checkbox [labelPosition]="'before'" [disabled]="true">pets</mat-checkbox>
+            </div>
+        </div>
+        
+    </div>
+</div>

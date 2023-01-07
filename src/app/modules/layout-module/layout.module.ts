@@ -16,6 +16,8 @@ import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChangePersonalInfoComponent } from './change-personal-info/change-personal-info.component';
+import { DriverDataComponent } from './driver-data/driver-data.component';
+import { VehicleInfoComponent } from './vehicle-info/vehicle-info.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { ChangePersonalInfoComponent } from './change-personal-info/change-perso
     PersonalInfoComponent,
     ProfileComponent,
     ConfirmationComponent,
-    ChangePersonalInfoComponent
+    ChangePersonalInfoComponent,
+    DriverDataComponent,
+    VehicleInfoComponent
   ],
   imports: [
     BrowserModule,

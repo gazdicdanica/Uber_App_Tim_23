@@ -1,6 +1,17 @@
+#main-content{
+    display: flex;
+    flex-direction: row;
+}
+
 .personal-info-wrapper{
     /* float: left; */
     width: 42%;
+    padding-left: 50px;
+    height: 100%;
+}
+
+.driver-data-wrapper{
+    width: 32%;
     padding-left: 50px;
     height: 100%;
 }
