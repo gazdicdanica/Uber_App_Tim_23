@@ -6,7 +6,9 @@
                 <label for="imageUpload"></label>
             </div>
             <div class="avatar-preview">
-                <img id="imagePreview" [attr.src]="base64"/>
+                <!-- <img id="imagePreview" [attr.src]="base64"/> -->
+                <div id="imagePreview" style="background-image: url({{base64}});">
+                </div>
             </div>
         </div>
     </div>

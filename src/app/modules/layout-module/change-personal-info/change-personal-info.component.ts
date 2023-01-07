@@ -69,7 +69,7 @@ export class ChangePersonalInfoComponent implements OnInit {
 
     reader.readAsDataURL(file);
     reader.onload = (e: any) => {
-      this.base64 = e.target.result;
+      this.base64 = e.target.result.replace(/(\r\n|\n|\r)/gm, "");
       // this.picturePath = URL.createObjectURL(file);
       console.log(this.base64);
 
