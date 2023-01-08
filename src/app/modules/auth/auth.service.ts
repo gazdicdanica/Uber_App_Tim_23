@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "src/enviroments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Token } from '@angular/compiler';
-import { UserService } from '../user/user.service';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -19,7 +18,7 @@ export class AuthService {
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
 
-  constructor(private http: HttpClient, private userService: UserService, private router: Router) {
+  constructor(private http: HttpClient,private router: Router) {
     this.user$.next(this.getRole());
   }
 
@@ -81,7 +80,7 @@ export class AuthService {
     this.user$.next(null);
     localStorage.clear();
     // window.location.reload();
-    console.log("Obrisan");
+  
   }
 
   getUserData(): Observable<any>{

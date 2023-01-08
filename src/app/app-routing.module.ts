@@ -9,6 +9,7 @@ import { MainComponent } from './modules/layout-module/main/main.component';
 import { RideInfoComponent } from './modules/layout-module/ride-info/ride-info.component';
 import { ConfirmationComponent } from './modules/layout-module/confirmation/confirmation.component';
 import { ChangePersonalInfoComponent } from './modules/layout-module/change-personal-info/change-personal-info.component';
+import { VehicleFormComponent } from './modules/vehicle/vehicle-form/vehicle-form.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'rideInfo', component: RideInfoComponent},
   {path: 'confirmation', component: ConfirmationComponent},
   {path: 'changePersonalInfo', component: ChangePersonalInfoComponent},
+  {path: 'vehicleForm', component: VehicleFormComponent},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 

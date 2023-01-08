@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '../../user/user-model';
+import { User } from '../../model/user';
 
 
 @Component({
@@ -16,6 +16,7 @@ export class PersonalInfoComponent implements OnInit{
   data!: User;
   fullName!: string;
   base64!: string;
+  role!: string;
 
   profileForm = new FormGroup({
     email: new FormControl(''),
@@ -31,6 +32,9 @@ export class PersonalInfoComponent implements OnInit{
 
   ngOnInit(): void {
     this.profileForm.disable();
+    this.authService.userState$.subscribe((result: any) => {
+      this.role = result;
+    });
   }
   ngAfterViewInit(): void {
     this.getUserData();

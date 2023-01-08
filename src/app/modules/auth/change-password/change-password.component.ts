@@ -38,7 +38,6 @@ export class ChangePasswordComponent {
             this.router.navigate(['/profile']);
         },
         error: (error) => {
-            console.log(error);
             if(error.status == 400) {
               this.hasError = 1;
             } else if (error.status == 404){

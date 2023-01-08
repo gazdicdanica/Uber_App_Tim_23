@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../../user/user-model';
+import { User } from '../../model/user';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 
@@ -70,8 +70,6 @@ export class ChangePersonalInfoComponent implements OnInit {
     reader.readAsDataURL(file);
     reader.onload = (e: any) => {
       this.base64 = e.target.result.replace(/(\r\n|\n|\r)/gm, "");
-      // this.picturePath = URL.createObjectURL(file);
-      console.log(this.base64);
 
     }
     
