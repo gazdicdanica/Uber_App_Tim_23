@@ -1,10 +1,10 @@
 <div id="container">
     <div id="no-vehicle" *ngIf="hasVehicle===false">
 
-        <button mat-raised-button id="add-vehicle" color="accent">Add vehicle</button>
+        <button mat-raised-button id="add-vehicle" color="accent" (click)="navigateToForm()">Add vehicle</button>
 
     </div>
-    <div id="yes-vehicle" *ngIf="hasVehicle === true">
+    <div id="yes-vehicle" *ngIf="hasVehicle === true" (click)="navigateToForm()">
         <div class="type-model">
             <div><p id="model">{{vehicle.model}}</p></div>
             <div><p id="type">{{vehicle.vehicleType}}</p></div>
@@ -13,10 +13,10 @@
         <p id="capacity">capacity: {{vehicle.passengerSeats}}</p>
         <div id="boolean-data">
             <div>
-                <mat-checkbox [checked]="vehicle.babyTransport" [labelPosition]="'before'" [disabled]="true">babies</mat-checkbox>
+                <mat-checkbox [checked]="vehicle.babyTransport" [labelPosition]="'before'" [disabled]="true">transport babies</mat-checkbox>
             </div>
             <div>
-                <mat-checkbox [checked]="vehicle.petTransport" [labelPosition]="'before'" [disabled]="true">pets</mat-checkbox>
+                <mat-checkbox [checked]="vehicle.petTransport" [labelPosition]="'before'" [disabled]="true">transport pets</mat-checkbox>
             </div>
         </div>
         

@@ -1,5 +1,4 @@
 export class Vehicle{
-    id: number;
     model: string;
     vehicleType: string;
     licenseNumber: string;
@@ -7,8 +6,7 @@ export class Vehicle{
     babyTransport: boolean;
     petTransport: boolean;
 
-    constructor(id: number, model: string, type: string, license: string, capacity: number, babies: boolean, pets: boolean){
-        this.id = id;
+    constructor(model: string, type: string, license: string, capacity: number, babies: boolean, pets: boolean){
         this.model = model;
         this.vehicleType = type;
         this.licenseNumber = license;

@@ -1,0 +1,38 @@
+<div id="main-content">
+    <form [formGroup]="vehicleForm" (ngSubmit)="sendVehicleData()">
+        <mat-form-field appearance="outline">
+            <mat-label>vehicle model</mat-label>
+            <input matInput type="text" name="model" formControlName="model">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>vehicle type</mat-label>
+            <mat-select name="type" formControlName="type">
+                <mat-option *ngFor="let type of types" [value]="type.value">
+                    {{type.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>license number</mat-label>
+            <input matInput type="text" name="licenseNumber" formControlName="licenseNumber">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>vehicle capacity</mat-label>
+            <input matInput type="number" min="1" max="7" max name="capacity" formControlName="passengerSeats">
+        </mat-form-field>
+
+        <div id="checkbox-div">
+            <div>
+                <mat-checkbox formControlName="babyTransport" [labelPosition]="'before'">transport babies</mat-checkbox>
+            </div>
+            <div>
+                <mat-checkbox id="pets" formControlName="petTransport" [labelPosition]="'before'">transport pets</mat-checkbox>
+            </div>
+        </div>
+        
+        <button class="form-btn" color="primary" type="submit" mat-raised-button>Save</button>
+    </form>
+</div>

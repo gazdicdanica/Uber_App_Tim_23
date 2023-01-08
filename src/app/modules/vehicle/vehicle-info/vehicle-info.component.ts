@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Vehicle } from '../../model/vehicle';
 import {AuthService} from '../../auth/auth.service';
 import { VehicleService } from '../vehicle.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class VehicleInfoComponent implements OnInit{
   vehicle!: Vehicle;
   driverId!: number;
 
-  constructor(private authService: AuthService, private vehicleService: VehicleService) {
+  constructor(private authService: AuthService, private vehicleService: VehicleService, private router: Router) {
   }
 
   ngOnInit(): void{
@@ -32,8 +33,13 @@ export class VehicleInfoComponent implements OnInit{
           this.hasVehicle = true;
         }
         this.vehicle = result;
-      }
+      },
+      error: (err) => {}
     })
+  }
+
+  navigateToForm(){
+    this.router.navigate(['/vehicleForm']);
   }
 
 }
