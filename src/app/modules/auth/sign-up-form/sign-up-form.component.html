@@ -6,6 +6,9 @@
             <mat-error *ngIf="signUpForm.controls.email.errors?.['email'] &&  form.submitted">
                 Invalid e-mail format.
             </mat-error>
+            <mat-error *ngIf="responseError">
+                This e-mail is linked to an existing account.
+            </mat-error>
             <mat-form-field class="form-input" appearance="outline">
                 <mat-label>E-mail</mat-label>
                 <input  matInput type="email" name="email" formControlName="email"/>
