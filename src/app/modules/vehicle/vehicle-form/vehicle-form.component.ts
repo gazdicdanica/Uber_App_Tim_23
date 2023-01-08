@@ -39,7 +39,14 @@ export class VehicleFormComponent implements OnInit{
   }
 
   ngAfterViewInit(): void{
-    this.getVehicle();
+    this.vehicleService.hasVehicleValue$.subscribe({
+      next: (value) => {
+        this.hasVehicle = value;
+        if(this.hasVehicle){
+          this.getVehicle();
+        }
+      }
+    })
   }
 
   getVehicle(){
