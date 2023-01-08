@@ -41,9 +41,6 @@ export class LoginComponent {
         },
         error: (error) => {
           if (error instanceof HttpErrorResponse) {
-            console.log(error);
-            console.log('**********************');
-            console.log(error.error);
             if(error.status == 500){
               this.hasError = 1;
             } else if (error.status == 400) {

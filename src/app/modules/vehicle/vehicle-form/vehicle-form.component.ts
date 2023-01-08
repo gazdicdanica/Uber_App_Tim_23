@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, RequiredValidator, Validators } from '@angular/forms';
 import { VehicleService } from '../vehicle.service';
-import { Type } from '../../model/type';
 import { Vehicle } from '../../model/vehicle';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { Type } from '../../model/type';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -18,14 +18,14 @@ export class VehicleFormComponent implements OnInit{
   hasVehicle: boolean = false;
 
   types: Type[] = [
-    {value: "STANDARD", viewValue: "STANDARD"},
-    {value: "LUXURY", viewValue: "LUXURY"},
-    {value: "VAN", viewValue: "VAN"}
-  ]
+    {value: 1, viewValue: "STANDARD"},
+    {value: 2, viewValue: "LUXURY"},
+    {value: 3, viewValue: "VAN"}
+  ];
 
   vehicleForm = new FormGroup({
     model : new FormControl('', Validators.required),
-    type: new FormControl('', Validators.required),
+    vehicleType: new FormControl('', Validators.required),
     licenseNumber: new FormControl('', Validators.required),
     babyTransport: new FormControl(),
     petTransport: new FormControl(),
@@ -48,10 +48,9 @@ export class VehicleFormComponent implements OnInit{
         if(result != null){
           this.hasVehicle = true;
           this.vehicle = result;
-          console.log(this.vehicle.vehicleType);
           this.vehicleForm.patchValue({
             model: this.vehicle.model,
-            type: this.vehicle.vehicleType,
+            vehicleType: this.vehicle.vehicleType,
             licenseNumber: this.vehicle.licenseNumber,
             passengerSeats: this.vehicle.passengerSeats,
             babyTransport: this.vehicle.babyTransport,

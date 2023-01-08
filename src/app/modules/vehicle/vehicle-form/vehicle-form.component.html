@@ -7,8 +7,8 @@
 
         <mat-form-field appearance="outline">
             <mat-label>vehicle type</mat-label>
-            <mat-select name="type" formControlName="type">
-                <mat-option *ngFor="let type of types" [value]="type.value">
+            <mat-select name="type" formControlName="vehicleType">
+                <mat-option *ngFor="let type of types" [value]="type.viewValue">
                     {{type.viewValue}}
                 </mat-option>
             </mat-select>

@@ -80,7 +80,7 @@ export class AuthService {
     this.user$.next(null);
     localStorage.clear();
     // window.location.reload();
-    console.log("Obrisan");
+  
   }
 
   getUserData(): Observable<any>{

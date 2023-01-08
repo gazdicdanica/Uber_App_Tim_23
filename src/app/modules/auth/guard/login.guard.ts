@@ -23,12 +23,10 @@ export class LoginGuard implements CanActivate {
         | Promise<boolean 
         | UrlTree> {
         if(this.authService.isLoggedIn()) {
-            this.router.navigate(['profile']);
-            console.log("Moze da se navigira");
+            this.router.navigate(['/profile']);
             // TODO dodati sve zabrane rutiranja
             return false;
         }
-        console.log("Ne moze da se navigira");
         return true;
     }
 

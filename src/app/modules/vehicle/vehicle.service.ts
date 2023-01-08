@@ -23,7 +23,6 @@ export class VehicleService {
   }
 
   addVehicle(driverId: number, vehicle: Vehicle) : Observable<Vehicle>{
-    console.log("usao1");
     return this.http.post<Vehicle>(environment.apiHost+"/driver/"+driverId+"/vehicle", vehicle);
   }
 }
