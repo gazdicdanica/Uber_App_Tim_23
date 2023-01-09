@@ -31,8 +31,9 @@ export class VehicleInfoComponent implements OnInit{
       next: (result) =>{
         if(result != null){
           this.hasVehicle = true;
+          this.vehicle = result;
+          this.vehicleService.setHasVehicle(true);
         }
-        this.vehicle = result;
       },
       error: (err) => {}
     })
