@@ -5,6 +5,8 @@ import { MapService } from '../map.service';
 import { Location } from '../Location';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { SelectorContext } from '@angular/compiler';
+import { AuthService } from '../../auth/auth.service';
+import { DriverService } from '../../services/driver/driver.service';
 
 @Component({
   selector: 'app-map',
@@ -12,6 +14,19 @@ import { SelectorContext } from '@angular/compiler';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements AfterViewInit{
+  role: any;
+  currentDriverLoc!: Location;
+  public lat!: number;
+  public lng!: number;
+
+  constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService){}
+
+
+  ngOnInit(): void {
+    this.authService.userState$.subscribe((result) => {
+      this.role = result;
+    });
+  }
 
   @Output() estimationEvent = new EventEmitter<string[]>();
 
@@ -53,7 +68,7 @@ export class MapComponent implements AfterViewInit{
   private availableIcon = L.icon({
     iconUrl: 'assets/images/available-car.png',
     iconSize: [40,40],
-    iconAnchor: [22, 94]
+    iconAnchor: [22, 20]
   })
 
   private unavailableIcon = L.icon({
@@ -62,17 +77,27 @@ export class MapComponent implements AfterViewInit{
     iconAnchor: [22, 20]
   })
 
+  private driverIcon = L.icon({
+    iconUrl: 'assets/images/driverLocation.png',
+    iconSize: [40,40],
+    iconAnchor: [22, 20]
+  });
+
+  private passengerIcon = L.icon({
+    iconUrl: 'assets/images/passengerLocation.png',
+    iconSize: [40,40],
+    iconAnchor: [22, 20]
+  });
+
 
   @ViewChild('map')
   private mapContainer!: ElementRef<HTMLElement>;
-
-  constructor(private mapService: MapService){}
 
   private initMap() : void{
 
     this.map = L.map(this.mapContainer.nativeElement, {
       center: [45.25327, 19.8227],
-      zoom: 14
+      zoom: 14,
     });
 
     const tiles = L.tileLayer(
@@ -85,34 +110,40 @@ export class MapComponent implements AfterViewInit{
       }
     );
     tiles.addTo(this.map);
+    const elem = <HTMLElement>document.getElementsByClassName('leaflet-bottom leaflet-right')[0];
+    elem.style.visibility = 'hidden';
   }
 
   //TODO Fill input fields with results of reverse search
   registerOnClick(): void {
-    this.map.on('click', (e: any) => {
-      this.clicks+=1;
-      const coord = e.latlng;
-      const lat = coord.lat;
-      const lng = coord.lng;
-      this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-        if(this.clicks % 2 === 1){
-          if (this.routingControl != null){
-            this.routingControl.remove();
+    if(this.role != 'ROLE_DRIVER'){
+      this.map.on('click', (e: any) => {
+        this.clicks+=1;
+        const coord = e.latlng;
+        const lat = coord.lat;
+        const lng = coord.lng;
+        this.mapService.reverseSearch(lat, lng).subscribe((res) => {
+          if(this.clicks % 2 === 1){
+            if (this.routingControl != null){
+              this.routingControl.remove();
+            }
+            this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
+            this.mapService.setEndValue(new Location(0,0,""));
+            this.startLocation = new Location(res.lon, res.lat, res.display_name);
+          }else{
+            this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
+            this.endLocation = new Location(res.lon, res.lat, res.display_name);
+            this.route(this.startLocation, this.endLocation);
+            const elem = <HTMLElement>document.getElementsByClassName('leaflet-routing-container leaflet-bar leaflet-control')[0];
+            elem.style.background = '#EFEFEF';
           }
-          this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
-          this.mapService.setEndValue(new Location(0,0,""));
-          this.startLocation = new Location(res.lon, res.lat, res.display_name);
-        }else{
-          this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
-          this.endLocation = new Location(res.lon, res.lat, res.display_name);
-          this.route(this.startLocation, this.endLocation);
-        }
+        });
+        console.log(
+          'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
+        );
+        
       });
-      console.log(
-        'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
-      );
-      
-    });
+  }
   }
 
   addMarker(latitude: number, longitude: number): void{
@@ -139,7 +170,7 @@ export class MapComponent implements AfterViewInit{
       }
     }
 
-    this.routingControl = L.Routing.control({show:false, waypoints: [L.marker([start.latitude, start.longitude]).getLatLng(),
+    this.routingControl = L.Routing.control({waypoints: [L.marker([start.latitude, start.longitude]).getLatLng(),
        L.marker([end.latitude, end.longitude]).getLatLng()],
        plan: L.Routing.plan([this.makeMarker(this.startLocation).getLatLng(), this.makeMarker(this.endLocation).getLatLng()],
        {createMarker: function(i: number, waypoint: L.Routing.Waypoint){
@@ -149,9 +180,9 @@ export class MapComponent implements AfterViewInit{
     this.routingControl.addTo(this.map).on('routesfound',  (e) => {
       this.distance = ((e.routes[0].summary.totalDistance) / 1000);
       this.timeInMinutes = ((e.routes[0].summary.totalTime) % 3600 / 60);
-
       this.estimationEvent.emit([this.distance.toPrecision(2), this.timeInMinutes.toPrecision(2)]);
     });
+
   }
 
 
@@ -169,6 +200,21 @@ export class MapComponent implements AfterViewInit{
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
     });
+
+    if(this.role === 'ROLE_DRIVER') {
+      this.driverService.getDriverLocation(this.driverService.getId()).subscribe({
+        next: (result) => {
+          this.currentDriverLoc = result;
+          L.marker(L.latLng(result.latitude, result.longitude), 
+          {draggable:false, icon: this.driverIcon}).addTo(this.map);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    } else {
+        this.getLocation()
+    }
 
     L.Marker.prototype.options.icon = DefaultIcon;
     if(this.map ==null){
@@ -199,6 +245,27 @@ export class MapComponent implements AfterViewInit{
     )
 
     this.addCarMarkers();
+  }
+
+  getLocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+        if (position) {
+          console.log("Latitude: " + position.coords.latitude +
+            "Longitude: " + position.coords.longitude);
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
+
+          L.marker(L.latLng(this.lat, this.lng), 
+          {draggable:false, icon: this.driverIcon}).addTo(this.map);
+        } else{
+          alert("Geolocation found no location.");          
+        }
+      },
+        (error: GeolocationPositionError) => console.log(error));
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
   }
 
 }

@@ -33,8 +33,8 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(loginVal).subscribe({
         next: (result) => {
-          let accessToken = JSON.stringify(result).split(",")[0];
-          localStorage.setItem('user', accessToken.replace("{", ""));
+          let accessToken = JSON.stringify(result).split(",")[0] + "}";
+          localStorage.setItem('user', accessToken);
         
           this.authService.setUser();
           this.router.navigate(['/main']);
