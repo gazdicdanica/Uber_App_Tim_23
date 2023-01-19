@@ -18,4 +18,12 @@ export class DriverService {
   getId(): number {
     return this.authService.getId();
   }
+
+  changeDriverState(flag: boolean): Observable<any> {
+    if(flag) {
+      return this.httpClient.put<any>(environment.apiHost+"/driver/"+this.authService.getId()+"/working-hour/start", null);
+    } else {
+      return this.httpClient.put<any>(environment.apiHost+"/driver/"+this.authService.getId()+"/working-hour/end", null);
+    }
+  }
 }

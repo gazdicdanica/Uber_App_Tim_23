@@ -5,7 +5,16 @@
     </div>
     <div id="accinfo" class="driver-navbar-container">
         <p>Online</p>
-        <mat-slide-toggle id="onlineToggle" class="toggle" (change)="changed($event)"></mat-slide-toggle>
+        <mat-slide-toggle 
+            [formGroup]="online"
+            id="onlineToggle"
+            class="toggle"
+            formControlName="super" 
+            labelPosition="before" 
+            color="primary"
+            (change)="changed($event)"
+            [(ngModel)]="checked">
+        </mat-slide-toggle>
         <div class="dropdown">
             <img id="photo2" src="./../../../../assets/images/pngwing.com.png">
             <div class="dropdown-content">
