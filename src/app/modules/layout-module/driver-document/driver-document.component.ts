@@ -14,6 +14,7 @@ export class DriverDocumentComponent implements OnInit{
 
   base64: string = "";
   upload : boolean = false;
+  saved: boolean = false;
 
   constructor(private driverService: DriverService){}
 
@@ -33,6 +34,7 @@ export class DriverDocumentComponent implements OnInit{
           if (x.name == this.input){
             this.base64 =  "data:image/png;base64," + x.documentImage;
             this.upload = true;
+            this.saved = true;
             break;
           }
         }
@@ -63,9 +65,23 @@ export class DriverDocumentComponent implements OnInit{
     this.driverService.addDocument(document).subscribe({
       next : (res) => {
         console.log(res);
+        this.saved = true;
         
       }
     });
+  }
+
+  deleteDocument() : void{
+    this.driverService.deleteDocument(this.input).subscribe({
+      next: (res) => {
+        this.documentForm.value.fileInput = "";
+        this.base64 = "";
+        this.upload = false;
+        alert("Document successfully deleted");
+      }
+    });
+    
+
   }
 
 }

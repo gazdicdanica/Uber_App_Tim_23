@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/enviroments/environment';
 import { Location } from '../../map/Location';
@@ -28,5 +28,11 @@ export class DriverService {
 
   getDocuments(){
     return this.httpClient.get<Document[]>(environment.apiHost+"/driver/" + this.getId() + "/documents");
+  }
+
+  deleteDocument(name : string){
+    let params = new HttpParams();
+    params.append("name",name);
+    return this.httpClient.delete(environment.apiHost + "/driver/document/", {params: params});
   }
 }
