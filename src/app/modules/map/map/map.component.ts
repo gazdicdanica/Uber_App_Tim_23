@@ -8,6 +8,7 @@ import { SelectorContext } from '@angular/compiler';
 import { AuthService } from '../../auth/auth.service';
 import { DriverService } from '../../services/driver/driver.service';
 
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -26,6 +27,7 @@ export class MapComponent implements AfterViewInit{
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
+    require('leaflet.control.resizer');
   }
 
   @Output() estimationEvent = new EventEmitter<string[]>();
@@ -109,6 +111,7 @@ export class MapComponent implements AfterViewInit{
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }
     );
+
     tiles.addTo(this.map);
     const elem = <HTMLElement>document.getElementsByClassName('leaflet-bottom leaflet-right')[0];
     elem.style.visibility = 'hidden';

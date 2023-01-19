@@ -69,3 +69,22 @@
 .dropdown-content a:hover{background-color: #ddd;}
 
 .dropdown:hover .dropdown-content{display: block;}
+
+.driver-navbar-container p {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 12px;
+}
+
+.toggle {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#onlineToggle{
+    color: white !important;
+}
