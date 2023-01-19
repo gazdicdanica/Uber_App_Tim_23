@@ -11,6 +11,15 @@ import { VehicleRideComponent } from './vehicle-ride/vehicle-ride.component';
 import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AuthModule } from '../auth/auth.module';
+import { ModelModule } from '../model/model.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ChangePersonalInfoComponent } from './change-personal-info/change-personal-info.component';
+import { DriverDataComponent } from './driver-data/driver-data.component';
+import { VehicleModule } from '../vehicle/vehicle.module';
+
+
 
 @NgModule({
   declarations: [
@@ -20,7 +29,10 @@ import { ProfileComponent } from './profile/profile.component';
     MainComponent,
     SideNavbarComponent,
     PersonalInfoComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfirmationComponent,
+    ChangePersonalInfoComponent,
+    DriverDataComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +40,11 @@ import { ProfileComponent } from './profile/profile.component';
     AppRoutingModule,
     CommonModule,
     MaterialModule,
-    MapModule
+    MapModule,
+    AuthModule,
+    ModelModule,
+    ReactiveFormsModule,
+    VehicleModule
   ],
   exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
 })

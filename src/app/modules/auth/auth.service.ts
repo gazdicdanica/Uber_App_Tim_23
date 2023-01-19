@@ -4,8 +4,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "src/enviroments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Token } from '@angular/compiler';
-import { UserService } from '../user/user.service';
 import { Router } from '@angular/router';
+import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class AuthService {
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
 
-  constructor(private http: HttpClient, private userService: UserService, private router: Router) {
+  constructor(private http: HttpClient,private userService: UserService, private router: Router) {
     this.user$.next(this.getRole());
   }
 
@@ -31,11 +31,14 @@ export class AuthService {
   }
 
   login(auth: any): Observable<Token> {
-    return this.http.post<Token>(environment.apiHost + '/login', auth, {
-      headers: this.headers,
-    });
+    return this.http.post<Token>(environment.apiHost + '/login', auth);
   }
   
+  signup(user: any): Observable<any>{
+    const options: any={
+      responseType: 'text'
+    };
+
   signup(user: any): Observable<any>{
     const options: any={
       responseType: 'text'
@@ -69,7 +72,6 @@ export class AuthService {
       const accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
       let role = helper.decodeToken(accessToken).role[0].name;
-      console.log("test1" + role);
       return role;
     }
     return null;
@@ -86,7 +88,11 @@ export class AuthService {
     this.user$.next(null);
     localStorage.clear();
     // window.location.reload();
-    console.log("Obrisan");
+  
+  }
+
+  getUserData(): Observable<any>{
+    return this.http.get<any>(environment.apiHost+'/user/'+this.getId())
   }
 
   getUserData(): Observable<any>{
@@ -95,11 +101,11 @@ export class AuthService {
 
   updateUserData(value: any): Observable<any>{
     if(this.getRole() == 'driver'){
-      return this.http.put<any>(environment.apiHost+'/driver/'+this.getId(), value, {
+      return this.http.post<any>(environment.apiHost+'/driver/'+this.getId(), value, {
         headers: this.headers,
       });
     } else {
-      return this.http.put<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
+      return this.http.post<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
         headers: this.headers,
       });
     }

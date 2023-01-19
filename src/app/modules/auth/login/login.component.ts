@@ -9,7 +9,6 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { environment } from 'src/enviroments/environment';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,15 +20,16 @@ export class LoginComponent {
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
+    error: new FormControl(''),
   });
-  hasError: boolean = false;
+  hasError: number = 0;
 
   login(): void {
+    this.hasError = 0;
     const loginVal = {
       email: this.loginForm.value.email,
       password: this.loginForm.value.password,
     };
-
     if (this.loginForm.valid) {
       this.authService.login(loginVal).subscribe({
         next: (result) => {
@@ -41,7 +41,13 @@ export class LoginComponent {
         },
         error: (error) => {
           if (error instanceof HttpErrorResponse) {
-            this.hasError = true;
+            if(error.status == 500){
+              this.hasError = 1;
+            } else if (error.status == 400) {
+              this.hasError = 2;
+            } else if (error.status == 404) {
+              this.hasError = 3;
+            }
           }
         },
       });
