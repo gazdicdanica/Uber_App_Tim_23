@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class DocumentsComponent {
 
+  license : string = "license";
+  certificate: string = "certificate";
+
+
+
 }

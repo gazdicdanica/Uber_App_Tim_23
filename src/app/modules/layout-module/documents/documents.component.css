@@ -21,4 +21,5 @@ h1{
 .doc{
     display: flex;
     flex-direction: column;
+    width: 28%;
 }

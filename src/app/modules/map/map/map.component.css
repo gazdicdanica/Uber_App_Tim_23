@@ -13,6 +13,8 @@
     height: 100%;
 }
 
-.leafler-routing-alternatives{
-    background-color: white !important;
+.leaflet-control-container .leaflet-routing-container-hide {
+    display: none !important;
+    width: 0px  !important; 
+    height: 0px  !important; 
 }
