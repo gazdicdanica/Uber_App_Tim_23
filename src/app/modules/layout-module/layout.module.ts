@@ -19,6 +19,7 @@ import { ChangePersonalInfoComponent } from './change-personal-info/change-perso
 import { DriverDataComponent } from './driver-data/driver-data.component';
 import { VehicleModule } from '../vehicle/vehicle.module';
 import { DriverDocumentComponent } from './driver-document/driver-document.component';
+import { DocumentsComponent } from './documents/documents.component';
 
 
 
@@ -34,7 +35,8 @@ import { DriverDocumentComponent } from './driver-document/driver-document.compo
     ConfirmationComponent,
     ChangePersonalInfoComponent,
     DriverDataComponent,
-    DriverDocumentComponent
+    DriverDocumentComponent,
+    DocumentsComponent
   ],
   imports: [
     BrowserModule,
