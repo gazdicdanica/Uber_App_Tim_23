@@ -5,7 +5,6 @@ import { environment } from "src/enviroments/environment";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Token } from '@angular/compiler';
 import { Router } from '@angular/router';
-import { UserService } from '../user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class AuthService {
   user$ = new BehaviorSubject(null);
   userState$ = this.user$.asObservable();
 
-  constructor(private http: HttpClient,private userService: UserService, private router: Router) {
+  constructor(private http: HttpClient, private router: Router) {
     this.user$.next(this.getRole());
   }
 
@@ -34,11 +33,6 @@ export class AuthService {
     return this.http.post<Token>(environment.apiHost + '/login', auth);
   }
   
-  signup(user: any): Observable<any>{
-    const options: any={
-      responseType: 'text'
-    };
-
   signup(user: any): Observable<any>{
     const options: any={
       responseType: 'text'
@@ -95,10 +89,6 @@ export class AuthService {
     return this.http.get<any>(environment.apiHost+'/user/'+this.getId())
   }
 
-  getUserData(): Observable<any>{
-    return this.http.get<any>(environment.apiHost+'/user/'+this.getId())
-  }
-
   updateUserData(value: any): Observable<any>{
     if(this.getRole() == 'driver'){
       return this.http.post<any>(environment.apiHost+'/driver/'+this.getId(), value, {
@@ -112,14 +102,3 @@ export class AuthService {
   }
 
 }
-
-// this.userService.setInactive(this.getUserId()).subscribe({
-//   next: (result) => {
-//       localStorage.clear();
-//       window.location.reload();
-//   },
-//   error: (error) => {
-//       console.error("Could not log out: " + error);
-//       this.sharedService.showSnackBar("Could not sign out.", 3000);
-//   }
-// })
