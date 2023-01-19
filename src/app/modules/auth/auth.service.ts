@@ -35,8 +35,32 @@ export class AuthService {
       headers: this.headers,
     });
   }
+  
+  signup(user: any): Observable<any>{
+    const options: any={
+      responseType: 'text'
+    };
 
-    setUser(): void {
+    return this.http.post<string>(
+      environment.apiHost + '/passenger',
+      user,
+      options
+    );
+  }
+
+  activate(activationId: number): Observable<any>{
+    return this.http.get<string>(
+      environment.apiHost+'/passenger/activate/' + activationId
+      );
+  }
+
+  changePw(value: any): Observable<any> {
+    return this.http.put<any>(environment.apiHost+'/user/'+this.getId()+'/changePassword', value, {
+      headers: this.headers,
+    });
+  }
+
+  setUser(): void {
     this.user$.next(this.getRole());
   }
 
@@ -64,8 +88,24 @@ export class AuthService {
     // window.location.reload();
     console.log("Obrisan");
   }
-}
 
+  getUserData(): Observable<any>{
+    return this.http.get<any>(environment.apiHost+'/user/'+this.getId())
+  }
+
+  updateUserData(value: any): Observable<any>{
+    if(this.getRole() == 'driver'){
+      return this.http.put<any>(environment.apiHost+'/driver/'+this.getId(), value, {
+        headers: this.headers,
+      });
+    } else {
+      return this.http.put<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
+        headers: this.headers,
+      });
+    }
+  }
+
+}
 
 // this.userService.setInactive(this.getUserId()).subscribe({
 //   next: (result) => {
