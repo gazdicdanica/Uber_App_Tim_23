@@ -1,7 +1,7 @@
 <ul class="navigation">
     <li [routerLink]="['/main']">Home</li>
     <li>Ride history</li>
-    <li *ngIf="role === 'passenger'">Favourite places</li>
+    <li *ngIf="role === 'ROLE_USER'">Favourite places</li>
     <li [routerLink]="['/profile']">Account</li>
     <li>Reports</li>
 </ul>

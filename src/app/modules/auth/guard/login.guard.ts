@@ -17,11 +17,12 @@ export class LoginGuard implements CanActivate {
     // Ovc ne radi...
     canActivate(
         route: ActivatedRouteSnapshot, 
-        state: RouterStateSnapshot): 
-        boolean | UrlTree | Observable<boolean 
-        | UrlTree> 
-        | Promise<boolean 
-        | UrlTree> {
+        state: RouterStateSnapshot
+    ): 
+        | Observable<boolean | UrlTree>
+        | Promise<boolean | UrlTree>
+        | boolean
+        | UrlTree {
         if(this.authService.isLoggedIn()) {
             this.router.navigate(['/profile']);
             // TODO dodati sve zabrane rutiranja

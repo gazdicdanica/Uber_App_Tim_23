@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ChangePersonalInfoComponent } from './change-personal-info/change-personal-info.component';
 import { DriverDataComponent } from './driver-data/driver-data.component';
 import { VehicleModule } from '../vehicle/vehicle.module';
+import { DriverDocumentComponent } from './driver-document/driver-document.component';
 
 
 
@@ -32,7 +33,8 @@ import { VehicleModule } from '../vehicle/vehicle.module';
     ProfileComponent,
     ConfirmationComponent,
     ChangePersonalInfoComponent,
-    DriverDataComponent
+    DriverDataComponent,
+    DriverDocumentComponent
   ],
   imports: [
     BrowserModule,

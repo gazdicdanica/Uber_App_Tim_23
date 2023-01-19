@@ -1,6 +1,6 @@
 <div id="navigation">
-    <app-navbar-passenger *ngIf="role === 'passenger'"></app-navbar-passenger>
-    <app-navbar-driver *ngIf="role === 'driver'"></app-navbar-driver>
+    <app-navbar-passenger *ngIf="role === 'ROLE_USER'"></app-navbar-passenger>
+    <app-navbar-driver *ngIf="role === 'ROLE_DRIVER'"></app-navbar-driver>
     <app-navbar-user *ngIf="role === null"></app-navbar-user>
     <!-- TODO ADMIN -->
 </div>

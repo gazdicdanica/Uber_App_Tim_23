@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapModule } from './modules/map/map.module';
 import { NavbarModule } from './modules/navbar/navbar.module';
 import { LoginComponent } from './modules/auth/login/login.component';
+import { Interceptor } from './modules/auth/interceptor/interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,11 @@ import { LoginComponent } from './modules/auth/login/login.component';
     MapModule,
     NavbarModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: Interceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
