@@ -1,19 +1,16 @@
 <form [formGroup]="documentForm" id="file-upload-form" class="uploader">
-    <input formControlName="fileInput" id="file-upload" type="file" name="fileUpload" accept="image/*" />
+    <input formControlName="fileInput" id="file-upload" type="file" name="fileUpload" accept="image/*" (change)="imageListener($event)" />
   
     <label for="file-upload" id="file-drag">
-      <img id="file-image" src="#" alt="Preview" class="hidden">
-      <div id="start">
+      <img *ngIf="upload" #fileImg id="file-image" src="{{base64}}" alt="Preview">
+      <div *ngIf="!upload" #start id="start">
         <i class="fa fa-download" aria-hidden="true"></i>
-        <div>Select a file</div>
-        <div id="notimage" class="hidden">Please select an image</div>
+        <div >Select a file</div>
+        <!-- <div #notImg id="notimage" >Please select an image</div> -->
         <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+        <!-- <span id="delete-document" class="btn btn-primary">Delete document</span> -->
       </div>
-      <div id="response" class="hidden">
-        <div id="messages"></div>
-        <progress class="progress" id="file-progress" value="0">
-          <span>0</span>%
-        </progress>
-      </div>
+      <button *ngIf="upload" mat-raised-button id="delete-btn" color="primary">Delete document</button>
+      <button *ngIf="upload" mat-raised-button id="save-btn" color="accent" (click)="updateDocument()" >Save changes</button>
     </label>
   </form>
