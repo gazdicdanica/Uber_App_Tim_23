@@ -3,18 +3,19 @@
         <h1 style="color: #f57804;"><b>Air</b></h1>
         <h1 style="color: #545454"><b>Ride</b></h1>
     </div>
-    <div id="accinfo" class="driver-navbar-container">
-        <p>Online</p>
+    <div id="accinfo" [formGroup]="online" class="driver-navbar-container">
+        
+        <p *ngIf="checked">Online</p>
+        <p *ngIf="!checked">Offline</p>
         <mat-slide-toggle 
-            [formGroup]="online"
             id="onlineToggle"
             class="toggle"
-            formControlName="super" 
-            labelPosition="before" 
-            color="primary"
+            formControlName="isOnline" 
+            labelPosition="before"
             (change)="changed($event)"
             [(ngModel)]="checked">
         </mat-slide-toggle>
+
         <div class="dropdown">
             <img id="photo2" src="./../../../../assets/images/pngwing.com.png">
             <div class="dropdown-content">

@@ -18,10 +18,10 @@ export class NavbarDriverComponent implements OnInit{
 
   constructor(private driverService: DriverService, private authService: AuthService, private router: Router) {
     this.checked = false;
-    this.online
   }
+
   online = new FormGroup({
-    super: new FormControl('',),
+    isOnline: new FormControl(),
   });
 
   logout(): void {
@@ -40,6 +40,9 @@ export class NavbarDriverComponent implements OnInit{
         },
         error: (error) => {
           console.log(error);
+          alert("Your Shift Cannot Start Now")
+          this.checked = false;
+
           // this.online.patchValue({
           //   super: false
           // })

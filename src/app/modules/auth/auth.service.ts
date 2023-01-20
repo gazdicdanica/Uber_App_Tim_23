@@ -52,9 +52,7 @@ export class AuthService {
   }
 
   changePw(value: any): Observable<any> {
-    return this.http.put<any>(environment.apiHost+'/user/'+this.getId()+'/changePassword', value, {
-      headers: this.headers,
-    });
+    return this.http.put<any>(environment.apiHost+'/user/'+this.getId()+'/changePassword', value);
   }
 
   setUser(): void {

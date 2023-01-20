@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-change-password',
@@ -19,7 +19,8 @@ export class ChangePasswordComponent {
 
   hasError: number = 0;
 
-  changePw(): void {
+  changePw($event: Event): void {
+    event?.preventDefault();
     this.hasError = 0;
     const changePwVal = {
       password: this.changePwForm.value.password,
@@ -27,15 +28,15 @@ export class ChangePasswordComponent {
       password2: this.changePwForm.value.password2,
     };
     if (this.changePwForm.valid) {
+      console.log("PW1: " + changePwVal.password + " PW2: " + changePwVal.password2)
       if (changePwVal.password1 == changePwVal.password2){
         const value = {
-          old_password: changePwVal.password,
-          new_password: changePwVal.password1,
+          oldPassword: changePwVal.password,
+          newPassword: changePwVal.password1,
         }
         this.authService.changePw(value).subscribe({
         next: (result) => {
-            alert("Password successfuly updated");
-            this.router.navigate(['/profile']);
+            console.log("RESULTAT"+result);
         },
         error: (error) => {
             if(error.status == 400) {
@@ -45,6 +46,10 @@ export class ChangePasswordComponent {
             }
         },
         });
+        
+        alert("Password successfuly updated - Please Re-Login");
+        this.authService.logout();
+        this.router.navigate(['/main']);
      } else {
       this.hasError = 2;
      }
