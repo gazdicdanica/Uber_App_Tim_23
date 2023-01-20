@@ -29,7 +29,7 @@ export class VehicleFormComponent implements OnInit{
     licenseNumber: new FormControl('', Validators.required),
     babyTransport: new FormControl(),
     petTransport: new FormControl(),
-    passengerSeats: new FormControl(),
+    passengerSeats: new FormControl(1, [Validators.max(7), Validators.min(1), Validators.required]),
   });
 
   constructor(private vehicleService: VehicleService, private authService: AuthService, private router: Router) {}

@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   login(auth: any): Observable<Token> {
-    return this.http.post<Token>(environment.apiHost + '/login', auth);
+    return this.http.post<Token>(environment.apiHost + '/user/login', auth);
   }
   
   signup(user: any): Observable<any>{
@@ -65,7 +65,7 @@ export class AuthService {
     if (this.isLoggedIn()) {
       const accessToken: any = localStorage.getItem('user');
       const helper = new JwtHelperService();
-      let role = helper.decodeToken(accessToken).role[0].name;
+      let role = helper.decodeToken(accessToken).role[0];
       return role;
     }
     return null;
@@ -90,12 +90,12 @@ export class AuthService {
   }
 
   updateUserData(value: any): Observable<any>{
-    if(this.getRole() == 'driver'){
-      return this.http.post<any>(environment.apiHost+'/driver/'+this.getId(), value, {
+    if(this.getRole() == 'ROLE_DRIVER'){
+      return this.http.put<any>(environment.apiHost+'/driver/'+this.getId(), value, {
         headers: this.headers,
       });
     } else {
-      return this.http.post<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
+      return this.http.put<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
         headers: this.headers,
       });
     }

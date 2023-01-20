@@ -1,0 +1,25 @@
+.example-container{
+    height: 90%;
+}
+
+
+mat-sidenav{
+    width: 15%;
+}
+
+.main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* padding: 30px; */
+}
+
+h1{
+    font-weight: 500;
+}
+
+.doc{
+    display: flex;
+    flex-direction: column;
+    width: 28%;
+}
