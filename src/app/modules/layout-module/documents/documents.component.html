@@ -1,0 +1,14 @@
+<mat-sidenav-container class="example-container">
+    <mat-sidenav mode="side" opened><app-side-navbar></app-side-navbar></mat-sidenav>
+    <mat-sidenav-content class="main">
+        <div class="doc">
+            <h1>Driver's license</h1>
+            <app-driver-document [input]="license"></app-driver-document>
+        </div>
+        <div class="doc">
+            <h1>Registration certificate</h1>
+            <app-driver-document [input]="certificate"></app-driver-document>
+        </div>
+        
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,1 +1,16 @@
-<p>driver-document works!</p>
+<form [formGroup]="documentForm" id="file-upload-form" class="uploader">
+    <input formControlName="fileInput" id="file-upload" type="file" name="fileUpload" accept="image/*" (change)="imageListener($event)" />
+  
+    <label for="file-upload" id="file-drag">
+      <img *ngIf="upload" #fileImg id="file-image" src="{{base64}}" alt="Preview">
+      <div *ngIf="!upload" #start id="start">
+        <i class="fa fa-download" aria-hidden="true"></i>
+        <div >Select a file</div>
+        <!-- <div #notImg id="notimage" >Please select an image</div> -->
+        <span id="file-upload-btn" class="btn btn-primary">Select a file</span>
+        <!-- <span id="delete-document" class="btn btn-primary">Delete document</span> -->
+      </div>
+      <button *ngIf="saved " mat-raised-button id="delete-btn" color="primary" (click)="deleteDocument()">Delete document</button>
+      <button *ngIf="upload" mat-raised-button id="save-btn" color="accent" (click)="updateDocument()" >Save changes</button>
+    </label>
+  </form>

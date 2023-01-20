@@ -91,11 +91,11 @@ export class AuthService {
 
   updateUserData(value: any): Observable<any>{
     if(this.getRole() == 'ROLE_DRIVER'){
-      return this.http.post<any>(environment.apiHost+'/driver/'+this.getId(), value, {
+      return this.http.put<any>(environment.apiHost+'/driver/'+this.getId(), value, {
         headers: this.headers,
       });
     } else {
-      return this.http.post<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
+      return this.http.put<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
         headers: this.headers,
       });
     }
