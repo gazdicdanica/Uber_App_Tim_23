@@ -68,6 +68,6 @@ import { MatSortModule } from '@angular/material/sort';
     MatSelectModule,
     MatSortModule,
     MatRippleModule,
-  ],
+  ]
 })
 export class MaterialModule {}
