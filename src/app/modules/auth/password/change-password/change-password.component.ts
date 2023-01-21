@@ -36,9 +36,13 @@ export class ChangePasswordComponent {
         }
         this.authService.changePw(value).subscribe({
         next: (result) => {
-            console.log("RESULTAT"+result);
+            console.log("RESULTAT"+result.status);
+            alert("Password successfuly updated - Please Re-Login");
+            this.authService.logout();
+            this.router.navigate(['/main']);
         },
         error: (error) => {
+          console.log(error);
             if(error.status == 400) {
               this.hasError = 1;
             } else if (error.status == 404){
@@ -46,10 +50,6 @@ export class ChangePasswordComponent {
             }
         },
         });
-        
-        alert("Password successfuly updated - Please Re-Login");
-        this.authService.logout();
-        this.router.navigate(['/main']);
      } else {
       this.hasError = 2;
      }

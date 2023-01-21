@@ -22,16 +22,17 @@ export class ResetPasswordComponent {
       this.userService.sendResetCode(this.resetPwGroup.value.email!).subscribe({
         next: (result) => {
           console.log(result);
-
+            if(result.status == 200) {
+              this.authService.logout();
+              this.router.navigate(['/resetPwViaCode']);
+              localStorage.setItem('userEmail', this.resetPwGroup.value.email!)
+              alert("Check Your Email Address");
+            }
         },
         error: (error) => {
           console.log(error);
         }
       });
-      this.authService.logout();
-      this.router.navigate(['/resetPwViaCode']);
-      localStorage.setItem('userEmail', this.resetPwGroup.value.email!)
-      alert("Check Your Email Address");
     }
   }
 
