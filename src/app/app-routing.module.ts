@@ -11,9 +11,11 @@ import { ConfirmationComponent } from './modules/layout-module/confirmation/conf
 import { ChangePersonalInfoComponent } from './modules/layout-module/change-personal-info/change-personal-info.component';
 import { VehicleFormComponent } from './modules/vehicle/vehicle-form/vehicle-form.component';
 import { DocumentsComponent } from './modules/layout-module/documents/documents.component';
+import { LoginGuard } from './modules/auth/guard/login.guard';
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginComponent,
+  canActivate: [LoginGuard] },
   {path: 'signUp', component: SignUpFormComponent},
   {path: 'resetPw', component: ResetPasswordComponent},
   {path: 'changePw', component: ChangePasswordComponent},
@@ -25,7 +27,7 @@ const routes: Routes = [
   {path: 'changePersonalInfo', component: ChangePersonalInfoComponent},
   {path: 'vehicleForm', component: VehicleFormComponent},
   {path : 'documents', component: DocumentsComponent},
-  { path: '', pathMatch: 'full', redirectTo: 'main' }
+  { path: '', pathMatch: 'full', redirectTo: '/main' }
 ];
 
 @NgModule({
