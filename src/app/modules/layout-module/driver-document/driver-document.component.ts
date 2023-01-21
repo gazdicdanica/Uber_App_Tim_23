@@ -74,13 +74,17 @@ export class DriverDocumentComponent implements OnInit{
   deleteDocument() : void{
     this.driverService.deleteDocument(this.input).subscribe({
       next: (res) => {
+        console.log(res);
         this.documentForm.value.fileInput = "";
         this.base64 = "";
         this.upload = false;
+        this.saved = false;
         alert("Document successfully deleted");
+      },error: (err) => {
+        console.log(err);
       }
     });
-    
+  
 
   }
 
