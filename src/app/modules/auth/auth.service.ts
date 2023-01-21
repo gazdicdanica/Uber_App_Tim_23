@@ -52,9 +52,7 @@ export class AuthService {
   }
 
   changePw(value: any): Observable<any> {
-    return this.http.put<any>(environment.apiHost+'/user/'+this.getId()+'/changePassword', value, {
-      headers: this.headers,
-    });
+    return this.http.put<any>(environment.apiHost+'/user/'+this.getId()+'/changePassword', value);
   }
 
   setUser(): void {
@@ -91,13 +89,9 @@ export class AuthService {
 
   updateUserData(value: any): Observable<any>{
     if(this.getRole() == 'ROLE_DRIVER'){
-      return this.http.put<any>(environment.apiHost+'/driver/'+this.getId(), value, {
-        headers: this.headers,
-      });
+      return this.http.put<any>(environment.apiHost+'/driver/'+this.getId(), value);
     } else {
-      return this.http.put<any>(environment.apiHost+'/passenger/'+this.getId(), value, {
-        headers: this.headers,
-      });
+      return this.http.put<any>(environment.apiHost+'/passenger/'+this.getId(), value);
     }
   }
 
