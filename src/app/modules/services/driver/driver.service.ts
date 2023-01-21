@@ -20,6 +20,14 @@ export class DriverService {
     return this.authService.getId();
   }
 
+  changeDriverState(flag: boolean): Observable<any> {
+    if(flag) {
+      return this.httpClient.put<any>(environment.apiHost+"/driver/"+this.authService.getId()+"/working-hour/start", null);
+    } else {
+      return this.httpClient.put<any>(environment.apiHost+"/driver/"+this.authService.getId()+"/working-hour/end", null);
+    }
+  }
+
   addDocument(document : Document) : Observable<Document>{
     let id : number = this.getId();
     document.driverId = id;
