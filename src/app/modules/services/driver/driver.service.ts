@@ -31,8 +31,8 @@ export class DriverService {
   }
 
   deleteDocument(name : string){
-    let params = new HttpParams();
-    params.append("name",name);
-    return this.httpClient.delete(environment.apiHost + "/driver/document/", {params: params});
+    let data = { "name" : name};
+    // console.log(name);
+    return this.httpClient.delete(environment.apiHost + "/driver/document?", {params: data});
   }
 }
