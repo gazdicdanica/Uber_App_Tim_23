@@ -8,6 +8,7 @@ import { DialogConfig } from '@angular/cdk/dialog';
 import { NewRideDialogComponent } from '../new-ride-dialog/new-ride-dialog.component';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
+import { WebSocketService } from '../../services/WebSocket.service';
 
 @Component({
   selector: 'app-main',
@@ -19,7 +20,9 @@ export class MainComponent implements OnInit{
   endLocation! : Location;
   role: any;
 
-  constructor(private mapService: MapService, private router:Router, private authService: AuthService, private dialog: MatDialog) {}
+  stompClient: any;
+
+  constructor(private mapService: MapService, private router:Router, private authService: AuthService,private wsService: WebSocketService, private dialog: MatDialog) {}
 
   ngOnInit():void{
 
@@ -38,10 +41,23 @@ export class MainComponent implements OnInit{
     });
 
     if(this.role == "ROLE_DRIVER"){
-      this.openDialog();
+      this.stompClient = this.wsService.connect();
+
+      let that = this;
+      this.stompClient.connect({}, function() {
+        that.openSocket();
+      });
     }
 
     
+  }
+
+  openSocket(){
+    this.stompClient.subscribe("/ride/"+this.authService.getId(), (message: {body: string}) => {
+      let response = JSON.parse(message.body);
+      console.log(response);
+      this.openDialog();
+    });
   }
 
   openDialog(){
