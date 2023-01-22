@@ -9,7 +9,7 @@
     "test": "ng test"
   },
   "browser": {
-    "net" : false
+    "net": false
   },
   "private": true,
   "dependencies": {

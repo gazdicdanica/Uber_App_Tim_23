@@ -12,6 +12,7 @@ import { ChangePersonalInfoComponent } from './modules/layout-module/change-pers
 import { VehicleFormComponent } from './modules/vehicle/vehicle-form/vehicle-form.component';
 import { DocumentsComponent } from './modules/layout-module/documents/documents.component';
 import { ChangePwInputCodeComponent } from './modules/auth/password/change-pw-input-code/change-pw-input-code.component';
+import { InRideComponent } from './modules/layout-module/in-ride/in-ride/in-ride.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -27,6 +28,7 @@ const routes: Routes = [
   {path: 'vehicleForm', component: VehicleFormComponent},
   {path: 'documents', component: DocumentsComponent},
   {path: 'resetPwViaCode', component: ChangePwInputCodeComponent},
+  {path: 'inRide', component: InRideComponent},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 

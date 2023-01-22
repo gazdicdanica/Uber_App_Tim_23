@@ -17,7 +17,7 @@ import { Ride } from '../../model/Ride';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements AfterViewInit{
+export class MapComponent{
   role: any;
   currentDriverLoc!: Location;
   public lat!: number;
@@ -69,6 +69,7 @@ export class MapComponent implements AfterViewInit{
   private timeInMinutes: number = 0;
 
   @Input() set startLocation(value: Location){
+    console.log(value);
     this._startLocation.next(value);
   }
 
@@ -77,6 +78,7 @@ export class MapComponent implements AfterViewInit{
   }
 
   @Input() set endLocation(value: Location){
+    console.log(value);
     this._endLocation.next(value);
   }
 
@@ -120,7 +122,6 @@ export class MapComponent implements AfterViewInit{
   private mapContainer!: ElementRef<HTMLElement>;
 
   private initMap() : void{
-
     this.map = L.map(this.mapContainer.nativeElement, {
       center: [45.25327, 19.8227],
       zoom: 14,
@@ -226,7 +227,7 @@ export class MapComponent implements AfterViewInit{
     }
 
     L.Marker.prototype.options.icon = DefaultIcon;
-    if(this.map ==null){
+    if(this.map == null){
       this.initMap();
     }
 

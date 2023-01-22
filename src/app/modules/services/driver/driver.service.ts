@@ -42,4 +42,8 @@ export class DriverService {
     let data = { "name" : name};
     return this.httpClient.delete(environment.apiHost + "/driver/document?", {params: data});
   }
+
+  updateLocation(location: Location): Observable<any> {
+    return this.httpClient.put<any>(environment.apiHost+"/vehicle/"+this.getId()+"/location", location);
+  }
 }
