@@ -29,7 +29,7 @@ import { Interceptor } from './modules/auth/interceptor/interceptor.interceptor'
     LayoutModuleModule,
     AuthModule,
     MapModule,
-    NavbarModule
+    NavbarModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -21,4 +21,8 @@ export class UserService {
   resetPassword(value: any): Observable<any> {
     return this.httpClient.put<any>(environment.apiHost+"/user/resetPassword", value);
   }
+
+  doesUserExist(email: any): Observable<any> {
+    return this.httpClient.get<any>(environment.apiHost+"/user/exist/"+email);
+  } 
 }

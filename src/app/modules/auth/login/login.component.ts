@@ -35,7 +35,8 @@ export class LoginComponent {
         next: (result) => {
           let accessToken = JSON.stringify(result).split(",")[0] + "}";
           localStorage.setItem('user', accessToken);
-        
+          localStorage.setItem('email', loginVal.email!);
+          
           this.authService.setUser();
           this.router.navigate(['/main']);
 

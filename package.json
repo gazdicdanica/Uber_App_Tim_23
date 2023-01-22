@@ -28,6 +28,7 @@
     "mapbox-gl": "^2.11.1",
     "mapbox-gl-leaflet": "^0.0.15",
     "material-design-icons-iconfont": "^6.7.0",
+    "ngx-material-timepicker": "^5.5.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

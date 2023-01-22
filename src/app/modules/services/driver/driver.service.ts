@@ -40,7 +40,6 @@ export class DriverService {
 
   deleteDocument(name : string){
     let data = { "name" : name};
-    // console.log(name);
     return this.httpClient.delete(environment.apiHost + "/driver/document?", {params: data});
   }
 }

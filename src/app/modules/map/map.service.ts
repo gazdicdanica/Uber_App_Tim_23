@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Location } from './Location';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,9 @@ export class MapService {
   private drawRoute = new BehaviorSubject<boolean>(false);
   drawRoute$ = this.drawRoute.asObservable();
 
+  private formGroupValue = new BehaviorSubject<any>(null);
+  formGroupObservable = this.formGroupValue.asObservable();
+
   constructor(private http: HttpClient) { }
 
   setDrawRoute(value: boolean){
@@ -29,6 +33,10 @@ export class MapService {
 
   setEndValue(value: Location){
     this.endLocationValue$.next(value);
+  }
+
+  setFormGroupValue(value: any){
+    this.formGroupValue.next(value);
   }
 
   search(street: string): Observable<any> {

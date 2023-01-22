@@ -3,8 +3,9 @@
 </div>
 
 <div *ngIf="role != 'ROLE_DRIVER'">
-    <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" id="search-component"></app-search-locations>
-
+    <div class="center">
+        <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" id="search-component"></app-search-locations>
+    </div>
     <div id="company-info-columns">
         <div class="column">
             <div class="heading">
