@@ -69,7 +69,6 @@ export class RideInfoComponent implements OnInit{
 
   createRide(): void {
     const route = new Route(this.startLocation, this.endLocation, Number(this.estimationValue[0]));
-    console.log(this.friend);
     if (this.rideData.time == undefined) {
       this.rideData.time = new Date();
     }
@@ -78,7 +77,6 @@ export class RideInfoComponent implements OnInit{
     if (this.vehicleType == "") {
       alert("Please Choose Vehicle Type");
     } else {
-      console.log(this.rideReq);
       this.rideService.createRide(this.rideReq).subscribe({
         next: (result) => {
           console.log(result);

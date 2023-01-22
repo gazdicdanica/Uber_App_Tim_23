@@ -155,7 +155,6 @@ export class MapComponent implements AfterViewInit{
               this.routingControl.remove();
             }
             this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
-            this.mapService.setEndValue(new Location(0,0,""));
             this.startLocation = new Location(res.lon, res.lat, res.display_name);
           }else{
             this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
@@ -185,13 +184,7 @@ export class MapComponent implements AfterViewInit{
 
   route(start: Location, end: Location):void{
     if(this.routingControl != null){
-      this.routingControl.remove();
-    }
-
-    if(this.markers.length > 0){
-      for(let marker of this.markers){
-        this.map.removeLayer(marker);
-      }
+      this.map.removeControl(this.routingControl);
     }
 
     this.routingControl = L.Routing.control({waypoints: [L.marker([start.latitude, start.longitude]).getLatLng(),

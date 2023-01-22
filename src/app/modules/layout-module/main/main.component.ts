@@ -63,7 +63,6 @@ export class MainComponent implements OnInit{
   }
 
   openDialog(response: Ride){
-    console.log(response);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;

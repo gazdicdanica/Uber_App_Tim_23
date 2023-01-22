@@ -21,7 +21,6 @@ export class ResetPasswordComponent {
     if(this.resetPwGroup.valid) {
       this.userService.sendResetCode(this.resetPwGroup.value.email!).subscribe({
         next: (result) => {
-          console.log(result);
             if(result.status == 200) {
               this.authService.logout();
               this.router.navigate(['/resetPwViaCode']);
