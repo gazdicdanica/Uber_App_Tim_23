@@ -3,6 +3,7 @@ import { MapService } from '../map.service';
 import { Location } from '../Location';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { forkJoin, Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-search-locations',
@@ -21,6 +22,9 @@ export class SearchLocationsComponent implements OnInit {
   });
   picker: any;
   time!: String;
+
+  startSearch : any;
+  endSearch : any;
 
   ngOnInit() {
     if(this.parentName == "main"){
@@ -57,25 +61,31 @@ export class SearchLocationsComponent implements OnInit {
     if(this.startLocation == "" || this.endLocation == ""){
       alert("Please enter both start and end location!");
     }else{
-      this.mapService.search(this.startLocation).subscribe({
-        next:(result) => {
-          this.mapService.setStartValue(new Location(result[0].lon, result[0].lat, result[0].display_name));
-        }
-      });
-  
-      this.mapService.search(this.endLocation).subscribe({
-        next:(result) => {
-          this.mapService.setEndValue(new Location(result[0].lon, result[0].lat, result[0].display_name));
-        }
-      });
-      const val = {
-        start: this.search.value.startLoc,
-        end: this.search.value.endLoc,
-        time: this.time,
-      }
-      this.mapService.setFormGroupValue(val);
-  
-      this.router.navigate(['/rideInfo']);
+
+      let res$ = forkJoin([this.mapService.search(this.startLocation), this.mapService.search(this.endLocation)]);
+      res$.subscribe(
+        { next:(res) => {
+          if(res[0].length == 0 || res[1].length == 0){
+            alert("Sorry, we didn't find a match for enetered address!");
+            this.startLocation  = "";
+            this.endLocation = "";
+            return;
+          }else{
+            this.mapService.setStartValue(new Location(res[0][0].lon, res[0][0].lat, res[0][0].display_name));
+            this.mapService.setEndValue(new Location(res[1][0].lon, res[1][0].lat, res[1][0].display_name));
+
+            const val = {
+              start: this.search.value.startLoc,
+              end: this.search.value.endLoc,
+              time: this.time,
+            }
+            this.mapService.setFormGroupValue(val);
+
+            
+            this.router.navigate(['/rideInfo']);
+          }
+        }}
+      );
     }
 
     
