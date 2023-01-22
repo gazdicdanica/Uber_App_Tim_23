@@ -97,3 +97,7 @@
 .vehicle-container{
     padding-bottom: 30px;
 }
+
+app-vehicle-ride{
+    border-radius: 10px;
+}

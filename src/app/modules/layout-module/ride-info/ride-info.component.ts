@@ -17,6 +17,7 @@ import { UserShort } from '../../model/UserShort';
 })
 export class RideInfoComponent implements OnInit{
 
+  name: string = "ride-info";
   startLocation! : Location;
   endLocation! : Location;
   estimationValue = ["", ""];
@@ -129,7 +130,7 @@ export class RideInfoComponent implements OnInit{
     } else if (this.vehicleType == "VAN") {
       this.van.style = "0 0 0 0";
     }
-    this.standard.style.boxShadow = "0 0 0 6px #FFA500";
+    this.standard.style.boxShadow = "#f57804c7 0px 5px 15px";
     this.vehicleType = "STANDARD";
   }
 
@@ -139,8 +140,9 @@ export class RideInfoComponent implements OnInit{
     } else if(this.vehicleType == "VAN") {
       this.van.style.boxShadow = "0 0 0 0";
     } 
-    this.luxury.style.boxShadow = "0 0 0 6px #FFA500";
+    this.luxury.style.boxShadow = "#f57804c7 0px 5px 15px";
     this.vehicleType = "LUXURY";
+    
   }
 
   selectVan(): void {
@@ -149,7 +151,7 @@ export class RideInfoComponent implements OnInit{
     } else if (this.vehicleType == "LUXURY") {
       this.luxury.style.boxShadow = "0 0 0 0";
     }
-    this.van.style.boxShadow = "0 0 0 6px #FFA500";
+    this.van.style.boxShadow = "#f57804c7 0px 5px 15px";
     this.vehicleType = "VAN";
   }
 }

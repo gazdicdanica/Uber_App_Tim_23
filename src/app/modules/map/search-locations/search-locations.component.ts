@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, Optional } from '@angular/core';
 import { MapService } from '../map.service';
 import { Location } from '../Location';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,9 +8,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './search-locations.component.html',
   styleUrls: ['./search-locations.component.css']
 })
-export class SearchLocationsComponent {
+export class SearchLocationsComponent implements OnInit {
 
   constructor(private mapService: MapService) {}
+
+  @Input() parentName! : string;
 
   search = new FormGroup({
     startLoc: new FormControl('', [Validators.required]),
@@ -20,11 +22,15 @@ export class SearchLocationsComponent {
   time!: String;
 
   ngOnInit() {
-    this.picker = document.getElementById("time-picker"); 
-    this.picker.style.display = "none";
-    
-    let select: any = document.getElementById('time-select');
-    select.style.display = "none";
+    console.log(this.parentName);
+    if(this.parentName == "main"){
+      let select: any = document.getElementById('time-select');
+      console.log(select.style.display);
+      select.style.display = "none";
+      
+      this.picker = document.getElementById("time-picker"); 
+      this.picker.style.display = "none";
+    }
   }
 
 
