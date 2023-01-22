@@ -28,7 +28,6 @@ export class ChangePwInputCodeComponent {
       }
       this.userService.resetPassword(val).subscribe({
         next: (result) => {
-          console.log(result);
           if(result.status == 200) {
             this.authService.logout();
             this.router.navigate(['/main']);

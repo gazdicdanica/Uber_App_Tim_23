@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/enviroments/environment';
 import { Vehicle } from '../model/vehicle';
 import { BehaviorSubject, Observable } from "rxjs";
+import { VehicleType } from '../model/vehicleType';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,9 @@ export class VehicleService {
 
   addVehicle(driverId: number, vehicle: Vehicle) : Observable<Vehicle>{
     return this.http.post<Vehicle>(environment.apiHost+"/driver/"+driverId+"/vehicle", vehicle);
+  }
+
+  getAllVehicleTypes() : Observable<VehicleType[]>{
+    return this.http.get<VehicleType[]>(environment.apiHost+"/vehicle/vehicleTypes");
   }
 }

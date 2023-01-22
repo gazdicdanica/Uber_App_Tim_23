@@ -6,6 +6,7 @@ import { environment } from 'src/enviroments/environment';
 import { AuthService } from '../../auth/auth.service';
 import { RideRequest } from '../../model/RideRequest';
 import { Ride } from '../../model/Ride';
+import { VehicleType } from '../../model/vehicleType';
 
 
 @Injectable({

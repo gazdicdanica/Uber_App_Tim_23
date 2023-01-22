@@ -31,7 +31,6 @@ export class NewRideDialogComponent implements OnInit{
 
   ngOnInit(): void {
     this.newRide.disable();
-    console.log(this.data);
     this.newRide.patchValue({
       departure: this.data.locations[0].departure.address,
       destination: this.data.locations[this.data.locations.length - 1].destination.address,
@@ -54,13 +53,11 @@ export class NewRideDialogComponent implements OnInit{
   }
 
   decline(){
-    console.log(this.data.id);
     this.openDialog(this.data);
     this.dialogRef.close();
   }
 
   openDialog(response: Ride){
-    console.log(response);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;

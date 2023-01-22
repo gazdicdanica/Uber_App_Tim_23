@@ -156,7 +156,6 @@ export class MapComponent{
               this.routingControl.remove();
             }
             this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
-            this.mapService.setEndValue(new Location(0,0,""));
             this.startLocation = new Location(res.lon, res.lat, res.display_name);
           }else{
             this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
@@ -186,14 +185,10 @@ export class MapComponent{
 
   route(start: Location, end: Location):void{
     if(this.routingControl != null){
-      this.routingControl.remove();
+      this.map.removeControl(this.routingControl);
     }
 
-    if(this.markers.length > 0){
-      for(let marker of this.markers){
-        this.map.removeLayer(marker);
-      }
-    }
+    console.log("route");
 
     this.routingControl = L.Routing.control({waypoints: [L.marker([start.latitude, start.longitude]).getLatLng(),
        L.marker([end.latitude, end.longitude]).getLatLng()],
@@ -211,6 +206,7 @@ export class MapComponent{
   }
 
   ngAfterViewInit(): void {
+
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
     });
@@ -237,6 +233,21 @@ export class MapComponent{
 
     this.registerOnClick();
 
+
+    // let fork$ = forkJoin([this._startLocation, this._endLocation]);
+    // fork$.subscribe({
+    //   next: (res) =>{
+    //     this.addMarker(res[0].latitude, res[0].longitude);
+    //     this.addMarker(res[1].latitude, res[1].longitude);
+    //     this.route(this.startLocation, this.endLocation);
+    //   }
+    // })
+    this.mapService.drawRoute$.subscribe(
+      e => {
+        this.drawRoute = e;
+      }
+    )
+
     this._startLocation.subscribe(
       x => {
         this.addMarker(x.latitude, x.longitude);
@@ -246,17 +257,12 @@ export class MapComponent{
     this._endLocation.subscribe(
       x => {
         this.addMarker(x.latitude, x.longitude);
+        console.log(this.drawRoute + " " + this.startLocation + " " + this.endLocation);
         if(this.drawRoute && this.startLocation.latitude !== 0 && this.endLocation.latitude !== 0){
           this.route(this.startLocation, this.endLocation);
         }
       }
     );
-
-    this.mapService.drawRoute$.subscribe(
-      e => {
-        this.drawRoute = e;
-      }
-    )
   }
 
   getLocation(): void {

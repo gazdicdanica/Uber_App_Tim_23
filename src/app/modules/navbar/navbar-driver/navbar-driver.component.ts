@@ -51,7 +51,6 @@ export class NavbarDriverComponent implements OnInit{
     } else {
       this.driverService.changeDriverState(false).subscribe({
         next: (result) => {
-          console.log("smena zavrsena")
           this.checked = false;
         },
         error: (error) => {
