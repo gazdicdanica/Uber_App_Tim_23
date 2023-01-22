@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Ride } from '../../model/Ride';
+import { RideService } from '../../services/ride/ride.service';
 
 @Component({
   selector: 'app-new-ride-dialog',
@@ -21,7 +22,8 @@ export class NewRideDialogComponent implements OnInit{
     price: new FormControl()
   });
 
-  constructor(private dialogRef: MatDialogRef<NewRideDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any){
+  constructor(private dialogRef: MatDialogRef<NewRideDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any,
+  private rideService: RideService){
     this.data = data;
   }
 
@@ -40,7 +42,11 @@ export class NewRideDialogComponent implements OnInit{
   }
 
   accept(){
-
+    this.rideService.acceptRide(this.data.id).subscribe({
+      next: (result) =>{
+        this.dialogRef.close();
+      }
+    })
   }
 
   decline(){

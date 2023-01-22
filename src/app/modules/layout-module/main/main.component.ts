@@ -8,7 +8,7 @@ import { DialogConfig } from '@angular/cdk/dialog';
 import { NewRideDialogComponent } from '../new-ride-dialog/new-ride-dialog.component';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { WebSocketService } from '../../services/WebSocket.service';
+import { WebSocketService } from '../../services/WebSocket/WebSocket.service';
 import { Ride } from '../../model/Ride';
 
 @Component({
