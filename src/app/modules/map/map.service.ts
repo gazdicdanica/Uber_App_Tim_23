@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Location } from './Location';
-import { FormGroup } from '@angular/forms';
+import { Ride } from '../model/Ride';
+import { environment } from 'src/enviroments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -49,5 +50,9 @@ export class MapService {
     return this.http.get(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&<params>`
     );
+  }
+
+  getAllActiveRides(): Observable<Ride[]> {
+    return this.http.get<Ride[]>(environment.apiHost+"/ride/active");
   }
 }

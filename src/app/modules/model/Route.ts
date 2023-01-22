@@ -9,5 +9,6 @@ export class Route {
         this.departure = departure;
         this.destination = destination;
         this.distance = distance;
+
     }
 }
