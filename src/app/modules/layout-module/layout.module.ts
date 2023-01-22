@@ -21,7 +21,7 @@ import { VehicleModule } from '../vehicle/vehicle.module';
 import { DriverDocumentComponent } from './driver-document/driver-document.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { NewRideDialogComponent } from './new-ride-dialog/new-ride-dialog.component';
-
+import { DeclineDialogComponent } from './decline-dialog/decline-dialog.component';
 
 
 @NgModule({
@@ -38,7 +38,8 @@ import { NewRideDialogComponent } from './new-ride-dialog/new-ride-dialog.compon
     DriverDataComponent,
     DriverDocumentComponent,
     DocumentsComponent,
-    NewRideDialogComponent
+    NewRideDialogComponent,
+    DeclineDialogComponent
   ],
   imports: [
     BrowserModule,

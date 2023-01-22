@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Ride } from '../../model/Ride';
 import { RideService } from '../../services/ride/ride.service';
+import { DeclineDialogComponent } from '../decline-dialog/decline-dialog.component';
 
 @Component({
   selector: 'app-new-ride-dialog',
@@ -23,7 +24,7 @@ export class NewRideDialogComponent implements OnInit{
   });
 
   constructor(private dialogRef: MatDialogRef<NewRideDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any,
-  private rideService: RideService){
+  private rideService: RideService, private declineDialog: MatDialog){
     this.data = data;
   }
 
@@ -50,6 +51,24 @@ export class NewRideDialogComponent implements OnInit{
   }
 
   decline(){
+    console.log(this.data.id);
+    this.openDialog(this.data);
     this.dialogRef.close();
+  }
+
+  openDialog(response: Ride){
+    console.log(response);
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    dialogConfig.data=response;
+
+    const dialogRef = this.declineDialog.open(DeclineDialogComponent, dialogConfig);
+
   }
 }
