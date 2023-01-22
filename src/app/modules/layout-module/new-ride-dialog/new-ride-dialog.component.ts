@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Ride } from '../../model/Ride';
 
 @Component({
   selector: 'app-new-ride-dialog',
@@ -9,7 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class NewRideDialogComponent implements OnInit{
 
-  description!: string;
+  data!: Ride;
 
   newRide : FormGroup = new FormGroup({
     departure : new FormControl(),
@@ -21,11 +22,20 @@ export class NewRideDialogComponent implements OnInit{
   });
 
   constructor(private dialogRef: MatDialogRef<NewRideDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any){
-    // this.description = data.description;
+    this.data = data;
   }
 
   ngOnInit(): void {
     this.newRide.disable();
+    console.log(this.data);
+    this.newRide.patchValue({
+      departure: this.data.locations[0].departure.address,
+      destination: this.data.locations[this.data.locations.length - 1].destination.address,
+      time: this.data.estimatedTimeInMinutes,
+      distance: this.data.totalDistance,
+      passengerNum: this.data.passengers.length,
+      price: this.data.totalCost
+    });
       
   }
 

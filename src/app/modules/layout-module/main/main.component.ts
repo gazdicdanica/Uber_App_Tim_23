@@ -9,6 +9,7 @@ import { NewRideDialogComponent } from '../new-ride-dialog/new-ride-dialog.compo
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { WebSocketService } from '../../services/WebSocket.service';
+import { Ride } from '../../model/Ride';
 
 @Component({
   selector: 'app-main',
@@ -54,13 +55,13 @@ export class MainComponent implements OnInit{
 
   openSocket(){
     this.stompClient.subscribe("/ride/"+this.authService.getId(), (message: {body: string}) => {
-      let response = JSON.parse(message.body);
-      console.log(response);
-      this.openDialog();
+      let response : Ride = JSON.parse(message.body);
+      this.openDialog(response);
     });
   }
 
-  openDialog(){
+  openDialog(response: Ride){
+    console.log(response);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -68,6 +69,8 @@ export class MainComponent implements OnInit{
     dialogConfig.closeOnNavigation = false;
     dialogConfig.height = "auto";
     dialogConfig.width = "35%";
+
+    dialogConfig.data=response;
 
     const dialogRef = this.dialog.open(NewRideDialogComponent, dialogConfig);
 
