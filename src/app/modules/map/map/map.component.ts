@@ -7,7 +7,10 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { SelectorContext } from '@angular/compiler';
 import { AuthService } from '../../auth/auth.service';
 import { DriverService } from '../../services/driver/driver.service';
-
+import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
+import { Vehicle } from '../../model/vehicle';
+import { Ride } from '../../model/Ride';
 
 @Component({
   selector: 'app-map',
@@ -20,20 +23,41 @@ export class MapComponent implements AfterViewInit{
   public lat!: number;
   public lng!: number;
 
-  constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService){}
+  vehicles: any = {};
+  rides: any = {};
+  mainGroup: L.LayerGroup[] = [];
+  private stompClient: any;
 
+  constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService){}
 
   ngOnInit(): void {
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
-    require('leaflet.control.resizer');
+
+    // this.initializeWebSocketConnection();
+    
+    // this.mapService.getAllActiveRides().subscribe((ret) => {
+    //   for (let ride of ret) {
+    //     let color = Math.floor(Math.random() * 16777215).toString(16);
+    //     let geoLayerRouteGroup: L.LayerGroup = new L.LayerGroup();
+    //     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
+    //       let routeLayer = L.geoJSON(step.geometry);
+    //       routeLayer.setStyle({ color: `#${color}` });
+    //       routeLayer.addTo(geoLayerRouteGroup);
+    //       this.rides[ride.id] = geoLayerRouteGroup;
+    //     }
+    //     let markerLayer = L.marker([ride.vehicle.currentLocation.longitude, ride.vehicle.currentLocation.latitude], {
+    //       icon: this.unavailableIcon
+    //     });
+    //     markerLayer.addTo(geoLayerRouteGroup);
+    //     this.vehicles[ride.vehicle.id] = markerLayer;
+    //     this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+    //   }
+    // });
   }
 
   @Output() estimationEvent = new EventEmitter<string[]>();
-
-  private availableVehicles : L.LatLngTuple[] = [[45.25949, 19.8377], [45.25466, 19.81555], [45.25010, 19.8112], [45.2407, 19.84817]];
-  private unavailableVehicles : L.LatLngTuple[] = [[45.2436, 19.831], [45.2552, 19.8495], [45.29498, 19.8227]];
 
   private _startLocation = new BehaviorSubject<Location>(new Location(0,0,""));
   private _endLocation= new BehaviorSubject<Location>(new Location(0,0,""));
@@ -188,17 +212,6 @@ export class MapComponent implements AfterViewInit{
 
   }
 
-
-  private addCarMarkers() : void{
-    for(let carLatLng of this.availableVehicles){
-      L.marker(carLatLng, {draggable:false, icon: this.availableIcon}).addTo(this.map);
-    }
-
-    for(let carLatLng of this.unavailableVehicles){
-      L.marker(carLatLng, {draggable: false, icon: this.unavailableIcon}).addTo(this.map);
-    }
-  }
-
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
@@ -246,8 +259,6 @@ export class MapComponent implements AfterViewInit{
         this.drawRoute = e;
       }
     )
-
-    this.addCarMarkers();
   }
 
   getLocation(): void {
@@ -271,4 +282,45 @@ export class MapComponent implements AfterViewInit{
     }
   }
 
+  // initializeWebSocketConnection() {
+  //   let ws = new SockJS('http://localhost:8080/socket');
+  //   this.stompClient = Stomp.over(ws);
+  //   this.stompClient.debug = null;
+  //   let that = this;
+  //   this.stompClient.connect({}, function () {
+  //     that.openGlobalSocket();
+  //   });
+  // }
+
+  // openGlobalSocket() {
+  //   this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
+  //     let vehicle: Vehicle = JSON.parse(message.body);
+  //     let existingVehicle = this.vehicles[vehicle.id];
+  //     existingVehicle.setLatLng([vehicle.currentLocation.longitude, vehicle.currentLocation.latitude]);
+  //     existingVehicle.update();
+  //   });
+  //   this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
+  //     let ride: Ride = JSON.parse(message.body);
+  //     let geoLayerRouteGroup: L.LayerGroup = new L.LayerGroup();
+  //     let color = Math.floor(Math.random() * 16777215).toString(16);
+  //     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
+  //       let routeLayer = L.geoJSON(step.geometry);
+  //       routeLayer.setStyle({ color: `#${color}` });
+  //       routeLayer.addTo(geoLayerRouteGroup);
+  //       this.rides[ride.id] = geoLayerRouteGroup;
+  //     }
+  //     let markerLayer = L.marker([ride.vehicle.currentLocation.longitude, ride.vehicle.currentLocation.latitude], {
+  //       icon: this.unavailableIcon,
+  //     });
+  //     markerLayer.addTo(geoLayerRouteGroup);
+  //     this.vehicles[ride.vehicle.id] = markerLayer;
+  //     this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+  //   });
+  //   this.stompClient.subscribe('/map-updates/ended-ride', (message: { body: string }) => {
+  //     let ride: Ride = JSON.parse(message.body);
+  //     this.mainGroup = this.mainGroup.filter((lg: L.LayerGroup) => lg !== this.rides[ride.id]);
+  //     delete this.vehicles[ride.vehicle.id];
+  //     delete this.rides[ride.id];
+  //   });
+  // }
 }
