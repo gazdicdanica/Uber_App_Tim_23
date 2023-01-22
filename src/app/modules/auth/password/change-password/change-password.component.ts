@@ -28,7 +28,6 @@ export class ChangePasswordComponent {
       password2: this.changePwForm.value.password2,
     };
     if (this.changePwForm.valid) {
-      console.log("PW1: " + changePwVal.password + " PW2: " + changePwVal.password2)
       if (changePwVal.password1 == changePwVal.password2){
         const value = {
           oldPassword: changePwVal.password,

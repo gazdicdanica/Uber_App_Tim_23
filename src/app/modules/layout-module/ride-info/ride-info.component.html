@@ -3,9 +3,9 @@
     (estimationEvent)="addItem($event)"
     [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
 </div>
-
-<app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" id="search-component"></app-search-locations>
-
+<div class="center">
+    <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" id="search-component"></app-search-locations>
+</div>
 <div id="ride-info">
     <div id="time-div">
         <div style="display: flex; width: 10%; align-items: center;">
@@ -14,13 +14,26 @@
         </div>
     
         <div style="width: 90%; display: flex; align-items: center; justify-content: flex-end;">
-            <button mat-raised-button class="start-ride-btn" color="accent" disabled="true">Start ride</button>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Add Friend</mat-label>
+                <input class="form-input" id="friend" matInput type="text" name="friend"/>
+            </mat-form-field>
+            <button mat-raised-button start-ride-btn color="accent" (click)="addFriend()" >Add Friend</button>
+            
+            <input class="input-data-ch" id="babies" name="babies" type="checkbox" (change)="changeBaby()">
+            <label id="baby-label" for="babies">Babies</label>
+        
+            <input class="input-data-ch" id="pets" name="pets" type="checkbox" (change)="changePets()">
+            <label id="pet-label" for="pets">Pets</label>
+            <button mat-raised-button *ngIf="role != 'ROLE_USER'" start-ride-btn color="accent" disabled="true">Start ride</button>
+            <button mat-raised-button *ngIf="role == 'ROLE_USER'" start-ride-btn color="accent" (click)="createRide()" >Start ride</button>
         </div>
     </div>
     <div class="vehicle-container">
-        <app-vehicle-ride class="column"></app-vehicle-ride>
-        <app-vehicle-ride class="column"></app-vehicle-ride>
-        <app-vehicle-ride class="column"></app-vehicle-ride>
+        <app-vehicle-ride class="column" id="standard" (click)="selectStandard()"></app-vehicle-ride>
+        <app-vehicle-ride class="column" id="luxury" (click)="selectLuxury()"></app-vehicle-ride>
+        <app-vehicle-ride class="column" id="van" (click)="selectVan()"></app-vehicle-ride>
     </div>
 </div>
 

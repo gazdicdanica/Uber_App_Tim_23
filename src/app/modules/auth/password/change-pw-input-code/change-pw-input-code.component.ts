@@ -26,10 +26,9 @@ export class ChangePwInputCodeComponent {
         password: this.resetPassword.value.password,
         email: localStorage.getItem('userEmail'),
       }
-      console.log(val);
       this.userService.resetPassword(val).subscribe({
         next: (result) => {
-          console.log("resp: " + result);
+          console.log(result);
           if(result.status == 200) {
             this.authService.logout();
             this.router.navigate(['/main']);

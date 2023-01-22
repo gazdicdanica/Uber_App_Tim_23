@@ -19,6 +19,9 @@ export class MapService {
   private drawRoute = new BehaviorSubject<boolean>(false);
   drawRoute$ = this.drawRoute.asObservable();
 
+  private formGroupValue = new BehaviorSubject<any>(null);
+  formGroupObservable = this.formGroupValue.asObservable();
+
   constructor(private http: HttpClient) { }
 
   setDrawRoute(value: boolean){
@@ -31,6 +34,10 @@ export class MapService {
 
   setEndValue(value: Location){
     this.endLocationValue$.next(value);
+  }
+
+  setFormGroupValue(value: any){
+    this.formGroupValue.next(value);
   }
 
   search(street: string): Observable<any> {

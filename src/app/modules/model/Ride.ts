@@ -1,6 +1,5 @@
 import { Route } from "./Route";
 import { User } from "./user";
-import { Vehicle } from "./vehicle";
 
 export class Ride{
     id : number;

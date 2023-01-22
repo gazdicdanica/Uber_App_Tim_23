@@ -10,7 +10,6 @@ export class Interceptor implements HttpInterceptor{
     if (req.headers.get('skip')) return next.handle(req);
 
     if (accessToken) {
-      console.log(decodedItem);
       const cloned = req.clone({
         headers: req.headers.set('authorization', "Bearer " + decodedItem.accessToken),
       });

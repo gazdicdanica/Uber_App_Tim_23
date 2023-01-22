@@ -165,9 +165,6 @@ export class MapComponent implements AfterViewInit{
             elem.style.background = '#EFEFEF';
           }
         });
-        console.log(
-          'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
-        );
         
       });
   }
@@ -265,8 +262,6 @@ export class MapComponent implements AfterViewInit{
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
         if (position) {
-          console.log("Latitude: " + position.coords.latitude +
-            "Longitude: " + position.coords.longitude);
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
 

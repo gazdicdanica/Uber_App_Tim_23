@@ -61,7 +61,6 @@ export class NavbarDriverComponent implements OnInit{
       });
     }
     this.checked = $event.checked;
-    console.log($event);
   }
 
 }
