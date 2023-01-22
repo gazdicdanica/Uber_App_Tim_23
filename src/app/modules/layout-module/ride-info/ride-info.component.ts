@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { Location } from '../../model/Location';
@@ -9,6 +9,8 @@ import { RideService } from '../../services/ride/ride.service';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../model/user';
 import { UserShort } from '../../model/UserShort';
+import { VehicleService } from '../../vehicle/vehicle.service';
+import { VehicleType } from '../../model/vehicleType';
 
 @Component({
   selector: 'app-ride-info',
@@ -29,21 +31,25 @@ export class RideInfoComponent implements OnInit{
   friend: UserShort[] = [];
   
   vehicleType: string = "";
-  standard: any;
-  luxury: any;
-  van: any;
+
+  @ViewChildren("vehicleCard") vehicleCard! : QueryList<ElementRef>
+  // standard: any;
+  // luxury: any;
+  // van: any;
 
   rideData: any;
 
+  vehicleTypes!: VehicleType[];
+
   constructor(private userService: UserService, private mapService: MapService, private router:Router, 
-    private authService: AuthService, private rideService: RideService) { }
+    private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService) { }
 
 
 
   ngOnInit(): void{
-    this.standard = document.getElementById('standard');
-    this.luxury = document.getElementById('luxury');
-    this.van = document.getElementById('van');
+    // this.standard = document.getElementById('standard');
+    // this.luxury = document.getElementById('luxury');
+    // this.van = document.getElementById('van');
 
     this.role = this.authService.getRole();
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -61,7 +67,11 @@ export class RideInfoComponent implements OnInit{
       this.rideData = value;
     })
 
-    this.mapService.setDrawRoute(true);    
+    this.mapService.setDrawRoute(true);   
+    
+    this.vehicleService.getAllVehicleTypes().subscribe((value) => {
+      this.vehicleTypes = value;
+    });
   }
   addItem(estimationValue: string[]){
     this.estimationValue = estimationValue;
@@ -122,34 +132,40 @@ export class RideInfoComponent implements OnInit{
     }
   }
 
-  selectStandard(): void {
-    if (this.vehicleType == "LUXURY") {
-      this.luxury.style.boxShadow = "0 0 0 0";
-    } else if (this.vehicleType == "VAN") {
-      this.van.style = "0 0 0 0";
-    }
-    this.standard.style.boxShadow = "#f57804c7 0px 5px 15px";
-    this.vehicleType = "STANDARD";
+  selectType(type: string) : void{
+    this.vehicleType = type;
   }
 
-  selectLuxury(): void {
-    if(this.vehicleType == "STANDARD") {
-      this.standard.style.boxShadow = "0 0 0 0";
-    } else if(this.vehicleType == "VAN") {
-      this.van.style.boxShadow = "0 0 0 0";
-    } 
-    this.luxury.style.boxShadow = "#f57804c7 0px 5px 15px";
-    this.vehicleType = "LUXURY";
+
+
+  // selectStandard(): void {
+  //   if (this.vehicleType == "LUXURY") {
+  //     this.luxury.style.boxShadow = "0 0 0 0";
+  //   } else if (this.vehicleType == "VAN") {
+  //     this.van.style = "0 0 0 0";
+  //   }
+  //   this.standard.style.boxShadow = "#f57804c7 0px 5px 15px";
+  //   this.vehicleType = "STANDARD";
+  // }
+
+  // selectLuxury(): void {
+  //   if(this.vehicleType == "STANDARD") {
+  //     this.standard.style.boxShadow = "0 0 0 0";
+  //   } else if(this.vehicleType == "VAN") {
+  //     this.van.style.boxShadow = "0 0 0 0";
+  //   } 
+  //   this.luxury.style.boxShadow = "#f57804c7 0px 5px 15px";
+  //   this.vehicleType = "LUXURY";
     
-  }
+  // }
 
-  selectVan(): void {
-    if (this.vehicleType == "STANDARD") {
-      this.standard.style.boxShadow = "0 0 0 0";
-    } else if (this.vehicleType == "LUXURY") {
-      this.luxury.style.boxShadow = "0 0 0 0";
-    }
-    this.van.style.boxShadow = "#f57804c7 0px 5px 15px";
-    this.vehicleType = "VAN";
-  }
+  // selectVan(): void {
+  //   if (this.vehicleType == "STANDARD") {
+  //     this.standard.style.boxShadow = "0 0 0 0";
+  //   } else if (this.vehicleType == "LUXURY") {
+  //     this.luxury.style.boxShadow = "0 0 0 0";
+  //   }
+  //   this.van.style.boxShadow = "#f57804c7 0px 5px 15px";
+  //   this.vehicleType = "VAN";
+  // }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-vehicle-ride',
@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./vehicle-ride.component.css']
 })
 export class VehicleRideComponent {
+
+  @Input()
+  type!: string;
+  @Input()
+  price!: number;
+
+  ngOnInit(){
+    console.log(this.type);
+  }
 
 }

@@ -12,7 +12,7 @@
             <p id="time-estimate">{{ estimationValue[1] }} min</p>
             <p id="distance">({{estimationValue[0]}} km)</p>
         </div>
-        <div class="column-info">
+        <div *ngIf="role == 'ROLE_USER'" class="column-info">
             <mat-form-field id="input-friend" appearance="outline">
                 <mat-label>Add Friend</mat-label>
                 <input class="form-input" id="friend" matInput type="text" name="friend"/>
@@ -32,9 +32,10 @@
     </div>
     <mat-divider></mat-divider>
     <div class="vehicle-container">
-        <app-vehicle-ride class="column" id="standard" (click)="selectStandard()"></app-vehicle-ride>
+        <app-vehicle-ride #vehicleCard class="column" [ngClass]="{'selectedType' : vehicleType == type.type}" (click)="selectType(type.type)" *ngFor="let type of vehicleTypes" [price]="type.price" [type]="type.type"></app-vehicle-ride>
+        <!-- <app-vehicle-ride class="column" id="standard" (click)="selectStandard()"></app-vehicle-ride>
         <app-vehicle-ride class="column" id="luxury" (click)="selectLuxury()"></app-vehicle-ride>
-        <app-vehicle-ride class="column" id="van" (click)="selectVan()"></app-vehicle-ride>
+        <app-vehicle-ride class="column" id="van" (click)="selectVan()"></app-vehicle-ride> -->
     </div>
     <div></div>
 </div>

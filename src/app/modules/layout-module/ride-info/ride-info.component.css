@@ -101,3 +101,7 @@
 app-vehicle-ride{
     border-radius: 10px;
 }
+
+.selectedType{
+    box-shadow: #f57804c7 0px 5px 15px;
+}
