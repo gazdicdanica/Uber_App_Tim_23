@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Ride } from '../../model/Ride';
 import { RideService } from '../../services/ride/ride.service';
 import { DeclineDialogComponent } from '../decline-dialog/decline-dialog.component';
@@ -24,7 +25,7 @@ export class NewRideDialogComponent implements OnInit{
   });
 
   constructor(private dialogRef: MatDialogRef<NewRideDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any,
-  private rideService: RideService, private declineDialog: MatDialog){
+  private rideService: RideService, private declineDialog: MatDialog, private router: Router){
     this.data = data;
   }
 
@@ -46,6 +47,8 @@ export class NewRideDialogComponent implements OnInit{
     this.rideService.acceptRide(this.data.id).subscribe({
       next: (result) =>{
         this.dialogRef.close();
+        this.rideService.setRide(this.data);
+        this.router.navigate(['/inRide']);
       }
     })
   }

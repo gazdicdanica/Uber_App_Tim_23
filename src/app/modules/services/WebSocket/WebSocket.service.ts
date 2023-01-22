@@ -7,13 +7,18 @@ import * as Stomp from 'stompjs';
 })
 export class WebSocketService {
 
+  public stompClient: any = null;
+
   constructor() { }
 
   connect(){
     let socket = new SockJS("http://localhost:8080/socket");
 
-    let stompClient = Stomp.over(socket);
+    if(this.stompClient == null){
+      this.stompClient = Stomp.over(socket);
+    }
+    
 
-    return stompClient;
+    return this.stompClient;
   }
 }

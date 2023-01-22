@@ -42,12 +42,19 @@ export class MainComponent implements OnInit{
     });
 
     if(this.role == "ROLE_DRIVER"){
-      this.stompClient = this.wsService.connect();
+      const elem = document.getElementById('mapica');
+      if(elem != undefined) {
+        elem.style.height = "91vh";
+      }
 
-      let that = this;
-      this.stompClient.connect({}, function() {
-        that.openSocket();
-      });
+      if(this.stompClient == null){
+        this.stompClient = this.wsService.connect();
+        let that = this;
+        this.stompClient.connect({}, function() {
+          that.openSocket();
+        });
+      }
+      
     }
 
     
@@ -61,7 +68,7 @@ export class MainComponent implements OnInit{
   }
 
   openDialog(response: Ride){
-    console.log(response);
+    // console.log(response);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
