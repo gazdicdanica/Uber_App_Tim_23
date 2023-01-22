@@ -35,7 +35,6 @@ export class ChangePasswordComponent {
         }
         this.authService.changePw(value).subscribe({
         next: (result) => {
-            console.log("RESULTAT"+result.status);
             alert("Password successfuly updated - Please Re-Login");
             this.authService.logout();
             this.router.navigate(['/main']);

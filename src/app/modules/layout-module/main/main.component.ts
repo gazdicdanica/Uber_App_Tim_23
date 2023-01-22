@@ -21,6 +21,8 @@ export class MainComponent implements OnInit{
   endLocation! : Location;
   role: any;
 
+  name: string = "main";
+
   stompClient: any;
 
   constructor(private mapService: MapService, private router:Router, private authService: AuthService,private wsService: WebSocketService, private dialog: MatDialog) {}
@@ -61,7 +63,6 @@ export class MainComponent implements OnInit{
   }
 
   openDialog(response: Ride){
-    console.log(response);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;

@@ -1,16 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, Optional } from '@angular/core';
 import { MapService } from '../map.service';
 import { Location } from '../Location';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { forkJoin, Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-search-locations',
   templateUrl: './search-locations.component.html',
   styleUrls: ['./search-locations.component.css']
 })
-export class SearchLocationsComponent {
+export class SearchLocationsComponent implements OnInit {
 
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService, private router: Router) {}
+
+  @Input() parentName! : string;
 
   search = new FormGroup({
     startLoc: new FormControl('', [Validators.required]),
@@ -19,12 +23,17 @@ export class SearchLocationsComponent {
   picker: any;
   time!: String;
 
+  startSearch : any;
+  endSearch : any;
+
   ngOnInit() {
-    this.picker = document.getElementById("time-picker"); 
-    this.picker.style.display = "none";
-    
-    let select: any = document.getElementById('time-select');
-    select.style.display = "none";
+    if(this.parentName == "main"){
+      let select: any = document.getElementById('time-select');
+      select.style.display = "none";
+      
+      this.picker = document.getElementById("time-picker"); 
+      this.picker.style.display = "none";
+    }
   }
 
 
@@ -48,23 +57,40 @@ export class SearchLocationsComponent {
   }
 
   sendSearchValues(): void {    
-    this.mapService.search(this.startLocation).subscribe({
-      next:(result) => {
-        this.mapService.setStartValue(new Location(result[0].lon, result[0].lat, result[0].display_name));
-      }
-    });
 
-    this.mapService.search(this.endLocation).subscribe({
-      next:(result) => {
-        this.mapService.setEndValue(new Location(result[0].lon, result[0].lat, result[0].display_name));
-      }
-    });
-    const val = {
-      start: this.search.value.startLoc,
-      end: this.search.value.endLoc,
-      time: this.time,
+    if(this.startLocation == "" || this.endLocation == ""){
+      alert("Please enter both start and end location!");
+    }else{
+
+      let res$ = forkJoin([this.mapService.search(this.startLocation), this.mapService.search(this.endLocation)]);
+      res$.subscribe(
+        { next:(res) => {
+          if(res[0].length == 0 || res[1].length == 0){
+            alert("Sorry, we didn't find a match for enetered address!");
+            this.startLocation  = "";
+            this.endLocation = "";
+            return;
+          }else{
+            this.mapService.setStartValue(new Location(res[0][0].lon, res[0][0].lat, res[0][0].display_name));
+            this.mapService.setEndValue(new Location(res[1][0].lon, res[1][0].lat, res[1][0].display_name));
+
+            console.log(res);
+
+            const val = {
+              start: this.search.value.startLoc,
+              end: this.search.value.endLoc,
+              time: this.time,
+            }
+            this.mapService.setFormGroupValue(val);
+
+            
+            this.router.navigate(['/rideInfo']);
+          }
+        }}
+      );
     }
-    this.mapService.setFormGroupValue(val);
+
+    
   }
 
   pickTime(): void {
