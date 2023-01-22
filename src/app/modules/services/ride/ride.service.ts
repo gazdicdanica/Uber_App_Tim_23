@@ -14,4 +14,8 @@ export class RideService {
   acceptRide(id: number) : Observable<Ride> {
     return this.httpClient.put<Ride>(environment.apiHost+"/ride/"+id + "/accept", null);
   }
+
+  cancelRide(id: number, reason:any) : Observable<Ride>{
+    return this.httpClient.put<Ride>(environment.apiHost+"/ride/"+id+"/cancel", reason);
+  }
 }
