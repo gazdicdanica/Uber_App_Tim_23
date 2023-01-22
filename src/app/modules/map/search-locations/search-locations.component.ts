@@ -74,6 +74,8 @@ export class SearchLocationsComponent implements OnInit {
             this.mapService.setStartValue(new Location(res[0][0].lon, res[0][0].lat, res[0][0].display_name));
             this.mapService.setEndValue(new Location(res[1][0].lon, res[1][0].lat, res[1][0].display_name));
 
+            console.log(res);
+
             const val = {
               start: this.search.value.startLoc,
               end: this.search.value.endLoc,

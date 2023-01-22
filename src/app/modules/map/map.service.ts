@@ -29,10 +29,12 @@ export class MapService {
   }
 
   setStartValue(value: Location){
+    console.log(value);
     this.startLocationValue$.next(value);
   }
 
   setEndValue(value: Location){
+    console.log(value);
     this.endLocationValue$.next(value);
   }
 
