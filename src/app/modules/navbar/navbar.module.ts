@@ -11,6 +11,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatIconModule} from "@angular/material/icon";
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatButtonModule,
     MatSlideToggleModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule
   ]
 })
 export class NavbarModule { }

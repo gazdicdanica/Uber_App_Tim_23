@@ -1,7 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '../../map/Location';
+import { AuthService } from '../../auth/auth.service';
+import { Location } from '../../model/Location';
+import { Route } from '../../model/Route';
 import { MapService } from '../../map/map.service';
+import { RideRequest } from '../../model/RideRequest';
+import { RideService } from '../../services/ride/ride.service';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../model/user';
+import { UserShort } from '../../model/UserShort';
+import { VehicleService } from '../../vehicle/vehicle.service';
+import { VehicleType } from '../../model/vehicleType';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-ride-info',
@@ -10,14 +21,35 @@ import { MapService } from '../../map/map.service';
 })
 export class RideInfoComponent implements OnInit{
 
+  name: string = "ride-info";
   startLocation! : Location;
   endLocation! : Location;
   estimationValue = ["", ""];
+  role: any;
+  rideReq!:  RideRequest;
 
-  constructor(private mapService: MapService, private router:Router) {}
+  isBaby: boolean = false;
+  isPets: boolean = false;
+  friend: UserShort[] = [];
+  
+  vehicleType: string = "";
 
-  ngOnInit():void{
+  @ViewChildren("vehicleCard") vehicleCard! : QueryList<ElementRef>
+  // standard: any;
+  // luxury: any;
+  // van: any;
 
+  rideData: any;
+
+  vehicleTypes!: VehicleType[];
+
+  constructor(private userService: UserService, private mapService: MapService, private router:Router, 
+    private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService,
+    private dialog: MatDialog) { }
+
+  ngOnInit(): void{
+
+    this.role = this.authService.getRole();
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
     this.mapService.startSelectedValue$.subscribe((value) => {
@@ -28,14 +60,91 @@ export class RideInfoComponent implements OnInit{
       this.endLocation = value;
     });
 
-    this.mapService.setDrawRoute(true);
+    this.mapService.formGroupObservable.subscribe((value) => {
 
+      this.rideData = value;
+    })
+
+    this.mapService.setDrawRoute(true);   
     
+    this.vehicleService.getAllVehicleTypes().subscribe((value) => {
+      this.vehicleTypes = value;
+    });
   }
-
   addItem(estimationValue: string[]){
     this.estimationValue = estimationValue;
   }
 
+  createRide(): void {
+    const route = new Route(this.startLocation, this.endLocation, Number(this.estimationValue[0]));
+    if (this.rideData.time == undefined) {
+      this.rideData.time = new Date();
+    }
+    this.rideReq = new RideRequest(route, this.friend, this.vehicleType, this.rideData.time, this.isBaby, this.isPets, Number(this.estimationValue[1]));
+
+    if (this.vehicleType == "") {
+      alert("Please Choose Vehicle Type");
+    } else {
+      this.rideService.createRide(this.rideReq).subscribe({
+        next: (result) => {
+          this.openWaitDialog();
+          console.log(result);
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    }
+  }
+
+  changeBaby(): void {
+    if(this.isBaby) {
+      this.isBaby = false;
+    } else {
+      this.isBaby = true;
+    }
+  }
+
+  changePets(): void {
+    if(this.isPets) {
+      this.isPets = false;
+    } else {
+      this.isPets = true;
+    }
+  }
+
+  addFriend(): void {
+    const field: any = document.getElementById('friend');
+    if (field != undefined && this.friend.length <= 2) {
+      this.userService.doesUserExist(field.value).subscribe({
+        next: (result) => {
+          this.friend.push(new UserShort(null, field.value));
+          field.value = "";
+          alert("Friend Added Successfully");
+        },
+        error: (error) => {
+          console.log(error);
+          alert("User With This Email Does Not Exist");
+        }
+      });
+      
+    }
+  }
+
+  selectType(type: string) : void{
+    this.vehicleType = type;
+  }
+
+  openWaitDialog(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "35%";
+    dialogConfig.width = "35%";
+
+    this.dialog.open(WaitingDialogComponent, dialogConfig);
+  }
 
 }

@@ -20,7 +20,11 @@ import { DriverDataComponent } from './driver-data/driver-data.component';
 import { VehicleModule } from '../vehicle/vehicle.module';
 import { DriverDocumentComponent } from './driver-document/driver-document.component';
 import { DocumentsComponent } from './documents/documents.component';
-
+import { NewRideDialogComponent } from './new-ride-dialog/new-ride-dialog.component';
+import { DeclineDialogComponent } from './decline-dialog/decline-dialog.component';
+import { InRideComponent } from './in-ride/in-ride-Driver/in-ride.component';
+import { WaitingDialogComponent } from './waiting-dialog/waiting-dialog.component';
+import { InRidePassengerComponent } from './in-ride/in-ride-passenger/in-ride-passenger.component';
 
 
 @NgModule({
@@ -36,7 +40,12 @@ import { DocumentsComponent } from './documents/documents.component';
     ChangePersonalInfoComponent,
     DriverDataComponent,
     DriverDocumentComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    NewRideDialogComponent,
+    DeclineDialogComponent,
+    InRideComponent,
+    WaitingDialogComponent,
+    InRidePassengerComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +59,7 @@ import { DocumentsComponent } from './documents/documents.component';
     ReactiveFormsModule,
     VehicleModule
   ],
-  exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent]
+  exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent],
+  entryComponents: [NewRideDialogComponent]
 })
 export class LayoutModuleModule { }

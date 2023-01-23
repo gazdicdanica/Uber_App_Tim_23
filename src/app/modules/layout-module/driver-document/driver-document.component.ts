@@ -30,7 +30,6 @@ export class DriverDocumentComponent implements OnInit{
     this.driverService.getDocuments().subscribe({
       next: (result) => {
         for(let x of result){
-          console.log(x.name);
           if (x.name == this.input){
             this.base64 =  "data:image/png;base64," + x.documentImage;
             this.upload = true;
@@ -64,7 +63,6 @@ export class DriverDocumentComponent implements OnInit{
     let document : Document = new Document(this.input, this.base64.split(",")[1], 0);
     this.driverService.addDocument(document).subscribe({
       next : (res) => {
-        console.log(res);
         this.saved = true;
         
       }
@@ -74,7 +72,6 @@ export class DriverDocumentComponent implements OnInit{
   deleteDocument() : void{
     this.driverService.deleteDocument(this.input).subscribe({
       next: (res) => {
-        console.log(res);
         this.documentForm.value.fileInput = "";
         this.base64 = "";
         this.upload = false;

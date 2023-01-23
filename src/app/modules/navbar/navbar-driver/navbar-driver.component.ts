@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
+import { DriverService } from '../../services/driver/driver.service';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -11,13 +14,52 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./navbar-driver.component.css']
 })
 export class NavbarDriverComponent implements OnInit{
-  constructor(private readonly formBuilder: FormBuilder, private authService: AuthService, private router: Router) {}
+  checked: boolean;
+
+  constructor(private driverService: DriverService, private authService: AuthService, private router: Router) {
+    this.checked = false;
+  }
+
+  online = new FormGroup({
+    isOnline: new FormControl(),
+  });
 
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/main']);
   }
-  ngOnInit(): void {
 
+  ngOnInit(): void {
   }
+
+  changed($event: MatSlideToggleChange) {
+    if($event.checked) {
+      this.driverService.changeDriverState(true).subscribe({
+        next: (result) => {
+          this.checked = true;
+        },
+        error: (error) => {
+          console.log(error);
+          alert("Your Shift Cannot Start Now")
+          this.checked = false;
+
+          // this.online.patchValue({
+          //   super: false
+          // })
+        },
+      });
+    } else {
+      this.driverService.changeDriverState(false).subscribe({
+        next: (result) => {
+          this.checked = false;
+        },
+        error: (error) => {
+          console.log(error);
+          this.checked = true;
+        },
+      });
+    }
+    this.checked = $event.checked;
+  }
+
 }

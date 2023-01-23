@@ -7,31 +7,57 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { SelectorContext } from '@angular/compiler';
 import { AuthService } from '../../auth/auth.service';
 import { DriverService } from '../../services/driver/driver.service';
+import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
+import { Vehicle } from '../../model/vehicle';
+import { Ride } from '../../model/Ride';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements AfterViewInit{
+export class MapComponent{
   role: any;
   currentDriverLoc!: Location;
   public lat!: number;
   public lng!: number;
 
-  constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService){}
+  vehicles: any = {};
+  rides: any = {};
+  mainGroup: L.LayerGroup[] = [];
+  private stompClient: any;
 
+  constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService){}
 
   ngOnInit(): void {
     this.authService.userState$.subscribe((result) => {
       this.role = result;
     });
+
+    // this.initializeWebSocketConnection();
+    
+    // this.mapService.getAllActiveRides().subscribe((ret) => {
+    //   for (let ride of ret) {
+    //     let color = Math.floor(Math.random() * 16777215).toString(16);
+    //     let geoLayerRouteGroup: L.LayerGroup = new L.LayerGroup();
+    //     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
+    //       let routeLayer = L.geoJSON(step.geometry);
+    //       routeLayer.setStyle({ color: `#${color}` });
+    //       routeLayer.addTo(geoLayerRouteGroup);
+    //       this.rides[ride.id] = geoLayerRouteGroup;
+    //     }
+    //     let markerLayer = L.marker([ride.vehicle.currentLocation.longitude, ride.vehicle.currentLocation.latitude], {
+    //       icon: this.unavailableIcon
+    //     });
+    //     markerLayer.addTo(geoLayerRouteGroup);
+    //     this.vehicles[ride.vehicle.id] = markerLayer;
+    //     this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+    //   }
+    // });
   }
 
   @Output() estimationEvent = new EventEmitter<string[]>();
-
-  private availableVehicles : L.LatLngTuple[] = [[45.25949, 19.8377], [45.25466, 19.81555], [45.25010, 19.8112], [45.2407, 19.84817]];
-  private unavailableVehicles : L.LatLngTuple[] = [[45.2436, 19.831], [45.2552, 19.8495], [45.29498, 19.8227]];
 
   private _startLocation = new BehaviorSubject<Location>(new Location(0,0,""));
   private _endLocation= new BehaviorSubject<Location>(new Location(0,0,""));
@@ -43,6 +69,7 @@ export class MapComponent implements AfterViewInit{
   private timeInMinutes: number = 0;
 
   @Input() set startLocation(value: Location){
+    console.log(value);
     this._startLocation.next(value);
   }
 
@@ -51,6 +78,7 @@ export class MapComponent implements AfterViewInit{
   }
 
   @Input() set endLocation(value: Location){
+    console.log(value);
     this._endLocation.next(value);
   }
 
@@ -94,7 +122,6 @@ export class MapComponent implements AfterViewInit{
   private mapContainer!: ElementRef<HTMLElement>;
 
   private initMap() : void{
-
     this.map = L.map(this.mapContainer.nativeElement, {
       center: [45.25327, 19.8227],
       zoom: 14,
@@ -109,6 +136,7 @@ export class MapComponent implements AfterViewInit{
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }
     );
+
     tiles.addTo(this.map);
     const elem = <HTMLElement>document.getElementsByClassName('leaflet-bottom leaflet-right')[0];
     elem.style.visibility = 'hidden';
@@ -128,7 +156,6 @@ export class MapComponent implements AfterViewInit{
               this.routingControl.remove();
             }
             this.mapService.setStartValue(new Location(res.lon, res.lat, res.display_name));
-            this.mapService.setEndValue(new Location(0,0,""));
             this.startLocation = new Location(res.lon, res.lat, res.display_name);
           }else{
             this.mapService.setEndValue(new Location(res.lon, res.lat, res.display_name));
@@ -138,9 +165,6 @@ export class MapComponent implements AfterViewInit{
             elem.style.background = '#EFEFEF';
           }
         });
-        console.log(
-          'You clicked the map at latitude: ' + lat + ' and longitude: ' + lng
-        );
         
       });
   }
@@ -161,14 +185,10 @@ export class MapComponent implements AfterViewInit{
 
   route(start: Location, end: Location):void{
     if(this.routingControl != null){
-      this.routingControl.remove();
+      this.map.removeControl(this.routingControl);
     }
 
-    if(this.markers.length > 0){
-      for(let marker of this.markers){
-        this.map.removeLayer(marker);
-      }
-    }
+    console.log("route");
 
     this.routingControl = L.Routing.control({waypoints: [L.marker([start.latitude, start.longitude]).getLatLng(),
        L.marker([end.latitude, end.longitude]).getLatLng()],
@@ -181,22 +201,14 @@ export class MapComponent implements AfterViewInit{
       this.distance = ((e.routes[0].summary.totalDistance) / 1000);
       this.timeInMinutes = ((e.routes[0].summary.totalTime) % 3600 / 60);
       this.estimationEvent.emit([this.distance.toPrecision(2), this.timeInMinutes.toPrecision(2)]);
+      console.log(this.distance + " " + this.timeInMinutes);
+
     });
 
   }
 
-
-  private addCarMarkers() : void{
-    for(let carLatLng of this.availableVehicles){
-      L.marker(carLatLng, {draggable:false, icon: this.availableIcon}).addTo(this.map);
-    }
-
-    for(let carLatLng of this.unavailableVehicles){
-      L.marker(carLatLng, {draggable: false, icon: this.unavailableIcon}).addTo(this.map);
-    }
-  }
-
   ngAfterViewInit(): void {
+
     let DefaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
     });
@@ -217,11 +229,26 @@ export class MapComponent implements AfterViewInit{
     }
 
     L.Marker.prototype.options.icon = DefaultIcon;
-    if(this.map ==null){
+    if(this.map == null){
       this.initMap();
     }
 
     this.registerOnClick();
+
+
+    // let fork$ = forkJoin([this._startLocation, this._endLocation]);
+    // fork$.subscribe({
+    //   next: (res) =>{
+    //     this.addMarker(res[0].latitude, res[0].longitude);
+    //     this.addMarker(res[1].latitude, res[1].longitude);
+    //     this.route(this.startLocation, this.endLocation);
+    //   }
+    // })
+    this.mapService.drawRoute$.subscribe(
+      e => {
+        this.drawRoute = e;
+      }
+    )
 
     this._startLocation.subscribe(
       x => {
@@ -232,27 +259,18 @@ export class MapComponent implements AfterViewInit{
     this._endLocation.subscribe(
       x => {
         this.addMarker(x.latitude, x.longitude);
+        console.log(this.drawRoute + " " + this.startLocation + " " + this.endLocation);
         if(this.drawRoute && this.startLocation.latitude !== 0 && this.endLocation.latitude !== 0){
           this.route(this.startLocation, this.endLocation);
         }
       }
     );
-
-    this.mapService.drawRoute$.subscribe(
-      e => {
-        this.drawRoute = e;
-      }
-    )
-
-    this.addCarMarkers();
   }
 
   getLocation(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
         if (position) {
-          console.log("Latitude: " + position.coords.latitude +
-            "Longitude: " + position.coords.longitude);
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
 
@@ -268,4 +286,45 @@ export class MapComponent implements AfterViewInit{
     }
   }
 
+  // initializeWebSocketConnection() {
+  //   let ws = new SockJS('http://localhost:8080/socket');
+  //   this.stompClient = Stomp.over(ws);
+  //   this.stompClient.debug = null;
+  //   let that = this;
+  //   this.stompClient.connect({}, function () {
+  //     that.openGlobalSocket();
+  //   });
+  // }
+
+  // openGlobalSocket() {
+  //   this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
+  //     let vehicle: Vehicle = JSON.parse(message.body);
+  //     let existingVehicle = this.vehicles[vehicle.id];
+  //     existingVehicle.setLatLng([vehicle.currentLocation.longitude, vehicle.currentLocation.latitude]);
+  //     existingVehicle.update();
+  //   });
+  //   this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
+  //     let ride: Ride = JSON.parse(message.body);
+  //     let geoLayerRouteGroup: L.LayerGroup = new L.LayerGroup();
+  //     let color = Math.floor(Math.random() * 16777215).toString(16);
+  //     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
+  //       let routeLayer = L.geoJSON(step.geometry);
+  //       routeLayer.setStyle({ color: `#${color}` });
+  //       routeLayer.addTo(geoLayerRouteGroup);
+  //       this.rides[ride.id] = geoLayerRouteGroup;
+  //     }
+  //     let markerLayer = L.marker([ride.vehicle.currentLocation.longitude, ride.vehicle.currentLocation.latitude], {
+  //       icon: this.unavailableIcon,
+  //     });
+  //     markerLayer.addTo(geoLayerRouteGroup);
+  //     this.vehicles[ride.vehicle.id] = markerLayer;
+  //     this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
+  //   });
+  //   this.stompClient.subscribe('/map-updates/ended-ride', (message: { body: string }) => {
+  //     let ride: Ride = JSON.parse(message.body);
+  //     this.mainGroup = this.mainGroup.filter((lg: L.LayerGroup) => lg !== this.rides[ride.id]);
+  //     delete this.vehicles[ride.vehicle.id];
+  //     delete this.rides[ride.id];
+  //   });
+  // }
 }

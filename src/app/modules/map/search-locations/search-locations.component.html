@@ -1,12 +1,17 @@
-<div class="search-container">
-    <input class="input-data" id="start-point" type="text"
+<div class="search-container" id="search-id" [formGroup]="search">
+    <input class="input-data" id="start-point" type="text" formControlName="startLoc"
     [(ngModel)]="startLocation" placeholder="Starting point">
-    <input class="input-data" id="end-point" type="text"
+
+    <input class="input-data" id="end-point" type="text" formControlName="endLoc"
     [(ngModel)]="endLocation" placeholder="Ending point">
-    <select class="input-data" id="time-select" name="time" type="text">
+
+    <select class="input-data" id="time-select" name="time" type="text" (click)="createTime()" >
         <option value="">Now</option>
     </select>
-    <button (click)="sendSearchValues()" id="next-btn" class="orange-btn" routerLink="/rideInfo" >
+
+    <input class="input-data" id="time-picker" type="datetime-local" (change)="pickTime()">
+
+    <button (click)="sendSearchValues()" id="next-btn" class="orange-btn">
         <img id="forward-arrow" src="../../../../assets/images/pngwing.com.png">
     </button>
 </div>
