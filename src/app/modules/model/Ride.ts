@@ -10,9 +10,11 @@ export class Ride{
     passengers: User[];
     scheduledTime: Date;
     totalDistance: number;
+    status: string;
 
-
-    constructor(id: number, totalCost: number, driver: User, timeE: number, locations: Route[], passengers: User[], timeS: Date, totalDistance: number){
+    constructor(id: number, totalCost: number, driver: User,
+         timeE: number, locations: Route[], passengers: User[],
+          timeS: Date, totalDistance: number,status: string){
         this.driver = driver;
         this.estimatedTimeInMinutes = timeE;
         this.totalCost = totalCost;
@@ -21,5 +23,6 @@ export class Ride{
         this.passengers = passengers;
         this.scheduledTime = timeS;
         this.totalDistance = totalDistance;
+        this.status = status;
     }
 }

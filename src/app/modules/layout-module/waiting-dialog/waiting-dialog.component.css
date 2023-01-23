@@ -6,3 +6,11 @@ mat-dialog-content{
     margin-top: 30px;
     align-items: center;
 }
+
+.form-btn{
+    width: 100px;
+    font-weight: bold;
+    font-size: medium;
+    padding: 25px;
+    color: white !important;
+}
