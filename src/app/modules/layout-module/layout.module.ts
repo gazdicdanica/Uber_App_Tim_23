@@ -23,6 +23,7 @@ import { DocumentsComponent } from './documents/documents.component';
 import { NewRideDialogComponent } from './new-ride-dialog/new-ride-dialog.component';
 import { DeclineDialogComponent } from './decline-dialog/decline-dialog.component';
 import { InRideComponent } from './in-ride/in-ride-Driver/in-ride.component';
+import { WaitingDialogComponent } from './waiting-dialog/waiting-dialog.component';
 import { InRidePassengerComponent } from './in-ride/in-ride-passenger/in-ride-passenger.component';
 
 
@@ -43,6 +44,7 @@ import { InRidePassengerComponent } from './in-ride/in-ride-passenger/in-ride-pa
     NewRideDialogComponent,
     DeclineDialogComponent,
     InRideComponent,
+    WaitingDialogComponent,
     InRidePassengerComponent
   ],
   imports: [

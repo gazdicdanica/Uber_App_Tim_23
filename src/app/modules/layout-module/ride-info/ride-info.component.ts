@@ -11,6 +11,8 @@ import { User } from '../../model/user';
 import { UserShort } from '../../model/UserShort';
 import { VehicleService } from '../../vehicle/vehicle.service';
 import { VehicleType } from '../../model/vehicleType';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-ride-info',
@@ -42,12 +44,10 @@ export class RideInfoComponent implements OnInit{
   vehicleTypes!: VehicleType[];
 
   constructor(private userService: UserService, private mapService: MapService, private router:Router, 
-    private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService) { }
+    private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void{
-    // this.standard = document.getElementById('standard');
-    // this.luxury = document.getElementById('luxury');
-    // this.van = document.getElementById('van');
 
     this.role = this.authService.getRole();
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -87,6 +87,7 @@ export class RideInfoComponent implements OnInit{
     } else {
       this.rideService.createRide(this.rideReq).subscribe({
         next: (result) => {
+          this.openWaitDialog();
           console.log(result);
         },
         error: (error) => {
@@ -133,4 +134,17 @@ export class RideInfoComponent implements OnInit{
   selectType(type: string) : void{
     this.vehicleType = type;
   }
+
+  openWaitDialog(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "35%";
+    dialogConfig.width = "35%";
+
+    this.dialog.open(WaitingDialogComponent, dialogConfig);
+  }
+
 }

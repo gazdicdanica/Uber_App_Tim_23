@@ -25,8 +25,9 @@ export class MainComponent implements OnInit{
 
   stompClient: any;
 
-  constructor(private mapService: MapService, private router:Router, private authService: AuthService, 
-    private wsService: WebSocketService, private dialog: MatDialog) {}
+  constructor(private mapService: MapService, private router:Router, private authService: AuthService,
+    private wsService: WebSocketService, private dialog: MatDialog) {
+  }
 
   ngOnInit():void{
 
@@ -51,7 +52,7 @@ export class MainComponent implements OnInit{
       }
 
       if(this.stompClient == null){
-        this.stompClient = this.wsService.connect();
+        this.stompClient = this.wsService.connect(false);
         let that = this;
         this.stompClient.connect({}, function() {
           that.openSocket();
@@ -60,7 +61,7 @@ export class MainComponent implements OnInit{
       
     } else if (this.role == "ROLE_USER") {
         if(this.stompClient == null) {
-          this.stompClient = this.wsService.connect();
+          this.stompClient = this.wsService.connect(false);
           let that = this;
           this.stompClient.connect({}, function() {
             that.openSocketPassenger();
