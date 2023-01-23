@@ -2,6 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { Location } from '../../map/Location';
+import { MapService } from '../../map/map.service';
 import { Ride } from '../../model/Ride';
 import { RideService } from '../../services/ride/ride.service';
 import { DeclineDialogComponent } from '../decline-dialog/decline-dialog.component';
@@ -14,6 +17,7 @@ import { DeclineDialogComponent } from '../decline-dialog/decline-dialog.compone
 export class NewRideDialogComponent implements OnInit{
 
   data!: Ride;
+  role!: any;
 
   newRide : FormGroup = new FormGroup({
     departure : new FormControl(),
@@ -24,12 +28,13 @@ export class NewRideDialogComponent implements OnInit{
     price: new FormControl()
   });
 
-  constructor(private dialogRef: MatDialogRef<NewRideDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any,
-  private rideService: RideService, private declineDialog: MatDialog, private router: Router){
+  constructor(private dialogRef: MatDialogRef<NewRideDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any, private mapService: MapService,
+  private rideService: RideService, private declineDialog: MatDialog, private router: Router, private authService: AuthService){
     this.data = data;
   }
 
   ngOnInit(): void {
+    this.role =  this.authService.getRole();
     this.newRide.disable();
     this.newRide.patchValue({
       departure: this.data.locations[0].departure.address,
@@ -70,5 +75,13 @@ export class NewRideDialogComponent implements OnInit{
 
     const dialogRef = this.declineDialog.open(DeclineDialogComponent, dialogConfig);
 
+  }
+
+  passengerToInRide(): void {
+    this.mapService.setStartValue(this.data.locations[0].departure);
+    this.mapService.setEndValue(this.data.locations[this.data.locations.length-1].destination);
+    this.mapService.setDrawRoute(true);
+    this.dialogRef.close();
+    this.router.navigate(['main']);
   }
 }

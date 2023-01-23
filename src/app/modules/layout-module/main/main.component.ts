@@ -25,7 +25,8 @@ export class MainComponent implements OnInit{
 
   stompClient: any;
 
-  constructor(private mapService: MapService, private router:Router, private authService: AuthService,private wsService: WebSocketService, private dialog: MatDialog) {}
+  constructor(private mapService: MapService, private router:Router, private authService: AuthService, 
+    private wsService: WebSocketService, private dialog: MatDialog) {}
 
   ngOnInit():void{
 
@@ -57,32 +58,44 @@ export class MainComponent implements OnInit{
         });
       }
       
-    }
-
-    
+    } else if (this.role == "ROLE_USER") {
+        if(this.stompClient == null) {
+          this.stompClient = this.wsService.connect();
+          let that = this;
+          this.stompClient.connect({}, function() {
+            that.openSocketPassenger();
+          });
+        }
+    }  
   }
 
-  openSocket(){
-    this.stompClient.subscribe("/ride/"+this.authService.getId(), (message: {body: string}) => {
+  openSocketPassenger(): void {
+    this.stompClient.subscribe("/linkPassengers/"+this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
-      this.openDialog(response);
+      console.log(response);
+      this.openDialog(response, false);
     });
   }
 
-  openDialog(response: Ride){
+  openSocket(): void{
+    this.stompClient.subscribe("/ride/"+this.authService.getId(), (message: {body: string}) => {
+      let response : Ride = JSON.parse(message.body);
+      this.openDialog(response, true);
+    });
+  }
+
+  openDialog(response: Ride, isDriver: boolean){
 
     const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.closeOnNavigation = false;
+      dialogConfig.height = "auto";
+      dialogConfig.width = "35%";
 
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.closeOnNavigation = false;
-    dialogConfig.height = "auto";
-    dialogConfig.width = "35%";
+      dialogConfig.data=response;
 
-    dialogConfig.data=response;
-
-    const dialogRef = this.dialog.open(NewRideDialogComponent, dialogConfig);
-
+      const dialogRef = this.dialog.open(NewRideDialogComponent, dialogConfig);
   }
 
 }
