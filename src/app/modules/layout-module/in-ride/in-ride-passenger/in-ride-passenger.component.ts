@@ -16,6 +16,8 @@ export class InRidePassengerComponent {
   endLocation! : Location;
   search!: HTMLElement;
 
+  estimationValue = ["", ""];
+
 
   constructor(private authService: AuthService, private router: Router, private mapService: MapService, 
     private rideService: RideService) {}
@@ -32,6 +34,10 @@ export class InRidePassengerComponent {
         this.endLocation = e;
       }
     )
+  }
+
+  addItem(estimationValue: string[]){
+    this.estimationValue = estimationValue;
   }
 
   ngAfterViewInit() {

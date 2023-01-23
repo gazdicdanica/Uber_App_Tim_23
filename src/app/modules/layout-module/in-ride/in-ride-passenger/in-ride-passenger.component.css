@@ -3,24 +3,53 @@
 }
 
 .map-div{
-    height: 90vh;
+    height: 81vh;
 }
 
 .data-div {
-    position: absolute;
-    z-index: 100000;
-    right: 0;
+    /* padding: 10px; */
+    display: flex;
+    justify-content: space-between;
+}
+
+#estimate-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: large;
+}
+
+
+#timer{
+    font-size: larger;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-left: 10px;
+
+}
+
+
+.form-btn{
+    width: auto;
+    font-weight: bold;
+    font-size: medium;
+    padding: 25px;
+    color: white !important;
+}
+
+.panic-btn{
+    font-size: large;
+    font-weight: 900;
+    /* padding: 20px; */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
 }
 
 .panic-div {
     position: absolute;
+    font-size: xx-large;
     z-index: 100000;
-    right: 0;
-}
-
-.panic-btn {
-    width: 100px;
-    font-weight: 400;
-    font-size: large;
-    height: auto;
+    right: 20px;
+    bottom: 20px;
+    /* margin-right: 20px; */
 }
