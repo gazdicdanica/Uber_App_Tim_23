@@ -11,6 +11,8 @@ import { User } from '../../model/user';
 import { UserShort } from '../../model/UserShort';
 import { VehicleService } from '../../vehicle/vehicle.service';
 import { VehicleType } from '../../model/vehicleType';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-ride-info',
@@ -42,14 +44,12 @@ export class RideInfoComponent implements OnInit{
   vehicleTypes!: VehicleType[];
 
   constructor(private userService: UserService, private mapService: MapService, private router:Router, 
-    private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService) { }
+    private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService,
+    private dialog: MatDialog) { }
 
 
 
   ngOnInit(): void{
-    // this.standard = document.getElementById('standard');
-    // this.luxury = document.getElementById('luxury');
-    // this.van = document.getElementById('van');
 
     this.role = this.authService.getRole();
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -89,6 +89,7 @@ export class RideInfoComponent implements OnInit{
     } else {
       this.rideService.createRide(this.rideReq).subscribe({
         next: (result) => {
+          this.openWaitDialog();
           console.log(result);
         },
         error: (error) => {
@@ -136,36 +137,16 @@ export class RideInfoComponent implements OnInit{
     this.vehicleType = type;
   }
 
+  openWaitDialog(){
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "35%";
+    dialogConfig.width = "35%";
 
-  // selectStandard(): void {
-  //   if (this.vehicleType == "LUXURY") {
-  //     this.luxury.style.boxShadow = "0 0 0 0";
-  //   } else if (this.vehicleType == "VAN") {
-  //     this.van.style = "0 0 0 0";
-  //   }
-  //   this.standard.style.boxShadow = "#f57804c7 0px 5px 15px";
-  //   this.vehicleType = "STANDARD";
-  // }
+    this.dialog.open(WaitingDialogComponent, dialogConfig);
+  }
 
-  // selectLuxury(): void {
-  //   if(this.vehicleType == "STANDARD") {
-  //     this.standard.style.boxShadow = "0 0 0 0";
-  //   } else if(this.vehicleType == "VAN") {
-  //     this.van.style.boxShadow = "0 0 0 0";
-  //   } 
-  //   this.luxury.style.boxShadow = "#f57804c7 0px 5px 15px";
-  //   this.vehicleType = "LUXURY";
-    
-  // }
-
-  // selectVan(): void {
-  //   if (this.vehicleType == "STANDARD") {
-  //     this.standard.style.boxShadow = "0 0 0 0";
-  //   } else if (this.vehicleType == "LUXURY") {
-  //     this.luxury.style.boxShadow = "0 0 0 0";
-  //   }
-  //   this.van.style.boxShadow = "#f57804c7 0px 5px 15px";
-  //   this.vehicleType = "VAN";
-  // }
 }
