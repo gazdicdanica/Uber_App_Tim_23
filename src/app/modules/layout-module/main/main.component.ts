@@ -25,7 +25,8 @@ export class MainComponent implements OnInit{
 
   stompClient: any;
 
-  constructor(private mapService: MapService, private router:Router, private authService: AuthService,private wsService: WebSocketService, private dialog: MatDialog) {}
+  constructor(private mapService: MapService, private router:Router, private authService: AuthService,private wsService: WebSocketService, private dialog: MatDialog) {
+  }
 
   ngOnInit():void{
 
@@ -58,7 +59,6 @@ export class MainComponent implements OnInit{
       }
       
     }
-
     
   }
 
