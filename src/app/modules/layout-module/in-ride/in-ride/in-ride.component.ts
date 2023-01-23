@@ -21,6 +21,9 @@ export class InRideComponent {
   role: any;
   private rideData!: Ride;
 
+
+  estimationValue = ["", ""];
+
   finishBtn!: HTMLElement;
   startBtn!: HTMLElement;
 
@@ -46,6 +49,10 @@ export class InRideComponent {
       );
   }
 
+  addItem(estimationValue: string[]){
+    this.estimationValue = estimationValue;
+  }
+
   ngAfterViewInit() {
     const temp = document.getElementById('finishBtn');
     const temp2 = document.getElementById('startBtn');
@@ -63,7 +70,6 @@ export class InRideComponent {
   }
 
   startRide(): void {
-    console.log("USAOOOOOO")
     this.startBtn.style.display = "none";
     this.finishBtn.style.display= "flex";
     this.rideService.startRide(this.rideData.id).subscribe({

@@ -4,14 +4,28 @@
 }
 
 .data-div {
-    /* position: absolute;
-    z-index: 100000;
-    right: 20px;
-    top: 20px; */
     padding: 10px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
+
+#estimate-div{
+    display: flex;
+    flex-direction: row;
+    /* width: 10%;  */
+    align-items: center;
+    font-size: large;
+}
+
+
+#timer{
+    font-size: larger;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-left: 10px;
+
+}
+
 
 .form-btn{
     width: auto;
