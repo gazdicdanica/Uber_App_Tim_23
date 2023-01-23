@@ -47,8 +47,6 @@ export class RideInfoComponent implements OnInit{
     private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService,
     private dialog: MatDialog) { }
 
-
-
   ngOnInit(): void{
 
     this.role = this.authService.getRole();

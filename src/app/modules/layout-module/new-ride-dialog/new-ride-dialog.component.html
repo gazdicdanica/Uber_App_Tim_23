@@ -1,5 +1,4 @@
 <!-- TODO: change mat-dialog-title appearance -->
-
 <h1 mat-dialog-title> Accept ride? </h1>
 
 <mat-dialog-content [formGroup]="newRide">
@@ -35,7 +34,11 @@
     </div>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
+<mat-dialog-actions align="end" *ngIf="role == 'ROLE_DRIVER'">
     <button (click)="decline()" class="form-btn" mat-raised-button color="primary">Decline</button>
     <button (click)="accept()" class="form-btn" mat-raised-button color="accent">Accept</button>
+</mat-dialog-actions>
+
+<mat-dialog-actions align="end" *ngIf="role == 'ROLE_USER'">
+    <button class="form-btn" mat-raised-button color="accent" (click)="passengerToInRide()">Ok</button>
 </mat-dialog-actions>

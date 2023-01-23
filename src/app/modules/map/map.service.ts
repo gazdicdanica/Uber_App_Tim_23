@@ -29,7 +29,6 @@ export class MapService {
   }
 
   setStartValue(value: Location){
-    console.log(value);
     this.startLocationValue$.next(value);
   }
 
