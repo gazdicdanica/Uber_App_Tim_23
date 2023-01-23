@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { Ride } from '../../model/Ride';
 import { WebSocketService } from '../../services/WebSocket/WebSocket.service';
@@ -19,24 +20,34 @@ export class WaitingDialogComponent implements OnInit{
 
   data!: Ride ;
 
-  constructor(private dialogRef: MatDialogRef<WaitingDialogComponent>, private wsService: WebSocketService, private authService: AuthService){}
+  constructor(private dialogRef: MatDialogRef<WaitingDialogComponent>, private wsService: WebSocketService,
+     private authService: AuthService, private router: Router){}
 
   ngOnInit(): void {
     this.title = "Waiting for driver...";
 
-    this.stompClient = this.wsService.connect();
+    this.stompClient = this.wsService.connect(true);
     let that = this;
-    this.stompClient.connect({}, function(){
-      that.openSocket();
-    })
+    if(this.stompClient.status != "CONNECTED"){
+      this.stompClient.connect({}, function(){
+        that.openPassengerSocket();
+      })
+    }else{
+      this.openPassengerSocket();
+    }
+    
   }
 
-  openSocket(): void{
+  openPassengerSocket(): void{
+    console.log("HEEEEEEEEEEEEEEEJ");
+    console.log(this.authService.getId());
     this.stompClient.subscribe("/ride/" +  this.authService.getId(), (message: {body : string}) => {
       let response : Ride = JSON.parse(message.body);
+      console.log()
       this.data = response;
       this.wait = false;
       this.dialogRef.updateSize("35%", "auto");
+      console.log("WEBSOCKEt");
       if(response.status == "REJECTED"){
         this.title = "Unsuccessful ride schedule";
         this.message = "Unfortunately, all drivers are busy.\nPlease try again";
@@ -51,7 +62,7 @@ export class WaitingDialogComponent implements OnInit{
     if(this.data.status == "REJECTED"){
       this.dialogRef.close();
     }else{
-      // TODO head over to in-ride component
+      this.router.navigate(["/psngrInRide"]);
       this.dialogRef.close();
     }
   }
