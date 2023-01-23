@@ -7,14 +7,13 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LoginGuard implements CanActivate {
     constructor(private authService: AuthService, private router: Router){}
-    // Ovc ne radi...
     canActivate(
         route: ActivatedRouteSnapshot, 
         state: RouterStateSnapshot
@@ -24,8 +23,7 @@ export class LoginGuard implements CanActivate {
         | boolean
         | UrlTree {
         if(this.authService.isLoggedIn()) {
-            this.router.navigate(['main']);
-            // TODO dodati sve zabrane rutiranja
+            this.router.navigate(['/main']);
             return false;
         }
         return true;

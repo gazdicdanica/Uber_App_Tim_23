@@ -11,29 +11,49 @@ import { ConfirmationComponent } from './modules/layout-module/confirmation/conf
 import { ChangePersonalInfoComponent } from './modules/layout-module/change-personal-info/change-personal-info.component';
 import { VehicleFormComponent } from './modules/vehicle/vehicle-form/vehicle-form.component';
 import { DocumentsComponent } from './modules/layout-module/documents/documents.component';
-import { LoginGuard } from './modules/auth/guard/login.guard';
+import { LoginGuard } from './modules/guard/login/login.guard';
 import { ChangePwInputCodeComponent } from './modules/auth/password/change-pw-input-code/change-pw-input-code.component';
 import { InRideComponent } from './modules/layout-module/in-ride/in-ride-Driver/in-ride.component';
 import { InRidePassengerComponent } from './modules/layout-module/in-ride/in-ride-passenger/in-ride-passenger.component';
+import { AuthGuard } from './modules/guard/auth/auth.guard';
 
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,
-  canActivate: [LoginGuard] },
+  canActivate: [LoginGuard]},
   {path: 'signUp', component: SignUpFormComponent},
   {path: 'resetPw', component: ResetPasswordComponent},
-  {path: 'changePw', component: ChangePasswordComponent},
+  {path: 'changePw', component: ChangePasswordComponent,
+  canActivate: [AuthGuard]},
   {path: 'signUpForm', component: SignUpFormComponent},
-  {path: 'profile', component: ProfileComponent},
+  {path: 'profile', component: ProfileComponent,
+  canActivate: [AuthGuard]},
   {path: 'main', component: MainComponent},
   {path: 'rideInfo', component: RideInfoComponent},
   {path: 'confirmation', component: ConfirmationComponent},
-  {path: 'changePersonalInfo', component: ChangePersonalInfoComponent},
-  {path: 'vehicleForm', component: VehicleFormComponent},
-  {path: 'documents', component: DocumentsComponent},
+  {path: 'changePersonalInfo', component: ChangePersonalInfoComponent,
+  canActivate: [AuthGuard]},
+  {path: 'vehicleForm', component: VehicleFormComponent,
+  canActivate: [AuthGuard],
+  data: {
+    role: 'ROLE_DRIVER'
+  }},
+  {path: 'documents', component: DocumentsComponent,
+  canActivate: [AuthGuard],
+  data: {
+    role: 'ROLE_DRIVER'
+  }},
   {path: 'resetPwViaCode', component: ChangePwInputCodeComponent},
-  {path: 'inRide', component: InRideComponent},
-  {path: 'psngrInRide', component: InRidePassengerComponent},
+  {path: 'inRide', component: InRideComponent,
+  canActivate: [AuthGuard],
+  data: {
+    role: 'ROLE_DRIVER'
+  }},
+  {path: 'psngrInRide', component: InRidePassengerComponent,
+  canActivate: [AuthGuard],
+  data: {
+    role: 'ROLE_USER'
+  }},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 
