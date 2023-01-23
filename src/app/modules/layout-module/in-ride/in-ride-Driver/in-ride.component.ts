@@ -21,6 +21,9 @@ export class InRideComponent {
   role: any;
   private rideData!: Ride;
 
+
+  estimationValue = ["", ""];
+
   finishBtn!: HTMLElement;
   startBtn!: HTMLElement;
 
@@ -44,6 +47,10 @@ export class InRideComponent {
         });
       }
       );
+  }
+
+  addItem(estimationValue: string[]){
+    this.estimationValue = estimationValue;
   }
 
   ngAfterViewInit() {

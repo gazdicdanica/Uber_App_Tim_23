@@ -201,6 +201,8 @@ export class MapComponent{
       this.distance = ((e.routes[0].summary.totalDistance) / 1000);
       this.timeInMinutes = ((e.routes[0].summary.totalTime) % 3600 / 60);
       this.estimationEvent.emit([this.distance.toPrecision(2), this.timeInMinutes.toPrecision(2)]);
+      console.log(this.distance + " " + this.timeInMinutes);
+
     });
 
   }

@@ -1,12 +1,18 @@
 <div class="master-div">
     <div class="data-div" id="driver-in-ride" *ngIf="role == 'ROLE_DRIVER'">
-        <button class="start-btn" id="startBtn" color="accent" (click)="startRide()" mat-raised-button>Start Ride</button>
-        <button class="finish-btn" id="finishBtn" color="accent" (click)="finishRide()" mat-raised-button>Finish Ride</button>
+        <div id="estimate-div">
+            <p id="timer">{{estimationValue[1]}} min</p>
+            <p id="distance">({{estimationValue[0]}} km)</p>
+        </div>
+        <button class="form-btn" id="startBtn" color="accent" (click)="startRide()" mat-raised-button>Start ride</button>
+        <button class="form-btn" id="finishBtn" color="accent" (click)="finishRide()" mat-raised-button>Finish ride</button>
     </div>
     <div class="map-div">
-        <app-map [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
+        <app-map
+        (estimationEvent)="addItem($event)"
+         [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
     </div>
     <div class="panic-div">
-        <button color="primary" class="panic-btn" id="panic-btn" (click)="panic()" mat-raised-button>Panic</button>
+        <button color="warn" class="form-btn panic-btn" id="panic-btn" (click)="panic()" mat-raised-button>P A N I C</button>
     </div>
 </div>
