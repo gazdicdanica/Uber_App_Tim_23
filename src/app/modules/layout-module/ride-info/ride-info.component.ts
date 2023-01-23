@@ -44,8 +44,6 @@ export class RideInfoComponent implements OnInit{
   constructor(private userService: UserService, private mapService: MapService, private router:Router, 
     private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService) { }
 
-
-
   ngOnInit(): void{
     // this.standard = document.getElementById('standard');
     // this.luxury = document.getElementById('luxury');
@@ -135,37 +133,4 @@ export class RideInfoComponent implements OnInit{
   selectType(type: string) : void{
     this.vehicleType = type;
   }
-
-
-
-  // selectStandard(): void {
-  //   if (this.vehicleType == "LUXURY") {
-  //     this.luxury.style.boxShadow = "0 0 0 0";
-  //   } else if (this.vehicleType == "VAN") {
-  //     this.van.style = "0 0 0 0";
-  //   }
-  //   this.standard.style.boxShadow = "#f57804c7 0px 5px 15px";
-  //   this.vehicleType = "STANDARD";
-  // }
-
-  // selectLuxury(): void {
-  //   if(this.vehicleType == "STANDARD") {
-  //     this.standard.style.boxShadow = "0 0 0 0";
-  //   } else if(this.vehicleType == "VAN") {
-  //     this.van.style.boxShadow = "0 0 0 0";
-  //   } 
-  //   this.luxury.style.boxShadow = "#f57804c7 0px 5px 15px";
-  //   this.vehicleType = "LUXURY";
-    
-  // }
-
-  // selectVan(): void {
-  //   if (this.vehicleType == "STANDARD") {
-  //     this.standard.style.boxShadow = "0 0 0 0";
-  //   } else if (this.vehicleType == "LUXURY") {
-  //     this.luxury.style.boxShadow = "0 0 0 0";
-  //   }
-  //   this.van.style.boxShadow = "#f57804c7 0px 5px 15px";
-  //   this.vehicleType = "VAN";
-  // }
 }

@@ -22,7 +22,8 @@ import { DriverDocumentComponent } from './driver-document/driver-document.compo
 import { DocumentsComponent } from './documents/documents.component';
 import { NewRideDialogComponent } from './new-ride-dialog/new-ride-dialog.component';
 import { DeclineDialogComponent } from './decline-dialog/decline-dialog.component';
-import { InRideComponent } from './in-ride/in-ride/in-ride.component';
+import { InRideComponent } from './in-ride/in-ride-Driver/in-ride.component';
+import { InRidePassengerComponent } from './in-ride/in-ride-passenger/in-ride-passenger.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { InRideComponent } from './in-ride/in-ride/in-ride.component';
     DocumentsComponent,
     NewRideDialogComponent,
     DeclineDialogComponent,
-    InRideComponent
+    InRideComponent,
+    InRidePassengerComponent
   ],
   imports: [
     BrowserModule,

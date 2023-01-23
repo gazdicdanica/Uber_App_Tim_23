@@ -63,7 +63,6 @@ export class InRideComponent {
   }
 
   startRide(): void {
-    console.log("USAOOOOOO")
     this.startBtn.style.display = "none";
     this.finishBtn.style.display= "flex";
     this.rideService.startRide(this.rideData.id).subscribe({

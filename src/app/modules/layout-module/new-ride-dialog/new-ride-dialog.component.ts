@@ -18,6 +18,7 @@ export class NewRideDialogComponent implements OnInit{
 
   data!: Ride;
   role!: any;
+  search! : HTMLElement;
 
   newRide : FormGroup = new FormGroup({
     departure : new FormControl(),
@@ -45,6 +46,14 @@ export class NewRideDialogComponent implements OnInit{
       price: this.data.totalCost
     });
       
+  }
+
+  ngAfterViewInit() {
+    const x = document.getElementById('search-id');
+    if(x != null) {
+      this.search = x;
+      this.search.style.display = "none";
+    }
   }
 
   accept(){
@@ -82,6 +91,6 @@ export class NewRideDialogComponent implements OnInit{
     this.mapService.setEndValue(this.data.locations[this.data.locations.length-1].destination);
     this.mapService.setDrawRoute(true);
     this.dialogRef.close();
-    this.router.navigate(['main']);
+    this.router.navigate(['psngrInRide']);
   }
 }
