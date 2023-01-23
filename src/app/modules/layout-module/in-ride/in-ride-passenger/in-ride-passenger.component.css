@@ -1,0 +1,26 @@
+.master-div {
+    position: relative;
+}
+
+.map-div{
+    height: 90vh;
+}
+
+.data-div {
+    position: absolute;
+    z-index: 100000;
+    right: 0;
+}
+
+.panic-div {
+    position: absolute;
+    z-index: 100000;
+    right: 0;
+}
+
+.panic-btn {
+    width: 100px;
+    font-weight: 400;
+    font-size: large;
+    height: auto;
+}

@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 import { RideRequest } from '../../model/RideRequest';
 import { Ride } from '../../model/Ride';
 import { VehicleType } from '../../model/vehicleType';
+import { Location } from '../../model/Location';
 
 
 @Injectable({
@@ -16,6 +17,12 @@ export class RideService {
 
   private rideData = new BehaviorSubject<any>(null);
   rideData$ = this.rideData.asObservable();
+
+  private start = new BehaviorSubject<Location>(new Location(0, 0, ''));
+  start$ = this.start.asObservable();
+
+  private end = new BehaviorSubject<Location>(new Location(0, 0, ''));
+  end$ = this.end.asObservable();
 
 
   constructor(private authService: AuthService, private router: Router, private httpClient: HttpClient) { }
@@ -47,5 +54,13 @@ export class RideService {
 
   panic(id: number, body: any): Observable<any> {
     return this.httpClient.put<any>(environment.apiHost+"/ride/"+id+"/panic", body);
+  }
+
+  setStart(val: Location) {
+    this.start.next(val);
+  }
+
+  setEnd(val: Location) {
+    this.end.next(val);
   }
 }
