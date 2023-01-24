@@ -67,6 +67,8 @@ export class SearchLocationsComponent implements OnInit {
         { next:(res) => {
           if(res[0].length == 0 || res[1].length == 0){
             alert("Sorry, we didn't find a match for enetered address!");
+            this.mapService.setStartValue(new Location(0,0,""));
+            this.mapService.setEndValue(new Location(0,0,""));
             this.startLocation  = "";
             this.endLocation = "";
             this.mapService.setDrawRoute(false);
