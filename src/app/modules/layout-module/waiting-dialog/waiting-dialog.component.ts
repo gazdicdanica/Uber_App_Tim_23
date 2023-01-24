@@ -16,6 +16,7 @@ export class WaitingDialogComponent implements OnInit{
   stompClient: any;
 
   wait: boolean = true;
+  rejection : boolean = false;
   message: string = "";
   title: string = "";
 
@@ -50,6 +51,7 @@ export class WaitingDialogComponent implements OnInit{
       this.wait = false;
       this.dialogRef.updateSize("35%", "auto");
       if(response.status == "REJECTED"){
+        this.rejection = true;
         this.title = "Unsuccessful ride schedule";
         this.message = "Unfortunately, all drivers are busy.\nPlease try again";
       }else if(response.status == "ACCEPTED"){

@@ -176,4 +176,8 @@ export class InRideComponent {
       
     });
   }
+
+  canDeactivate(){
+    
+  }
 }
