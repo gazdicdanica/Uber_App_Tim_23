@@ -1,0 +1,25 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened><app-side-navbar></app-side-navbar></mat-sidenav>
+  <mat-sidenav-content class="main">
+
+    <mat-card>
+        <mat-card-header><b>Ride Details</b></mat-card-header>
+        <br />
+        <br />
+        <mat-card-content>Name: {{ ride.driver.email }}</mat-card-content>
+        <mat-card-content>Departure: {{ ride.locations[0].departure.address }}</mat-card-content>
+        <mat-card-content>Destination: {{ ride.locations[0].destination.address }}</mat-card-content>
+        <mat-card-content>Babies: {{ ride.babyTransport }}</mat-card-content>
+        <mat-card-content>Pets: {{ ride.petTransport }}</mat-card-content>
+        <mat-card-content>Status: {{ ride.status }}</mat-card-content>
+        <mat-card-content>Vehicle Type: {{ ride.vehicleType }}</mat-card-content>
+        <mat-card-content>Rejection: {{ ride.rejection }}</mat-card-content>
+        <mat-card-content>Total Cost: {{ ride.totalCost }}</mat-card-content>
+        <mat-card-content>Start Time: {{ ride.startTime }}</mat-card-content>
+        <mat-card-content>End Time: {{ ride.endTime }}</mat-card-content>
+        <mat-card-content>Total Distance: {{ ride.totalDistance }}</mat-card-content>
+
+    </mat-card>
+  
+  </mat-sidenav-content>
+</mat-sidenav-container>

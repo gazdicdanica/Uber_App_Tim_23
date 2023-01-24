@@ -29,6 +29,7 @@ import { RideHistoryComponent } from './ride-history/ride-history.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { PanicDialogComponent } from './in-ride/panic-dialog/panic-dialog.component';
+import { RideDetailsComponent } from './ride-details/ride-details.component';
 
 @NgModule({
   declarations: [
@@ -48,10 +49,11 @@ import { PanicDialogComponent } from './in-ride/panic-dialog/panic-dialog.compon
     DeclineDialogComponent,
     InRideComponent,
     InRidePassengerComponent,
-    RideHistoryComponent
+    RideHistoryComponent,
     WaitingDialogComponent,
     InRidePassengerComponent,
-    PanicDialogComponent
+    PanicDialogComponent,
+    RideDetailsComponent
   ],
   imports: [
     BrowserModule,
