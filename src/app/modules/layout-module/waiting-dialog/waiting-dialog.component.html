@@ -8,7 +8,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button (click)="cancel()" id="cancel-btn" mat-raised-button color="primary" class="form-btn">Cancel</button>
+    <button *ngIf="!rejection" (click)="cancel()" id="cancel-btn" mat-raised-button color="primary" class="form-btn">Cancel</button>
     <button *ngIf="!wait" (click)="closeDialog()" color="accent" class="form-btn" id="ok-btn" mat-raised-button>Ok</button>
     
 </mat-dialog-actions>

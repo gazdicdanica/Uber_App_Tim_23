@@ -13,6 +13,7 @@ import { MapModule } from './modules/map/map.module';
 import { NavbarModule } from './modules/navbar/navbar.module';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { Interceptor } from './modules/auth/interceptor/interceptor.interceptor';
+import { CanDeactivateGuard } from './modules/guard/deactivate/can-deactivate.guard';
 import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
@@ -37,7 +38,7 @@ import { MatTableModule } from '@angular/material/table';
     provide: HTTP_INTERCEPTORS,
     useClass: Interceptor,
     multi: true,
-  }],
+  }, CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

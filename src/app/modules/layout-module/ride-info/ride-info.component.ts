@@ -90,7 +90,8 @@ export class RideInfoComponent implements OnInit{
           console.log(result);
         },
         error: (error) => {
-          console.log(error);
+          alert(error.error.message);
+          this.router.navigate(["/main"]);
         }
       });
     }
