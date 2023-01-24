@@ -7,6 +7,7 @@
     <p *ngIf="!wait">{{message}}</p>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" *ngIf="!wait">
-    <button (click)="closeDialog()" color="accent" class="form-btn" id="ok-btn" mat-raised-button>Ok</button>
+<mat-dialog-actions align="end">
+    <button *ngIf="!wait" (click)="closeDialog()" color="accent" class="form-btn" id="ok-btn" mat-raised-button>Ok</button>
+    <button *ngIf="wait" (click)="cancel()" id="cancel-btn" mat-raised-button color="primary" class="form-btn">Cancel</button>
 </mat-dialog-actions>
