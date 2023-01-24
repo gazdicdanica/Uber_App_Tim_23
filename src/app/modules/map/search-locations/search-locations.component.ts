@@ -69,6 +69,7 @@ export class SearchLocationsComponent implements OnInit {
             alert("Sorry, we didn't find a match for enetered address!");
             this.startLocation  = "";
             this.endLocation = "";
+            this.mapService.setDrawRoute(false);
             return;
           }else{
             this.mapService.setStartValue(new Location(res[0][0].lon, res[0][0].lat, res[0][0].display_name));

@@ -25,8 +25,18 @@ export class MainComponent implements OnInit{
 
   stompClient: any;
 
-  constructor(private mapService: MapService, private router:Router, private authService: AuthService, 
-    private wsService: WebSocketService, private dialog: MatDialog) {}
+  constructor(private mapService: MapService, private router:Router, private authService: AuthService,
+    private wsService: WebSocketService, private dialog: MatDialog) {
+  }
+
+  ngAfterViewInit() : void{
+    if(this.role == "ROLE_DRIVER"){
+      const elem = document.getElementById('mapica');
+      if(elem != undefined) {
+        elem.style.height = "91vh";
+      }
+    }
+  }
 
   ngOnInit():void{
 
@@ -35,6 +45,10 @@ export class MainComponent implements OnInit{
     });
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
+    this.mapService.setStartValue(new Location(0,0,""));
+    this.mapService.setEndValue(new Location(0,0,""));
+    this.mapService.setDrawRoute(false);
 
     this.mapService.startSelectedValue$.subscribe((value) => {
       this.startLocation = value;
@@ -51,7 +65,7 @@ export class MainComponent implements OnInit{
       }
 
       if(this.stompClient == null){
-        this.stompClient = this.wsService.connect();
+        this.stompClient = this.wsService.connect(false);
         let that = this;
         this.stompClient.connect({}, function() {
           that.openSocket();
@@ -60,7 +74,7 @@ export class MainComponent implements OnInit{
       
     } else if (this.role == "ROLE_USER") {
         if(this.stompClient == null) {
-          this.stompClient = this.wsService.connect();
+          this.stompClient = this.wsService.connect(false);
           let that = this;
           this.stompClient.connect({}, function() {
             that.openSocketPassenger();
@@ -78,10 +92,20 @@ export class MainComponent implements OnInit{
   }
 
   openSocket(): void{
-    this.stompClient.subscribe("/ride/"+this.authService.getId(), (message: {body: string}) => {
+    this.stompClient.subscribe("/ride-driver/"+this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
       this.openDialog(response, true);
     });
+
+    this.stompClient.subscribe("/ride-cancel/" + this.authService.getId(), (message : {body : string}) => {
+      let response: Ride = JSON.parse(message.body);
+      alert("Pending ride is canceled");
+      if(this.dialog){
+        this.dialog.closeAll();
+      }
+      this.router.navigate(["/main"]);
+      
+    })
   }
 
   openDialog(response: Ride, isDriver: boolean){

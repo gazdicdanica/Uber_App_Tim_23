@@ -11,6 +11,9 @@ import { User } from '../../model/user';
 import { UserShort } from '../../model/UserShort';
 import { VehicleService } from '../../vehicle/vehicle.service';
 import { VehicleType } from '../../model/vehicleType';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
+import { Ride } from '../../model/Ride';
 
 @Component({
   selector: 'app-ride-info',
@@ -29,25 +32,20 @@ export class RideInfoComponent implements OnInit{
   isBaby: boolean = false;
   isPets: boolean = false;
   friend: UserShort[] = [];
-  
+    
   vehicleType: string = "";
 
   @ViewChildren("vehicleCard") vehicleCard! : QueryList<ElementRef>
-  // standard: any;
-  // luxury: any;
-  // van: any;
 
   rideData: any;
 
   vehicleTypes!: VehicleType[];
 
   constructor(private userService: UserService, private mapService: MapService, private router:Router, 
-    private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService) { }
+    private authService: AuthService, private rideService: RideService, private vehicleService: VehicleService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void{
-    // this.standard = document.getElementById('standard');
-    // this.luxury = document.getElementById('luxury');
-    // this.van = document.getElementById('van');
 
     this.role = this.authService.getRole();
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -77,7 +75,7 @@ export class RideInfoComponent implements OnInit{
 
   createRide(): void {
     const route = new Route(this.startLocation, this.endLocation, Number(this.estimationValue[0]));
-    if (this.rideData.time == undefined) {
+    if (this.rideData.time == null) {
       this.rideData.time = new Date();
     }
     this.rideReq = new RideRequest(route, this.friend, this.vehicleType, this.rideData.time, this.isBaby, this.isPets, Number(this.estimationValue[1]));
@@ -87,6 +85,8 @@ export class RideInfoComponent implements OnInit{
     } else {
       this.rideService.createRide(this.rideReq).subscribe({
         next: (result) => {
+          this.rideService.setRide(result);
+          this.openWaitDialog(result);
           console.log(result);
         },
         error: (error) => {
@@ -132,5 +132,19 @@ export class RideInfoComponent implements OnInit{
 
   selectType(type: string) : void{
     this.vehicleType = type;
+  }
+
+  openWaitDialog(result : Ride){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    dialogConfig.data = result;
+
+    this.dialog.open(WaitingDialogComponent, dialogConfig);
   }
 }

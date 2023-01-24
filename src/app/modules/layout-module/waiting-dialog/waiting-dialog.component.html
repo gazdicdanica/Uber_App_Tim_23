@@ -1,0 +1,14 @@
+<h1 mat-dialog-title> {{title}}</h1>
+
+<mat-dialog-content>
+    <mat-spinner *ngIf="wait" id="spinner" color="accent">
+
+    </mat-spinner>
+    <p *ngIf="!wait">{{message}}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button (click)="cancel()" id="cancel-btn" mat-raised-button color="primary" class="form-btn">Cancel</button>
+    <button *ngIf="!wait" (click)="closeDialog()" color="accent" class="form-btn" id="ok-btn" mat-raised-button>Ok</button>
+    
+</mat-dialog-actions>

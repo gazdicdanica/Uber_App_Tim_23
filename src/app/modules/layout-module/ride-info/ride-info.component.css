@@ -13,7 +13,7 @@
     position: absolute;
     justify-content: center;
     top: 120px;
-    z-index: 100000;
+    z-index: 1000;
 }
 
 .vehicle-container{

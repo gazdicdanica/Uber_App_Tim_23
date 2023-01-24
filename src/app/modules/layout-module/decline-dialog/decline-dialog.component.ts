@@ -1,7 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef , MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MapService } from '../../map/map.service';
+import { Location } from '../../model/Location';
 import { Ride } from '../../model/Ride';
+import { DriverService } from '../../services/driver/driver.service';
 import { RideService } from '../../services/ride/ride.service';
 
 @Component({
@@ -11,7 +15,8 @@ import { RideService } from '../../services/ride/ride.service';
 })
 export class DeclineDialogComponent implements OnInit {
 
-  data!: Ride;
+  ride!: Ride;
+  panic: boolean;
 
   ngOnInit(): void {
     
@@ -21,18 +26,38 @@ export class DeclineDialogComponent implements OnInit {
     reason : new FormControl("", Validators.required)
   });
 
-  constructor(private dialogRef: MatDialogRef<DeclineDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any, private rideService: RideService){
-    this.data = data;
+  constructor(private dialogRef: MatDialogRef<DeclineDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any,
+   private rideService: RideService, private mapService: MapService, private router: Router){
+    this.ride = data.ride;
+    this.panic = data.panic;
   }
 
   submit(){
     if(this.decline.valid){
-      this.rideService.cancelRide(this.data.id, {"reason": this.decline.value.reason}).subscribe({
-        next : (res) => {
+      if(this.panic){
+        this.rideService.panic(this.ride.id, {"reason" : this.decline.value.reason}).subscribe((value) => {
           this.dialogRef.close();
-        }
-      });
+          this.router.navigate(['/main']);
+          this.mapService.setStartValue(new Location(0, 0, ''));
+          this.mapService.setEndValue(new Location(0, 0, ''));
+          this.mapService.setDrawRoute(false);
+        })
+
+      }else{
+        this.rideService.cancelRide(this.ride.id, {"reason": this.decline.value.reason}).subscribe({
+          next : (res) => {
+            this.dialogRef.close();
+          }
+        });
+      }
+
+      
+      
     }
+  }
+
+  cancel(){
+    this.dialogRef.close();
   }
 
 }
