@@ -9,6 +9,8 @@ import { Ride } from 'src/app/modules/model/Ride';
 import { DriverService } from 'src/app/modules/services/driver/driver.service';
 import { RideService } from 'src/app/modules/services/ride/ride.service';
 import { Observable } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { DeclineDialogComponent } from '../../decline-dialog/decline-dialog.component';
 
 @Component({
   selector: 'app-in-ride',
@@ -29,7 +31,7 @@ export class InRideComponent {
 
 
   constructor(private authService: AuthService, private rideService: RideService, private driverService: DriverService,
-    private mapService: MapService, private router: Router) {
+    private mapService: MapService, private router: Router, private dialog: MatDialog) {
 
     rideService.rideData$.subscribe(
       e => {
@@ -46,7 +48,7 @@ export class InRideComponent {
           },
         });
       }
-      );
+    );
   }
 
   addItem(estimationValue: string[]){
@@ -108,18 +110,26 @@ export class InRideComponent {
   }
 
   panic(): void {
-    this.rideService.panic(this.rideData.id, {reason: "razlog123"}).subscribe({
-      next: (result) => {
-        console.log(result);
-        this.driverService.updateLocation(this.startLocation).subscribe();
-        this.router.navigate(['/main']);
-        this.mapService.setStartValue(new Location(0, 0, ''));
-        this.mapService.setEndValue(new Location(0, 0, ''));
-        this.mapService.setDrawRoute(false);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    const data = {
+      ride: this.rideData,
+      panic: true
+    }
+
+    dialogConfig.data = data;
+
+    this.dialog.open(DeclineDialogComponent, dialogConfig);
+    this.driverService.updateLocation(this.startLocation).subscribe();
+    this.router.navigate(['/main']);
+    this.mapService.setStartValue(new Location(0, 0, ''));
+    this.mapService.setEndValue(new Location(0, 0, ''));
+    this.mapService.setDrawRoute(false);
   }
 }

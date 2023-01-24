@@ -80,7 +80,11 @@ export class NewRideDialogComponent implements OnInit{
     dialogConfig.height = "auto";
     dialogConfig.width = "35%";
 
-    dialogConfig.data=response;
+    const data = {
+      ride : response,
+      panic : false
+    }
+    dialogConfig.data=data;
 
     const dialogRef = this.declineDialog.open(DeclineDialogComponent, dialogConfig);
 

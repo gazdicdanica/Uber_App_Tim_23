@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/auth.service';
 import { MapService } from 'src/app/modules/map/map.service';
 import { Location } from 'src/app/modules/model/Location';
+import { Ride } from 'src/app/modules/model/Ride';
 import { RideService } from 'src/app/modules/services/ride/ride.service';
+import { DeclineDialogComponent } from '../../decline-dialog/decline-dialog.component';
 
 @Component({
   selector: 'app-in-ride-passenger',
@@ -16,11 +19,13 @@ export class InRidePassengerComponent {
   endLocation! : Location;
   search!: HTMLElement;
 
+  rideData!: Ride;
+
   estimationValue = ["", ""];
 
 
   constructor(private authService: AuthService, private router: Router, private mapService: MapService, 
-    private rideService: RideService) {}
+    private rideService: RideService, private declineDialog : MatDialog) {}
 
   ngOnInit() {
     this.role = this.authService.getRole();
@@ -34,6 +39,13 @@ export class InRidePassengerComponent {
         this.endLocation = e;
       }
     )
+
+    this.rideService.rideData$.subscribe(
+      e => {
+        this.rideData = e;
+      }
+    );
+
   }
 
   addItem(estimationValue: string[]){
@@ -52,6 +64,28 @@ export class InRidePassengerComponent {
     }
   }
 
-  panic(): void {}
+  panic(): void {
+    
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    const data = {
+      ride: this.rideData,
+      panic: true
+    }
+
+    dialogConfig.data = data;
+
+    this.declineDialog.open(DeclineDialogComponent, dialogConfig);
+    this.router.navigate(['/main']);
+    this.mapService.setStartValue(new Location(0, 0, ''));
+    this.mapService.setEndValue(new Location(0, 0, ''));
+    this.mapService.setDrawRoute(false);
+  }
 
 }
