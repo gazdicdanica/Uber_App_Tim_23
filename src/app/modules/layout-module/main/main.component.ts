@@ -73,7 +73,7 @@ export class MainComponent implements OnInit{
   openSocketPassenger(): void {
     this.stompClient.subscribe("/linkPassengers/"+this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
-      console.log(response);
+      // console.log(response);
       this.openDialog(response, false);
     });
   }

@@ -21,6 +21,8 @@ export class InRidePassengerComponent {
 
   rideData!: Ride;
 
+  rideStatus!: string;
+
   estimationValue = ["", ""];
 
 
@@ -43,8 +45,17 @@ export class InRidePassengerComponent {
     this.rideService.rideData$.subscribe(
       e => {
         this.rideData = e;
+        console.log("IN RIDE \n" + this.rideData.id);
       }
     );
+
+    this.rideService.rideStatus$.subscribe(
+      e => {
+        if(e === "PANIC"){
+          console.log("PNAIC");
+        }
+      }
+    )
 
   }
 
@@ -58,7 +69,7 @@ export class InRidePassengerComponent {
       this.search = x;
       this.search.style.display = "none";
       if(this.startLocation != null) {
-        console.log("USLI SMO")
+        // console.log("USLI SMO")
         this.mapService.setDrawRoute(true);
       }
     }
@@ -82,10 +93,13 @@ export class InRidePassengerComponent {
     dialogConfig.data = data;
 
     this.declineDialog.open(DeclineDialogComponent, dialogConfig);
-    this.router.navigate(['/main']);
-    this.mapService.setStartValue(new Location(0, 0, ''));
-    this.mapService.setEndValue(new Location(0, 0, ''));
-    this.mapService.setDrawRoute(false);
+    this.declineDialog.afterAllClosed.subscribe(e => {
+      this.router.navigate(['/main']);
+      this.mapService.setStartValue(new Location(0, 0, ''));
+      this.mapService.setEndValue(new Location(0, 0, ''));
+      this.mapService.setDrawRoute(false);
+    })
+    
   }
 
 }

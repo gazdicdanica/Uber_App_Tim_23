@@ -24,6 +24,9 @@ export class RideService {
   private end = new BehaviorSubject<Location>(new Location(0, 0, ''));
   end$ = this.end.asObservable();
 
+  private rideStatus = new BehaviorSubject<string>("");
+  rideStatus$ = this.rideStatus.asObservable();
+
 
   constructor(private authService: AuthService, private router: Router, private httpClient: HttpClient) { }
 
@@ -44,11 +47,15 @@ export class RideService {
     this.rideData.next(value);
   }
 
-  startRide(id: number): Observable<any> {
+  setRideStatus(value : string) : void{
+    this.rideStatus.next(value);
+  }
+
+  startRide(id: number): Observable<Ride> {
     return this.httpClient.put<any>(environment.apiHost+"/ride/"+id+"/start", null);
   }
 
-  finishRide(id: number): Observable<any> {
+  finishRide(id: number): Observable<Ride> {
     return this.httpClient.put<any>(environment.apiHost+"/ride/"+id+"/end", null);
   }
 

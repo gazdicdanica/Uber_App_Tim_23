@@ -69,6 +69,12 @@ export class InRideComponent {
 
   ngOnInit() {
     this.role = this.authService.getRole();
+    this.rideService.rideStatus$.subscribe(
+      e => {
+        console.log(e);
+
+      }
+    )
   }
 
   startRide(): void {
@@ -76,12 +82,14 @@ export class InRideComponent {
     this.finishBtn.style.display= "flex";
     this.rideService.startRide(this.rideData.id).subscribe({
       next: (result) => {
-        console.log(result);
+        this.rideService.setRideStatus(result.status);
+        // console.log(result);
       },
       error: (error) => {
         console.log(error);
       }
     });
+
 
     this.startLocation = this.endLocation;
     this.mapService.setStartValue(this.startLocation);
@@ -96,7 +104,8 @@ export class InRideComponent {
   finishRide(): void {
     this.rideService.finishRide(this.rideData.id).subscribe({
       next: (result) => {
-        console.log(result);
+        // console.log(result);
+        this.rideService.setRideStatus(result.status);
         this.driverService.updateLocation(this.endLocation).subscribe();
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
@@ -127,9 +136,12 @@ export class InRideComponent {
 
     this.dialog.open(DeclineDialogComponent, dialogConfig);
     this.driverService.updateLocation(this.startLocation).subscribe();
-    this.router.navigate(['/main']);
-    this.mapService.setStartValue(new Location(0, 0, ''));
-    this.mapService.setEndValue(new Location(0, 0, ''));
-    this.mapService.setDrawRoute(false);
+    this.dialog.afterAllClosed.subscribe(e=> {
+      this.router.navigate(['/main']);
+      this.mapService.setStartValue(new Location(0, 0, ''));
+      this.mapService.setEndValue(new Location(0, 0, ''));
+      this.mapService.setDrawRoute(false);
+    })
+    
   }
 }

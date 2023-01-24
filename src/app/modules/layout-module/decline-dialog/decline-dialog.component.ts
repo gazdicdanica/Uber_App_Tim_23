@@ -25,7 +25,7 @@ export class DeclineDialogComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<DeclineDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any,
    private rideService: RideService){
-    this.ride = data.data;
+    this.ride = data.ride;
     this.panic = data.panic;
   }
 
