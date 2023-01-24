@@ -44,6 +44,10 @@ export class RideService {
     this.rideData.next(value);
   }
 
+  withdrawRide(id: number) : Observable<Ride>{
+    return this.httpClient.put<any>(environment.apiHost + "/ride/ " + id + "/withdraw", null);
+  }
+
   startRide(id: number): Observable<Ride> {
     return this.httpClient.put<any>(environment.apiHost+"/ride/"+id+"/start", null);
   }

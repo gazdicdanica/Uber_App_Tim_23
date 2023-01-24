@@ -75,7 +75,7 @@ export class RideInfoComponent implements OnInit{
 
   createRide(): void {
     const route = new Route(this.startLocation, this.endLocation, Number(this.estimationValue[0]));
-    if (this.rideData.time == undefined) {
+    if (this.rideData.time == null) {
       this.rideData.time = new Date();
     }
     this.rideReq = new RideRequest(route, this.friend, this.vehicleType, this.rideData.time, this.isBaby, this.isPets, Number(this.estimationValue[1]));
@@ -86,7 +86,7 @@ export class RideInfoComponent implements OnInit{
       this.rideService.createRide(this.rideReq).subscribe({
         next: (result) => {
           this.rideService.setRide(result);
-          this.openWaitDialog();
+          this.openWaitDialog(result);
           console.log(result);
         },
         error: (error) => {
@@ -134,14 +134,16 @@ export class RideInfoComponent implements OnInit{
     this.vehicleType = type;
   }
 
-  openWaitDialog(){
+  openWaitDialog(result : Ride){
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.closeOnNavigation = false;
-    dialogConfig.height = "35%";
+    dialogConfig.height = "auto";
     dialogConfig.width = "35%";
+
+    dialogConfig.data = result;
 
     this.dialog.open(WaitingDialogComponent, dialogConfig);
   }

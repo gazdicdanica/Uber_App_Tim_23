@@ -1,8 +1,9 @@
-import { Component, OnInit} from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject} from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { Ride } from '../../model/Ride';
+import { RideService } from '../../services/ride/ride.service';
 import { WebSocketService } from '../../services/WebSocket/WebSocket.service';
 
 @Component({
@@ -20,8 +21,10 @@ export class WaitingDialogComponent implements OnInit{
 
   data!: Ride ;
 
-  constructor(private dialogRef: MatDialogRef<WaitingDialogComponent>, private wsService: WebSocketService,
-     private authService: AuthService, private router: Router){}
+  constructor(private dialogRef: MatDialogRef<WaitingDialogComponent>, @Inject(MAT_DIALOG_DATA) data : any, private wsService: WebSocketService,
+    private authService: AuthService, private rideService: RideService, private router: Router){
+      this.data = data;
+  }
 
   ngOnInit(): void {
     this.title = "Waiting for driver...";
@@ -54,6 +57,16 @@ export class WaitingDialogComponent implements OnInit{
         this.message = "Driver is on his way!";
       }
     })
+  }
+
+  cancel(){
+    this.rideService.withdrawRide(this.data.id).subscribe(
+      e => {
+        this.dialogRef.close();
+        alert("Ride canceled");
+        this.router.navigate(["/main"]);
+      }
+    )
   }
 
   closeDialog(){
