@@ -3,8 +3,10 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../auth/auth.service';
+import { Route } from '../../model/Route';
 import { UserShort } from '../../model/UserShort';
 import { RideService } from '../../services/ride/ride.service';
+
 
 @Component({
   selector: 'app-ride-history',
@@ -58,13 +60,17 @@ export class RideHistoryComponent  implements OnInit{
     if(this.mSort != undefined){
       if(this.mSort.active == undefined) {
         this.mSort.active = "";
-      }}
+      } else if (this.mSort.active == "departure"){
+        this.mSort.active = "locations";
+      } else if (this.mSort.active == "destination") {
+        this.mSort.active = "locations";
+      }
+    }
       this.val = {
         page: pageNum,
         size: pageSize,
         sort: this.mSort ? this.mSort.active + ',' + this.mSort.direction : '',
-      }    
-    console.log(this.val);
+      }
     this.rideService.getRides(this.authService.getId(), this.role, this.val).subscribe({
       next: (result) => {
         this.data = result;
@@ -84,7 +90,7 @@ export class RideHistoryComponent  implements OnInit{
 export interface RidePaginatedResponse {
   _id: number;
   driver: UserShort;
-  locations: Location[];
+  locations: Route[];
   passengers: UserShort[];
   petTransport: boolean;
   babyTransport: boolean;

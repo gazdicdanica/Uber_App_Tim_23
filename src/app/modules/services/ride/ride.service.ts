@@ -81,4 +81,8 @@ export class RideService {
   getRideCount(id: number): Observable<any> {
     return this.httpClient.get(environment.apiHost+"/user/"+id+"/rideCount");
   }
+
+  getRideById(id: number): Observable<any> {
+    return this.httpClient.get(environment.apiHost+"/ride/"+id);
+  }
 }

@@ -17,11 +17,13 @@ import { InRideComponent } from './modules/layout-module/in-ride/in-ride-Driver/
 import { InRidePassengerComponent } from './modules/layout-module/in-ride/in-ride-passenger/in-ride-passenger.component';
 import { RideHistoryComponent } from './modules/layout-module/ride-history/ride-history.component';
 import { AuthGuard } from './modules/guard/auth/auth.guard';
+import { RideDetailsComponent } from './modules/layout-module/ride-details/ride-details.component';
 import { CanDeactivateGuard } from './modules/guard/deactivate/can-deactivate.guard';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,
   canActivate: [LoginGuard]},
+  {path: 'rideDetails/:rideId', component: RideDetailsComponent},
   {path: 'signUp', component: SignUpFormComponent},
   {path: 'resetPw', component: ResetPasswordComponent},
   {path: 'changePw', component: ChangePasswordComponent,
