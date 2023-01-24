@@ -67,4 +67,18 @@ export class RideService {
   setEnd(val: Location) {
     this.end.next(val);
   }
+
+  getRides(id: number, role: any, pageable: any): Observable<any> {
+    if(role == 'ROLE_DRIVER'){
+      return this.httpClient.get(environment.apiHost+"/driver/"+id+"/ride?page="+pageable.page+"&size="+pageable.size+"&sort="+pageable.sort);
+    } else if(role == 'ROLE_USER') {
+      return this.httpClient.get(environment.apiHost+"/passenger/"+id+"/ride?page="+pageable.page+"&size="+pageable.size+"&sort="+pageable.sort);
+    } else {
+      throw new Error('A eo ne znam kako, nema role')
+    }
+  }
+
+  getRideCount(id: number): Observable<any> {
+    return this.httpClient.get(environment.apiHost+"/user/"+id+"/rideCount");
+  }
 }

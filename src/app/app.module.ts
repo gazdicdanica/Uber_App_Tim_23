@@ -14,6 +14,7 @@ import { NavbarModule } from './modules/navbar/navbar.module';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { Interceptor } from './modules/auth/interceptor/interceptor.interceptor';
 import { CanDeactivateGuard } from './modules/guard/deactivate/can-deactivate.guard';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CanDeactivateGuard } from './modules/guard/deactivate/can-deactivate.gu
   ],
   imports: [
     BrowserModule,
+    MatTableModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
