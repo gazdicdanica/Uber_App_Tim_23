@@ -46,6 +46,10 @@ export class MainComponent implements OnInit{
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
+    this.mapService.setStartValue(new Location(0,0,""));
+    this.mapService.setEndValue(new Location(0,0,""));
+    this.mapService.setDrawRoute(false);
+
     this.mapService.startSelectedValue$.subscribe((value) => {
       this.startLocation = value;
     });
@@ -92,6 +96,16 @@ export class MainComponent implements OnInit{
       let response : Ride = JSON.parse(message.body);
       this.openDialog(response, true);
     });
+
+    this.stompClient.subscribe("/ride-cancel/" + this.authService.getId(), (message : {body : string}) => {
+      let response: Ride = JSON.parse(message.body);
+      alert("Pending ride is canceled");
+      if(this.dialog){
+        this.dialog.closeAll();
+      }
+      this.router.navigate(["/main"]);
+      
+    })
   }
 
   openDialog(response: Ride, isDriver: boolean){

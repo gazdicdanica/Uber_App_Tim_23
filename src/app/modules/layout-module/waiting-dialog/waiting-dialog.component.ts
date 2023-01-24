@@ -64,6 +64,7 @@ export class WaitingDialogComponent implements OnInit{
       e => {
         this.dialogRef.close();
         alert("Ride canceled");
+        this.router.navigate(["/main"]);
       }
     )
   }
