@@ -25,6 +25,8 @@
     "@angular/router": "^15.0.0",
     "@auth0/angular-jwt": "^5.1.0",
     "@types/mapbox-gl-leaflet": "^0.0.1",
+    "angular-datatables": "^15.0.0",
+    "datatables.net": "^1.13.1",
     "leaflet": "^1.9.3",
     "leaflet-routing-machine": "^3.2.12",
     "leaflet.control.resizer": "^0.0.1",

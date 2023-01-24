@@ -15,8 +15,8 @@ import { LoginGuard } from './modules/guard/login/login.guard';
 import { ChangePwInputCodeComponent } from './modules/auth/password/change-pw-input-code/change-pw-input-code.component';
 import { InRideComponent } from './modules/layout-module/in-ride/in-ride-Driver/in-ride.component';
 import { InRidePassengerComponent } from './modules/layout-module/in-ride/in-ride-passenger/in-ride-passenger.component';
+import { RideHistoryComponent } from './modules/layout-module/ride-history/ride-history.component';
 import { AuthGuard } from './modules/guard/auth/auth.guard';
-
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,
@@ -44,6 +44,9 @@ const routes: Routes = [
     role: 'ROLE_DRIVER'
   }},
   {path: 'resetPwViaCode', component: ChangePwInputCodeComponent},
+  {path: 'inRide', component: InRideComponent},
+  {path: 'psngrInRide', component: InRidePassengerComponent},
+  {path: 'rideHistory', component: RideHistoryComponent},
   {path: 'inRide', component: InRideComponent,
   canActivate: [AuthGuard],
   data: {

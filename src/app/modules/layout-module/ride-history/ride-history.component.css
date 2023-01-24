@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+  }
+  
+  button {
+    margin-left: 20px;
+  }
+
+.example-container{
+    height: 87%;
+}
+
+
+mat-sidenav{
+    width: 15%;
+}  

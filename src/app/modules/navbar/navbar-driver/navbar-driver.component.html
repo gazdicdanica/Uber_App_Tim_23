@@ -20,7 +20,7 @@
             <img id="photo2" src="./../../../../assets/images/pngwing.com.png">
             <div class="dropdown-content">
                 <a href="#" [routerLink]="['/main']">Home</a>
-                <a href="#">Ride History</a>
+                <a [routerLink]="['/rideHistory']">Ride History</a>
                 <a [routerLink]="['/profile']">Account</a>
                 <a [routerLink]="['/documents']">Documents</a>
                 <a (click)="logout()">Log out</a>
