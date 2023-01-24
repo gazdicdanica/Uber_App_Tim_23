@@ -112,23 +112,30 @@ export class InRidePassengerComponent {
   }
 
   openSocket() : void{
-    this.stompClient.subscribe("/ride-passenger/" + this.authService.getId(), (message: {body: string}) => {
+    this.stompClient.subscribe("/ride-panic/" + this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
-      this.rideStatus = response.status;
-
-      if(this.rideStatus === "PANIC"){
         this.openPanicDialog();
         this.router.navigate(["/main"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);
-      }else if(this.rideStatus === "FINISHED"){
+      
+      
+    });
+
+    this.stompClient.subscribe("/ride-passenger/" + this.authService.getId(), (message: {body: string}) => {
+      let response : Ride = JSON.parse(message.body);
+      this.rideStatus = response.status;
+      if(this.rideStatus === "FINISHED"){
         // TODO oceni voznju
         this.router.navigate(["/main"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);
       }
+
+        
+      
       
     });
   }

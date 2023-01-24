@@ -11,6 +11,8 @@ import { RideService } from 'src/app/modules/services/ride/ride.service';
 import { Observable } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DeclineDialogComponent } from '../../decline-dialog/decline-dialog.component';
+import { PanicDialogComponent } from '../panic-dialog/panic-dialog.component';
+import { WebSocketService } from 'src/app/modules/services/WebSocket/WebSocket.service';
 
 @Component({
   selector: 'app-in-ride',
@@ -23,6 +25,7 @@ export class InRideComponent {
   role: any;
   private rideData!: Ride;
 
+  stompClient!: any;
 
   estimationValue = ["", ""];
 
@@ -31,7 +34,7 @@ export class InRideComponent {
 
 
   constructor(private authService: AuthService, private rideService: RideService, private driverService: DriverService,
-    private mapService: MapService, private router: Router, private dialog: MatDialog) {
+    private mapService: MapService, private wsService: WebSocketService, private router: Router, private dialog: MatDialog) {
 
     rideService.rideData$.subscribe(
       e => {
@@ -69,6 +72,11 @@ export class InRideComponent {
 
   ngOnInit() {
     this.role = this.authService.getRole();
+    this.stompClient = this.wsService.connect(true);
+    let that = this;
+    this.stompClient.connect({}, function(){
+      that.openSocket();
+    })
   }
 
   startRide(): void {
@@ -76,7 +84,7 @@ export class InRideComponent {
     this.finishBtn.style.display= "flex";
     this.rideService.startRide(this.rideData.id).subscribe({
       next: (result) => {
-        this.rideService.setRide(result);
+        // this.rideService.setRide(result);
         // console.log(result);
       },
       error: (error) => {
@@ -89,7 +97,9 @@ export class InRideComponent {
     this.mapService.setStartValue(this.startLocation);
     
     const temp = this.rideData.locations[0].destination;
+    console.log(temp);
     this.endLocation = new Location(temp.longitude, temp.latitude, temp.address);
+    console.log(this.endLocation);
     this.mapService.setEndValue(this.endLocation);
 
     this.mapService.setDrawRoute(true);
@@ -137,5 +147,33 @@ export class InRideComponent {
       this.mapService.setDrawRoute(false);
     })
     
+  }
+
+  openPanicDialog(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.height = "15%";
+    dialogConfig.width = "20%";
+
+    this.dialog.open(PanicDialogComponent, dialogConfig);
+
+  }
+
+  openSocket() : void{
+    this.stompClient.subscribe("/ride-panic/" + this.authService.getId(), (message: {body: string}) => {
+      let response : Ride = JSON.parse(message.body);
+
+      if(response.status === "PANIC"){
+        this.openPanicDialog();
+        this.router.navigate(["/main"]);
+        this.mapService.setStartValue(new Location(0, 0, ''));
+        this.mapService.setEndValue(new Location(0, 0, ''));
+        this.mapService.setDrawRoute(false);
+      }
+      
+    });
   }
 }
