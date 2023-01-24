@@ -14,6 +14,7 @@ import { DocumentsComponent } from './modules/layout-module/documents/documents.
 import { ChangePwInputCodeComponent } from './modules/auth/password/change-pw-input-code/change-pw-input-code.component';
 import { InRideComponent } from './modules/layout-module/in-ride/in-ride-Driver/in-ride.component';
 import { InRidePassengerComponent } from './modules/layout-module/in-ride/in-ride-passenger/in-ride-passenger.component';
+import { RideHistoryComponent } from './modules/layout-module/ride-history/ride-history.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -31,6 +32,7 @@ const routes: Routes = [
   {path: 'resetPwViaCode', component: ChangePwInputCodeComponent},
   {path: 'inRide', component: InRideComponent},
   {path: 'psngrInRide', component: InRidePassengerComponent},
+  {path: 'rideHistory', component: RideHistoryComponent},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 

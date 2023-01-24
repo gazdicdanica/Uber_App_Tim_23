@@ -13,6 +13,7 @@ import { MapModule } from './modules/map/map.module';
 import { NavbarModule } from './modules/navbar/navbar.module';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { Interceptor } from './modules/auth/interceptor/interceptor.interceptor';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { Interceptor } from './modules/auth/interceptor/interceptor.interceptor'
   ],
   imports: [
     BrowserModule,
+    MatTableModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
