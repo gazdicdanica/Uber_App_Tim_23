@@ -6,7 +6,9 @@ import { MapService } from 'src/app/modules/map/map.service';
 import { Location } from 'src/app/modules/model/Location';
 import { Ride } from 'src/app/modules/model/Ride';
 import { RideService } from 'src/app/modules/services/ride/ride.service';
+import { WebSocketService } from 'src/app/modules/services/WebSocket/WebSocket.service';
 import { DeclineDialogComponent } from '../../decline-dialog/decline-dialog.component';
+import { PanicDialogComponent } from '../panic-dialog/panic-dialog.component';
 
 @Component({
   selector: 'app-in-ride-passenger',
@@ -19,13 +21,17 @@ export class InRidePassengerComponent {
   endLocation! : Location;
   search!: HTMLElement;
 
+  stompClient! : any;
+
+  rideStatus!: string;
+
   rideData!: Ride;
 
   estimationValue = ["", ""];
 
 
   constructor(private authService: AuthService, private router: Router, private mapService: MapService, 
-    private rideService: RideService, private declineDialog : MatDialog) {}
+    private rideService: RideService, private wsService: WebSocketService, private dialog : MatDialog) {}
 
   ngOnInit() {
     this.role = this.authService.getRole();
@@ -46,6 +52,12 @@ export class InRidePassengerComponent {
         console.log("IN RIDE \n" + this.rideData.id);
       }
     );
+
+    this.stompClient = this.wsService.connect(true);
+    let that = this;
+    this.stompClient.connect({}, function(){
+      that.openSocket();
+    })
 
   }
 
@@ -82,8 +94,44 @@ export class InRidePassengerComponent {
 
     dialogConfig.data = data;
 
-    this.declineDialog.open(DeclineDialogComponent, dialogConfig);
+    this.dialog.open(DeclineDialogComponent, dialogConfig);
     
   }
+
+  openPanicDialog(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = true;
+    dialogConfig.height = "15%";
+    dialogConfig.width = "20%";
+
+    this.dialog.open(PanicDialogComponent, dialogConfig);
+
+  }
+
+  openSocket() : void{
+    this.stompClient.subscribe("/ride-passenger/" + this.authService.getId(), (message: {body: string}) => {
+      let response : Ride = JSON.parse(message.body);
+      this.rideStatus = response.status;
+
+      if(this.rideStatus === "PANIC"){
+        this.openPanicDialog();
+        this.router.navigate(["/main"]);
+        this.mapService.setStartValue(new Location(0, 0, ''));
+        this.mapService.setEndValue(new Location(0, 0, ''));
+        this.mapService.setDrawRoute(false);
+      }else if(this.rideStatus === "FINISHED"){
+        // TODO oceni voznju
+        this.router.navigate(["/main"]);
+        this.mapService.setStartValue(new Location(0, 0, ''));
+        this.mapService.setEndValue(new Location(0, 0, ''));
+        this.mapService.setDrawRoute(false);
+      }
+      
+    });
+  }
+
 
 }

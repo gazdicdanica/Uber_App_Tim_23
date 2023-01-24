@@ -76,6 +76,7 @@ export class InRideComponent {
     this.finishBtn.style.display= "flex";
     this.rideService.startRide(this.rideData.id).subscribe({
       next: (result) => {
+        this.rideService.setRide(result);
         // console.log(result);
       },
       error: (error) => {
@@ -97,6 +98,7 @@ export class InRideComponent {
   finishRide(): void {
     this.rideService.finishRide(this.rideData.id).subscribe({
       next: (result) => {
+        this.rideService.setRide(result);
         // console.log(result);
         this.driverService.updateLocation(this.endLocation).subscribe();
         this.mapService.setStartValue(new Location(0, 0, ''));

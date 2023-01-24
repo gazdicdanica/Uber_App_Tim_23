@@ -10,7 +10,7 @@
         (estimationEvent)="addItem($event)"
         [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
     </div>
-    <div class="panic-div">
+    <div *ngIf="rideStatus==='ACTIVE'" class="panic-div">
         <button color="warn" class="form-btn panic-btn" id="panic-btn" (click)="panic()" mat-raised-button>P A N I C</button>
     </div>
 </div>
