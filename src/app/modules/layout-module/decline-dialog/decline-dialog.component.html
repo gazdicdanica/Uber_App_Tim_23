@@ -9,5 +9,6 @@
 </mat-dialog-content>
 
 <mat-action-list align="end">
+    <button *ngIf="panic" (click)="cancel()" mat-raised-button color="primary" class="form-btn">Cancel</button>
     <button (click)="submit()" color="accent" class="form-btn" mat-raised-button>Submit</button>
 </mat-action-list>

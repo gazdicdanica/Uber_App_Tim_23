@@ -29,6 +29,15 @@ export class MainComponent implements OnInit{
     private wsService: WebSocketService, private dialog: MatDialog) {
   }
 
+  ngAfterViewInit() : void{
+    if(this.role == "ROLE_DRIVER"){
+      const elem = document.getElementById('mapica');
+      if(elem != undefined) {
+        elem.style.height = "91vh";
+      }
+    }
+  }
+
   ngOnInit():void{
 
     this.authService.userState$.subscribe((result) => {
@@ -79,7 +88,7 @@ export class MainComponent implements OnInit{
   }
 
   openSocket(): void{
-    this.stompClient.subscribe("/ride/"+this.authService.getId(), (message: {body: string}) => {
+    this.stompClient.subscribe("/ride-driver/"+this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
       this.openDialog(response, true);
     });

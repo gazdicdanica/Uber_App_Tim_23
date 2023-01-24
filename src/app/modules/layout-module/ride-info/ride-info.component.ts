@@ -13,6 +13,7 @@ import { VehicleService } from '../../vehicle/vehicle.service';
 import { VehicleType } from '../../model/vehicleType';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
+import { Ride } from '../../model/Ride';
 
 @Component({
   selector: 'app-ride-info',
@@ -31,13 +32,10 @@ export class RideInfoComponent implements OnInit{
   isBaby: boolean = false;
   isPets: boolean = false;
   friend: UserShort[] = [];
-  
+    
   vehicleType: string = "";
 
   @ViewChildren("vehicleCard") vehicleCard! : QueryList<ElementRef>
-  // standard: any;
-  // luxury: any;
-  // van: any;
 
   rideData: any;
 
@@ -87,6 +85,7 @@ export class RideInfoComponent implements OnInit{
     } else {
       this.rideService.createRide(this.rideReq).subscribe({
         next: (result) => {
+          this.rideService.setRide(result);
           this.openWaitDialog();
           console.log(result);
         },
@@ -146,5 +145,4 @@ export class RideInfoComponent implements OnInit{
 
     this.dialog.open(WaitingDialogComponent, dialogConfig);
   }
-
 }

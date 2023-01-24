@@ -25,6 +25,7 @@ import { DeclineDialogComponent } from './decline-dialog/decline-dialog.componen
 import { InRideComponent } from './in-ride/in-ride-Driver/in-ride.component';
 import { WaitingDialogComponent } from './waiting-dialog/waiting-dialog.component';
 import { InRidePassengerComponent } from './in-ride/in-ride-passenger/in-ride-passenger.component';
+import { PanicDialogComponent } from './in-ride/panic-dialog/panic-dialog.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { InRidePassengerComponent } from './in-ride/in-ride-passenger/in-ride-pa
     DeclineDialogComponent,
     InRideComponent,
     WaitingDialogComponent,
-    InRidePassengerComponent
+    InRidePassengerComponent,
+    PanicDialogComponent
   ],
   imports: [
     BrowserModule,

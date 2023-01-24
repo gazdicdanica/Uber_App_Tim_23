@@ -6,7 +6,7 @@
     width: fit-content;
     position: relative;
     bottom: 70px;
-    z-index: 100000;
+    z-index: 1000;
 }
 
 #company-info-columns{

@@ -1,9 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { Location } from '../../map/Location';
 import { MapService } from '../../map/map.service';
 import { Ride } from '../../model/Ride';
 import { RideService } from '../../services/ride/ride.service';
@@ -80,7 +79,11 @@ export class NewRideDialogComponent implements OnInit{
     dialogConfig.height = "auto";
     dialogConfig.width = "35%";
 
-    dialogConfig.data=response;
+    const data = {
+      ride : response,
+      panic : false
+    }
+    dialogConfig.data=data;
 
     const dialogRef = this.declineDialog.open(DeclineDialogComponent, dialogConfig);
 
@@ -93,4 +96,5 @@ export class NewRideDialogComponent implements OnInit{
     this.dialogRef.close();
     this.router.navigate(['psngrInRide']);
   }
+
 }
