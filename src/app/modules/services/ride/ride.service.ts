@@ -24,9 +24,6 @@ export class RideService {
   private end = new BehaviorSubject<Location>(new Location(0, 0, ''));
   end$ = this.end.asObservable();
 
-  private rideStatus = new BehaviorSubject<string>("");
-  rideStatus$ = this.rideStatus.asObservable();
-
 
   constructor(private authService: AuthService, private router: Router, private httpClient: HttpClient) { }
 
@@ -45,10 +42,6 @@ export class RideService {
 
   setRide(value: Ride): void {
     this.rideData.next(value);
-  }
-
-  setRideStatus(value : string) : void{
-    this.rideStatus.next(value);
   }
 
   startRide(id: number): Observable<Ride> {

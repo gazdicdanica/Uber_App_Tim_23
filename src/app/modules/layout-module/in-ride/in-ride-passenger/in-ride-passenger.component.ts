@@ -21,8 +21,6 @@ export class InRidePassengerComponent {
 
   rideData!: Ride;
 
-  rideStatus!: string;
-
   estimationValue = ["", ""];
 
 
@@ -48,14 +46,6 @@ export class InRidePassengerComponent {
         console.log("IN RIDE \n" + this.rideData.id);
       }
     );
-
-    this.rideService.rideStatus$.subscribe(
-      e => {
-        if(e === "PANIC"){
-          console.log("PNAIC");
-        }
-      }
-    )
 
   }
 
@@ -93,12 +83,6 @@ export class InRidePassengerComponent {
     dialogConfig.data = data;
 
     this.declineDialog.open(DeclineDialogComponent, dialogConfig);
-    this.declineDialog.afterAllClosed.subscribe(e => {
-      this.router.navigate(['/main']);
-      this.mapService.setStartValue(new Location(0, 0, ''));
-      this.mapService.setEndValue(new Location(0, 0, ''));
-      this.mapService.setDrawRoute(false);
-    })
     
   }
 

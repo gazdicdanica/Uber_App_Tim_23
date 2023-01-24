@@ -59,7 +59,6 @@ export class NewRideDialogComponent implements OnInit{
   accept(){
     this.rideService.acceptRide(this.data.id).subscribe({
       next: (result) =>{
-        this.rideService.setRideStatus(result.status);
         this.dialogRef.close();
         this.rideService.setRide(this.data);
         this.router.navigate(['/inRide']);
