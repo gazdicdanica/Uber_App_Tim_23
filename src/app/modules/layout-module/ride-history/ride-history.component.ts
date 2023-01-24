@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../auth/auth.service';
 import { UserShort } from '../../model/UserShort';
@@ -29,6 +29,7 @@ export class RideHistoryComponent  implements OnInit{
   @ViewChild(MatPaginator, { static:true }) mPaginator!: MatPaginator;
   @ViewChild(MatSort) mSort!: MatSort;
 
+
   constructor(private authService: AuthService, private rideService: RideService) {}
 
   onPaginateChange(event: PageEvent): void {
@@ -54,6 +55,10 @@ export class RideHistoryComponent  implements OnInit{
         console.log(error);
       }
     });
+    if(this.mSort != undefined){
+      if(this.mSort.active == undefined) {
+        this.mSort.active = "";
+      }}
       this.val = {
         page: pageNum,
         size: pageSize,
