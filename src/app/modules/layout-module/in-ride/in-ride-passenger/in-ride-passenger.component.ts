@@ -140,5 +140,11 @@ export class InRidePassengerComponent {
     });
   }
 
+  canDeactivate() : boolean{
+    if(this.rideStatus === "ACTIVE" || this.rideStatus === "ACCEPTED"){
+      return false;
+    }
+    return true;
+  }
 
 }

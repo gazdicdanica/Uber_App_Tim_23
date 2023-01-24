@@ -16,6 +16,7 @@ import { ChangePwInputCodeComponent } from './modules/auth/password/change-pw-in
 import { InRideComponent } from './modules/layout-module/in-ride/in-ride-Driver/in-ride.component';
 import { InRidePassengerComponent } from './modules/layout-module/in-ride/in-ride-passenger/in-ride-passenger.component';
 import { AuthGuard } from './modules/guard/auth/auth.guard';
+import { CanDeactivateGuard } from './modules/guard/deactivate/can-deactivate.guard';
 
 
 const routes: Routes = [
@@ -51,6 +52,7 @@ const routes: Routes = [
   }},
   {path: 'psngrInRide', component: InRidePassengerComponent,
   canActivate: [AuthGuard],
+  canDeactivate: [CanDeactivateGuard],
   data: {
     role: 'ROLE_USER'
   }},
