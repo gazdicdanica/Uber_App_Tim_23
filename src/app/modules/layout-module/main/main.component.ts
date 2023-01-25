@@ -89,12 +89,28 @@ export class MainComponent implements OnInit{
       console.log(response);
       this.openDialog(response, false);
     });
+
+    this.stompClient.subscribe("/scheduledNotifications/"+this.authService.getId(), (message: {body: string}) => {
+      let response: Ride = JSON.parse(message.body);
+
+      if(response.status == "REJECTED"){
+        alert("Unsuccessful ride schedule \nUnfortunately, all drivers are busy.\nPlease try again");
+      }else if(response.status == "ACCEPTED"){
+        alert("Ride scheduled successfuly\n\nDriver is on his way!");
+        this.openDialog(response, false);
+      }
+    });
   }
 
   openSocket(): void{
     this.stompClient.subscribe("/ride-driver/"+this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
       this.openDialog(response, true);
+    });
+
+    this.stompClient.subscribe("/ride-passenger/"+this.authService.getId(), (message: {body: string}) => {
+      let response: Ride = JSON.parse(message.body);
+      this.openDialog(response, false);
     });
 
     this.stompClient.subscribe("/ride-cancel/" + this.authService.getId(), (message : {body : string}) => {
@@ -105,7 +121,7 @@ export class MainComponent implements OnInit{
       }
       this.router.navigate(["/main"]);
       
-    })
+    });
   }
 
   openDialog(response: Ride, isDriver: boolean){
