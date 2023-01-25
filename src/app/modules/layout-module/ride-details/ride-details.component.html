@@ -42,15 +42,13 @@
           <p class="title">Driver</p>
           <p>{{driverData.name}} {{driverData.surname}}</p>
         </div>
-        
-
+      
       </div>
       <div class="col" id="vehicle-type">
         <p class="title">Vehicle category</p>
         <p>{{ride.vehicleType}}</p>
       </div>
 
-      
     </div>
     <mat-divider></mat-divider>
 
@@ -88,7 +86,7 @@
         
         
       </div>
-      <div *ngIf="!hasReview" class="review-card add-review"> 
+      <div (click)="addReview()" *ngIf="!hasReview && canReview" class="review-card add-review"> 
         <p>+ Add review</p>
       </div>
 

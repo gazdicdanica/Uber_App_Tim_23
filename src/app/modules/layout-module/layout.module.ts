@@ -30,6 +30,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { PanicDialogComponent } from './in-ride/panic-dialog/panic-dialog.component';
 import { RideDetailsComponent } from './ride-details/ride-details.component';
+import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { RideDetailsComponent } from './ride-details/ride-details.component';
     WaitingDialogComponent,
     InRidePassengerComponent,
     PanicDialogComponent,
-    RideDetailsComponent
+    RideDetailsComponent,
+    ReviewDialogComponent
   ],
   imports: [
     BrowserModule,

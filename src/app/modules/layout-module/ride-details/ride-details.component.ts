@@ -1,4 +1,6 @@
+import { DialogConfig } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../../map/map.service';
@@ -11,6 +13,7 @@ import { ReviewService } from '../../services/ride/review.service';
 import { RideService } from '../../services/ride/ride.service';
 import { UserService } from '../../services/user/user.service';
 import { VehicleService } from '../../vehicle/vehicle.service';
+import { ReviewDialogComponent } from '../review-dialog/review-dialog.component';
 import { RidePaginatedResponse } from '../ride-history/ride-history.component';
 
 @Component({
@@ -45,7 +48,8 @@ export class RideDetailsComponent {
     address: ""
   };
 
-  hasReview: boolean = true;
+  hasReview: boolean = false;
+  canReview: boolean = true;
 
   ratingArrDriver : any= [];
   ratingArrVehicle : any=[];
@@ -53,7 +57,7 @@ export class RideDetailsComponent {
   vehicleReview! : Review;
 
   constructor(private route: ActivatedRoute, private rideService: RideService, private authService: AuthService,
-     private mapService: MapService, private userService: UserService, private reviewService : ReviewService) {}
+     private mapService: MapService, private userService: UserService, private reviewService : ReviewService, private dialog : MatDialog) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -86,6 +90,11 @@ export class RideDetailsComponent {
               if(this.driverReview || this.vehicleReview){
                 this.hasReview = true;
               }else{
+                // const now = new Date();
+                // let diff = now.getTime() - this.ride.startTime.getTime();
+                // if(Math.floor(diff / 1000 / 60 / 60) < 72 && this.ride.status==="FINISHED"){
+                //   this.canReview = true;
+                // }
                 // check if 3 days passed;
               }
             }
@@ -139,5 +148,17 @@ export class RideDetailsComponent {
     }
     return "";
 
+  }
+
+  addReview(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation= true;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    this.dialog.open(ReviewDialogComponent, dialogConfig);
   }
 }
