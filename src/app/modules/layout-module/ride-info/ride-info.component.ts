@@ -31,6 +31,7 @@ export class RideInfoComponent implements OnInit{
 
   isBaby: boolean = false;
   isPets: boolean = false;
+  isSchedule: boolean = true;
   friend: UserShort[] = [];
     
   vehicleType: string = "";
@@ -76,7 +77,7 @@ export class RideInfoComponent implements OnInit{
   createRide(): void {
     const route = new Route(this.startLocation, this.endLocation, Number(this.estimationValue[0]));
     if (this.rideData.time == null) {
-      this.rideData.time = new Date();
+      this.isSchedule = false;
     }
     this.rideReq = new RideRequest(route, this.friend, this.vehicleType, this.rideData.time, this.isBaby, this.isPets, Number(this.estimationValue[1]));
 
@@ -85,8 +86,13 @@ export class RideInfoComponent implements OnInit{
     } else {
       this.rideService.createRide(this.rideReq).subscribe({
         next: (result) => {
-          this.rideService.setRide(result);
-          this.openWaitDialog(result);
+          this.rideService.setRide(result);          
+          if(this.isSchedule) {
+            alert("System notified, see you soon");
+            this.router.navigate(['/main']);
+          } else {
+            this.openWaitDialog(result);
+          }
           console.log(result);
         },
         error: (error) => {
