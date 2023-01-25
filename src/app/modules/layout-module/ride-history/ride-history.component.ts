@@ -88,7 +88,7 @@ export class RideHistoryComponent  implements OnInit{
 }
 
 export interface RidePaginatedResponse {
-  _id: number;
+  id: number;
   driver: UserShort;
   locations: Route[];
   passengers: UserShort[];

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments/environment';
 import { AuthService } from '../../auth/auth.service';
+import { User } from '../../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -25,4 +26,8 @@ export class UserService {
   doesUserExist(email: any): Observable<any> {
     return this.httpClient.get<any>(environment.apiHost+"/user/exist/"+email);
   } 
+
+  getDriverData(id : number) : Observable<User> {
+    return this.httpClient.get<User>(environment.apiHost+"/driver/" + id);
+  }
 }

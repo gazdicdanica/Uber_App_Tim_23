@@ -23,10 +23,10 @@ export class MapComponent{
   public lat!: number;
   public lng!: number;
 
-  vehicles: any = {};
-  rides: any = {};
-  mainGroup: L.LayerGroup[] = [];
-  private stompClient: any;
+  // vehicles: any = {};
+  // rides: any = {};
+  // mainGroup: L.LayerGroup[] = [];
+  // private stompClient: any;
 
   constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService){}
 
@@ -87,6 +87,9 @@ export class MapComponent{
   }
 
   private drawRoute!:boolean;
+
+  // is onClick enabled
+  private click!: boolean;
 
   private markers : Array<L.Marker> = new Array<L.Marker>();
   private clicks : number = 0;

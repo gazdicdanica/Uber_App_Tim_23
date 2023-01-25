@@ -2,6 +2,77 @@
   <mat-sidenav mode="side" opened><app-side-navbar></app-side-navbar></mat-sidenav>
   <mat-sidenav-content class="main">
 
+    <div class="map-div">
+      <app-map [startLocation]="ride.locations[0].departure" [endLocation]="ride.locations[0].destination"></app-map>
+    </div>
+    <div id="ride-info">
+      <div id="date-time">
+        <p>{{ ride.startTime |date: 'fullDate' }}</p>
+        <p>{{ ride.startTime |date: 'shortTime' }}</p>
+      </div>
+      <div id="locations">
+        <div>
+          <div class="marker-div">
+            <img class="marker" src="../../../../assets/images/departure.png">
+          </div>
+          <p>{{ ride.locations[0].departure.address }}</p>
+        </div>
+        <div>
+          <div class="marker-div">
+            <img class="marker" src="../../../../assets/images/destination.png">
+          </div>
+          <p>{{ ride.locations[0].destination.address }}</p>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+    <div id="price">
+      <div id="dollar-img">
+        <img src="../../../../assets/images/dollar.png">
+      </div>
+      <p>{{ ride.totalCost }} RSD</p>
+    </div>
+    <mat-divider></mat-divider>
+    <div id="driver-info-div">
+      <div class="col" id="driver-info">
+        <div id="img-wrapper">
+          <img src="{{driverData.profilePicture}}">
+        </div>
+        <div>
+          <p class="title">Driver</p>
+          <p>{{driverData.name}} {{driverData.surname}}</p>
+        </div>
+        
+
+      </div>
+      <div class="col" id="vehicle-type">
+        <p class="title">Vehicle category</p>
+        <p>{{ride.vehicleType}}</p>
+      </div>
+
+      
+    </div>
+    <mat-divider></mat-divider>
+
+    <div id="review-div">
+      <div *ngIf="hasReview" class="review-card has-review">
+        <div *ngIf="driverReview" id="driver-review">
+          <p class="title">Driver review</p>
+          <p class="review"></p>
+        </div>
+        <div *ngIf="vehicleReview" id="vehicle-review">
+          <p class="title">Vehicle review</p>
+          <p class="review"></p>
+        </div>
+        
+        
+      </div>
+      <div *ngIf="!hasReview" class="review-card add-review"> 
+        <p>+ Add review</p>
+      </div>
+
+    </div>
+
     <mat-card>
         <mat-card-header><b>Ride Details</b></mat-card-header>
         <br />
