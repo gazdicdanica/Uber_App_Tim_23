@@ -13,6 +13,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DeclineDialogComponent } from '../../decline-dialog/decline-dialog.component';
 import { PanicDialogComponent } from '../panic-dialog/panic-dialog.component';
 import { WebSocketService } from 'src/app/modules/services/WebSocket/WebSocket.service';
+import { ReviewDialogComponent } from '../../review-dialog/review-dialog.component';
 
 @Component({
   selector: 'app-in-ride',
@@ -175,9 +176,5 @@ export class InRideComponent {
       }
       
     });
-  }
-
-  canDeactivate(){
-    
   }
 }
