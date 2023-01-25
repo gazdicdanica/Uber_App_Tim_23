@@ -14,7 +14,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { AuthModule } from '../auth/auth.module';
 import { ModelModule } from '../model/model.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ChangePersonalInfoComponent } from './change-personal-info/change-personal-info.component';
 import { DriverDataComponent } from './driver-data/driver-data.component';
 import { VehicleModule } from '../vehicle/vehicle.module';
@@ -30,6 +30,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { PanicDialogComponent } from './in-ride/panic-dialog/panic-dialog.component';
 import { RideDetailsComponent } from './ride-details/ride-details.component';
+
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { RideDetailsComponent } from './ride-details/ride-details.component';
     AuthModule,
     ModelModule,
     ReactiveFormsModule,
+    FormsModule,
     VehicleModule
   ],
   exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent],

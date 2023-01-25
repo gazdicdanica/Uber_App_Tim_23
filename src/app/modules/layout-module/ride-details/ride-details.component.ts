@@ -47,6 +47,8 @@ export class RideDetailsComponent {
 
   hasReview: boolean = true;
 
+  ratingArrDriver : any= [];
+  ratingArrVehicle : any=[];
   driverReview! : Review;
   vehicleReview! : Review;
 
@@ -95,6 +97,47 @@ export class RideDetailsComponent {
       });
     });
 
+    for(let index = 0; index < 5; index++){
+      this.ratingArrDriver.push(index);
+      this.ratingArrVehicle.push(index);
+    }
+
     this.mapService.setDrawRoute(true);
+  }
+
+  showIcon(index:number, driver: boolean) {
+    if(driver && this.driverReview){
+      if (this.driverReview.rating >= index + 1) {
+      return 'star';
+      } else {
+        return 'star_border';
+      }
+    }else if(this.vehicleReview){
+      if (this.vehicleReview.rating >= index + 1) {
+        return 'star';
+        } else {
+          return 'star_border';
+        }
+    }
+    return 'star_border';
+  }
+
+  getText(rating : number) : string
+  {
+    switch(rating){
+      case 1:
+        return "( 1.0 - Bad )";
+      case 2: 
+        return "( 2.0 - Not good )";  
+      case 3:
+        return "( 3.0 - Good )";
+      case 4:
+        return "( 4.0 - Great )";
+      case 5: 
+        return "( 5.0 - Excelent )";  
+
+    }
+    return "";
+
   }
 }

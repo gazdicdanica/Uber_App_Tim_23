@@ -57,11 +57,32 @@
     <div id="review-div">
       <div *ngIf="hasReview" class="review-card has-review">
         <div *ngIf="driverReview" id="driver-review">
-          <p class="title">Driver review</p>
-          <p class="review"></p>
+          <div class="top-div">
+            <p class="title">Driver review</p>
+            <div class="rating">
+              <button mat-icon-button color="accent" *ngFor="let ratingId of ratingArrDriver;index as i" [id]="'star_'+i" >
+                <mat-icon>
+                  {{showIcon(i, true)}}
+                </mat-icon>
+              </button>
+              <p class="title">{{getText(driverReview.rating)}}</p>
+            </div>
+          </div>
+          <p class="review">" {{driverReview.comment}} "</p>
         </div>
+
         <div *ngIf="vehicleReview" id="vehicle-review">
-          <p class="title">Vehicle review</p>
+          <div class="top-div">
+            <p class="title">Vehicle review</p>
+            <div class="rating">
+              <button mat-icon-button color="accent" *ngFor="let ratingId of ratingArrVehicle;index as i" [id]="'star_'+i" >
+                <mat-icon>
+                  {{showIcon(i, true)}}
+                </mat-icon>
+              </button>
+              <p class="title">{{getText(vehicleReview.rating)}}</p>
+            </div>
+          </div>
           <p class="review"></p>
         </div>
         
@@ -72,25 +93,6 @@
       </div>
 
     </div>
-
-    <mat-card>
-        <mat-card-header><b>Ride Details</b></mat-card-header>
-        <br />
-        <br />
-        <mat-card-content>Name: {{ ride.driver.email }}</mat-card-content>
-        <mat-card-content>Departure: {{ ride.locations[0].departure.address }}</mat-card-content>
-        <mat-card-content>Destination: {{ ride.locations[0].destination.address }}</mat-card-content>
-        <mat-card-content>Babies: {{ ride.babyTransport }}</mat-card-content>
-        <mat-card-content>Pets: {{ ride.petTransport }}</mat-card-content>
-        <mat-card-content>Status: {{ ride.status }}</mat-card-content>
-        <mat-card-content>Vehicle Type: {{ ride.vehicleType }}</mat-card-content>
-        <mat-card-content>Rejection: {{ ride.rejection }}</mat-card-content>
-        <mat-card-content>Total Cost: {{ ride.totalCost }}</mat-card-content>
-        <mat-card-content>Start Time: {{ ride.startTime }}</mat-card-content>
-        <mat-card-content>End Time: {{ ride.endTime }}</mat-card-content>
-        <mat-card-content>Total Distance: {{ ride.totalDistance }}</mat-card-content>
-
-    </mat-card>
   
   </mat-sidenav-content>
 </mat-sidenav-container>
