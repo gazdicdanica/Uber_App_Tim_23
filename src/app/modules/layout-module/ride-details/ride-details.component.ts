@@ -159,6 +159,25 @@ export class RideDetailsComponent {
     dialogConfig.height = "auto";
     dialogConfig.width = "35%";
 
+    let p;
+    for(let passenger of this.ride.passengers){
+      if(passenger.id == this.authService.getId()){
+        p = passenger;
+        break
+      }
+    }
+
+    const data = {
+      rideId : this.ride.id,
+      passenger : p
+    }
+    dialogConfig.data = data;
+
     this.dialog.open(ReviewDialogComponent, dialogConfig);
+    this.dialog.afterAllClosed.subscribe(
+      val => {
+        window.location.reload();
+      }
+    )
   }
 }
