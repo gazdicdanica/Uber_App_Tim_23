@@ -6,7 +6,10 @@ import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../../map/map.service';
 import { Location } from '../../model/Location';
 import { Review } from '../../model/review';
+import { Ride } from '../../model/Ride';
+import { RideRequest } from '../../model/RideRequest';
 import { RideReview } from '../../model/RideReview';
+import { Route } from '../../model/Route';
 import { User } from '../../model/user';
 import { UserShort } from '../../model/UserShort';
 import { ReviewService } from '../../services/ride/review.service';
@@ -15,6 +18,7 @@ import { UserService } from '../../services/user/user.service';
 import { VehicleService } from '../../vehicle/vehicle.service';
 import { ReviewDialogComponent } from '../review-dialog/review-dialog.component';
 import { RidePaginatedResponse } from '../ride-history/ride-history.component';
+import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-ride-details',
@@ -180,5 +184,33 @@ export class RideDetailsComponent {
         window.location.reload();
       }
     )
+  }
+
+  orderAgain(){
+    const rideRequest = new RideRequest(this.ride.locations[0], [],this.ride.vehicleType, null, this.ride.babyTransport, this.ride.petTransport,0);
+
+    this.rideService.createRide(rideRequest).subscribe({
+      next : (res) =>{
+        this.rideService.setRide(res);
+        this.openWaitDialog(res);
+      },
+      error: (error) => {
+        alert(error.error.message);
+      }
+    })
+  }
+
+  openWaitDialog(result : Ride){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    dialogConfig.data = result;
+
+    this.dialog.open(WaitingDialogComponent, dialogConfig);
   }
 }

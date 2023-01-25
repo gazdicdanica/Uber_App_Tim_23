@@ -5,6 +5,7 @@
     <div class="map-div">
       <app-map [startLocation]="ride.locations[0].departure" [endLocation]="ride.locations[0].destination"></app-map>
     </div>
+    <div id="action-div"><button (click)="orderAgain()" mat-raised-button color="accent" class="form-btn">Order again</button></div>
     <div id="ride-info">
       <div id="date-time">
         <p>{{ ride.startTime |date: 'fullDate' }}</p>

@@ -163,3 +163,18 @@ img{
   flex-direction: row;
   align-items: center;
 }
+
+.form-btn{
+  width: auto;
+  font-weight: bold;
+  font-size: medium;
+  padding: 25px;
+  color: white !important;
+}
+
+#action-div{
+  position: absolute;
+  top: 540px;
+  right: 20px;
+  z-index: 1000;
+}
