@@ -90,12 +90,13 @@ export class RideDetailsComponent {
               if(this.driverReview || this.vehicleReview){
                 this.hasReview = true;
               }else{
-                // const now = new Date();
-                // let diff = now.getTime() - this.ride.startTime.getTime();
-                // if(Math.floor(diff / 1000 / 60 / 60) < 72 && this.ride.status==="FINISHED"){
-                //   this.canReview = true;
-                // }
                 // check if 3 days passed;
+                const now = new Date();
+                let diff = now.getTime() - new Date(this.ride.startTime).getTime();
+                if(Math.floor(diff / 1000 / 60 / 60) > 72 || this.ride.status!=="FINISHED"){
+                  this.canReview = false;
+                }
+                
               }
             }
           )
@@ -159,6 +160,25 @@ export class RideDetailsComponent {
     dialogConfig.height = "auto";
     dialogConfig.width = "35%";
 
+    let p;
+    for(let passenger of this.ride.passengers){
+      if(passenger.id == this.authService.getId()){
+        p = passenger;
+        break
+      }
+    }
+
+    const data = {
+      rideId : this.ride.id,
+      passenger : p
+    }
+    dialogConfig.data = data;
+
     this.dialog.open(ReviewDialogComponent, dialogConfig);
+    this.dialog.afterAllClosed.subscribe(
+      val => {
+        window.location.reload();
+      }
+    )
   }
 }

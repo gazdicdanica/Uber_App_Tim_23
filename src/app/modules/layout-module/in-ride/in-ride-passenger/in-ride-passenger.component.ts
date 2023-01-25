@@ -8,6 +8,7 @@ import { Ride } from 'src/app/modules/model/Ride';
 import { RideService } from 'src/app/modules/services/ride/ride.service';
 import { WebSocketService } from 'src/app/modules/services/WebSocket/WebSocket.service';
 import { DeclineDialogComponent } from '../../decline-dialog/decline-dialog.component';
+import { ReviewDialogComponent } from '../../review-dialog/review-dialog.component';
 import { PanicDialogComponent } from '../panic-dialog/panic-dialog.component';
 
 @Component({
@@ -128,15 +129,12 @@ export class InRidePassengerComponent {
       this.rideStatus = response.status;
       if(this.rideStatus === "FINISHED"){
         // TODO oceni voznju
+        this.openReviewDialog();
         this.router.navigate(["/main"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);
       }
-
-        
-      
-      
     });
   }
 
@@ -145,6 +143,33 @@ export class InRidePassengerComponent {
       return false;
     }
     return true;
+  }
+
+  openReviewDialog(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation= true;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    let p;
+    for(let passenger of this.rideData.passengers){
+      if(passenger.id == this.authService.getId()){
+        p = passenger;
+        break
+      }
+    }
+
+    const data = {
+      rideId : this.rideData.id,
+      passenger : p
+    }
+    dialogConfig.data = data;
+
+    this.dialog.open(ReviewDialogComponent, dialogConfig);
+
   }
 
 }
