@@ -1,7 +1,11 @@
-mat-card {
-  margin: 50px;
+.example-container{
+  height: 91%;
 }
 
+
+mat-sidenav{
+  width: 15%;
+}
 #date-time{
   display: flex;
   flex-direction: row;
@@ -76,7 +80,19 @@ img{
   
 }
 
-#img-wrapper{
+#passenger-info-div{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.passenger-wrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.img-wrapper{
   width: 15%;
   display: flex;
   align-items: center;
@@ -84,7 +100,7 @@ img{
   border-radius: 50%;
 }
 
-#driver-info img{
+#driver-info img, #passenger-info-div img{
   width: 100%;
   border-radius: 50%;
 }
@@ -106,6 +122,8 @@ img{
 }
 
 .title{
+  font-weight: 700;
+  font-size: medium;
   color: rgba(0, 0, 0, 0.467);
 }
 
@@ -162,4 +180,19 @@ img{
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.form-btn{
+  width: auto;
+  font-weight: bold;
+  font-size: medium;
+  padding: 25px;
+  color: white !important;
+}
+
+#action-div{
+  position: absolute;
+  top: 540px;
+  right: 20px;
+  z-index: 1000;
 }

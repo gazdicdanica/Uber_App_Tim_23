@@ -6,7 +6,10 @@ import { AuthService } from '../../auth/auth.service';
 import { MapService } from '../../map/map.service';
 import { Location } from '../../model/Location';
 import { Review } from '../../model/review';
+import { Ride } from '../../model/Ride';
+import { RideRequest } from '../../model/RideRequest';
 import { RideReview } from '../../model/RideReview';
+import { Route } from '../../model/Route';
 import { User } from '../../model/user';
 import { UserShort } from '../../model/UserShort';
 import { ReviewService } from '../../services/ride/review.service';
@@ -15,6 +18,7 @@ import { UserService } from '../../services/user/user.service';
 import { VehicleService } from '../../vehicle/vehicle.service';
 import { ReviewDialogComponent } from '../review-dialog/review-dialog.component';
 import { RidePaginatedResponse } from '../ride-history/ride-history.component';
+import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-ride-details',
@@ -48,6 +52,8 @@ export class RideDetailsComponent {
     address: ""
   };
 
+  passengers : User[] = [];
+
   hasReview: boolean = false;
   canReview: boolean = true;
 
@@ -56,21 +62,34 @@ export class RideDetailsComponent {
   driverReview! : Review;
   vehicleReview! : Review;
 
+  role : string = "";
+
   constructor(private route: ActivatedRoute, private rideService: RideService, private authService: AuthService,
      private mapService: MapService, private userService: UserService, private reviewService : ReviewService, private dialog : MatDialog) {}
 
   ngOnInit(): void {
+    this.role = this.authService.getRole();
     this.route.params.subscribe((params) => {
       this.rideService.getRideById(+params['rideId'])
       .subscribe({
         next: (result) => {
           this.ride = result;
-          this.userService.getDriverData(this.ride.driver.id).subscribe(
+          if(this.role === "ROLE_USER")
+          {this.userService.getDriverData(this.ride.driver.id).subscribe(
             value => {
               this.driverData = value;
               this.driverData.profilePicture = "data:image/png;base64," + this.driverData.profilePicture
             }
-          );
+          );}else{
+            for(let passenger of this.ride.passengers){
+              this.userService.getPassengerData(passenger.id).subscribe(
+                value => {
+                  value.profilePicture = "data:image/png;base64," + value.profilePicture;
+                  this.passengers.push(value);
+                }
+              )
+            }
+          }
           this.reviewService.findReviewForRide(this.ride.id).subscribe(
             val => {
               for(let review of val.vehicleReviews){
@@ -180,5 +199,33 @@ export class RideDetailsComponent {
         window.location.reload();
       }
     )
+  }
+
+  orderAgain(){
+    const rideRequest = new RideRequest(this.ride.locations[0], [],this.ride.vehicleType, null, this.ride.babyTransport, this.ride.petTransport,0);
+
+    this.rideService.createRide(rideRequest).subscribe({
+      next : (res) =>{
+        this.rideService.setRide(res);
+        this.openWaitDialog(res);
+      },
+      error: (error) => {
+        alert(error.error.message);
+      }
+    })
+  }
+
+  openWaitDialog(result : Ride){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    dialogConfig.data = result;
+
+    this.dialog.open(WaitingDialogComponent, dialogConfig);
   }
 }

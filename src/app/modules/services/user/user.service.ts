@@ -30,4 +30,8 @@ export class UserService {
   getDriverData(id : number) : Observable<User> {
     return this.httpClient.get<User>(environment.apiHost+"/driver/" + id);
   }
+
+  getPassengerData(id: number) : Observable<User> {
+    return this.httpClient.get<User>(environment.apiHost+"/passenger/" + id);
+  }
 }
