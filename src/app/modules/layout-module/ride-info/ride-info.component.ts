@@ -14,6 +14,7 @@ import { VehicleType } from '../../model/vehicleType';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
 import { Ride } from '../../model/Ride';
+import { FavoriteDialogComponent } from '../favorite-dialog/favorite-dialog.component';
 
 @Component({
   selector: 'app-ride-info',
@@ -75,6 +76,12 @@ export class RideInfoComponent implements OnInit{
   }
 
   createRide(): void {
+
+    if(this.startLocation.address === "" || this.endLocation.address === ""){
+      alert("Please choose both start and end locations");
+      return;
+    }
+
     const route = new Route(this.startLocation, this.endLocation, Number(this.estimationValue[0]));
     if (this.rideData.time == null) {
       this.isSchedule = false;
@@ -153,5 +160,38 @@ export class RideInfoComponent implements OnInit{
     dialogConfig.data = result;
 
     this.dialog.open(WaitingDialogComponent, dialogConfig);
+  }
+
+  openFavoriteDialog(){
+    if(this.startLocation.address === "" || this.endLocation.address === ""){
+      alert("Please choose both start and end locations");
+      return;
+    }
+
+    if (this.vehicleType == "") {
+      alert("Please Choose Vehicle Type");
+      return;
+    }
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.closeOnNavigation = false;
+    dialogConfig.height = "auto";
+    dialogConfig.width = "35%";
+
+    const data = {
+      babies : this.isBaby,
+      pets : this.isPets,
+      departure : this.startLocation,
+      destination : this.endLocation,
+      vehicleType : this.vehicleType,
+      friends : this.friend
+    }
+
+    dialogConfig.data = data;
+    this.dialog.open(FavoriteDialogComponent, dialogConfig);
+    
   }
 }

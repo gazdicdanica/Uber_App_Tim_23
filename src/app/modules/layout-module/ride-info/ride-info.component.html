@@ -6,6 +6,10 @@
 <div class="center">
     <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" [parentName]="name" id="search-component"></app-search-locations>
 </div>
+<div id="favorite-div">
+    <button (click)="openFavoriteDialog()" id="favorite-btn" color="accent" mat-fab><mat-icon style="color: white;">favorite</mat-icon></button>
+</div>
+
 <div id="ride-info">
     <div class="column-wrapper">
         <div class="column-info estimation">
@@ -33,9 +37,6 @@
     <mat-divider></mat-divider>
     <div class="vehicle-container">
         <app-vehicle-ride #vehicleCard class="column" [ngClass]="{'selectedType' : vehicleType == type.type}" (click)="selectType(type.type)" *ngFor="let type of vehicleTypes" [price]="type.price" [type]="type.type"></app-vehicle-ride>
-        <!-- <app-vehicle-ride class="column" id="standard" (click)="selectStandard()"></app-vehicle-ride>
-        <app-vehicle-ride class="column" id="luxury" (click)="selectLuxury()"></app-vehicle-ride>
-        <app-vehicle-ride class="column" id="van" (click)="selectVan()"></app-vehicle-ride> -->
     </div>
     <div></div>
 </div>

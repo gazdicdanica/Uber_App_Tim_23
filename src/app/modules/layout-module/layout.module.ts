@@ -31,6 +31,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { PanicDialogComponent } from './in-ride/panic-dialog/panic-dialog.component';
 import { RideDetailsComponent } from './ride-details/ride-details.component';
 import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
+import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
     InRidePassengerComponent,
     PanicDialogComponent,
     RideDetailsComponent,
-    ReviewDialogComponent
+    ReviewDialogComponent,
+    FavoriteDialogComponent
   ],
   imports: [
     BrowserModule,
