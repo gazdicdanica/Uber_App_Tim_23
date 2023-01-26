@@ -83,10 +83,18 @@ export class RideInfoComponent implements OnInit{
     }
 
     const route = new Route(this.startLocation, this.endLocation, Number(this.estimationValue[0]));
-    if (this.rideData.time == null) {
+
+    let time = null;
+    if (this.rideData != null) {
+      if (this.rideData.time == null) {
+        this.isSchedule = false;
+      }else{
+        time = this.rideData.time;
+      }
+    } else{
       this.isSchedule = false;
     }
-    this.rideReq = new RideRequest(route, this.friend, this.vehicleType, this.rideData.time, this.isBaby, this.isPets, Number(this.estimationValue[1]));
+    this.rideReq = new RideRequest(route, this.friend, this.vehicleType, time, this.isBaby, this.isPets, Number(this.estimationValue[1]));
 
     if (this.vehicleType == "") {
       alert("Please Choose Vehicle Type");
