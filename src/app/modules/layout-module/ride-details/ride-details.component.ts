@@ -52,6 +52,8 @@ export class RideDetailsComponent {
     address: ""
   };
 
+  passengers : User[] = [];
+
   hasReview: boolean = false;
   canReview: boolean = true;
 
@@ -60,21 +62,34 @@ export class RideDetailsComponent {
   driverReview! : Review;
   vehicleReview! : Review;
 
+  role : string = "";
+
   constructor(private route: ActivatedRoute, private rideService: RideService, private authService: AuthService,
      private mapService: MapService, private userService: UserService, private reviewService : ReviewService, private dialog : MatDialog) {}
 
   ngOnInit(): void {
+    this.role = this.authService.getRole();
     this.route.params.subscribe((params) => {
       this.rideService.getRideById(+params['rideId'])
       .subscribe({
         next: (result) => {
           this.ride = result;
-          this.userService.getDriverData(this.ride.driver.id).subscribe(
+          if(this.role === "ROLE_USER")
+          {this.userService.getDriverData(this.ride.driver.id).subscribe(
             value => {
               this.driverData = value;
               this.driverData.profilePicture = "data:image/png;base64," + this.driverData.profilePicture
             }
-          );
+          );}else{
+            for(let passenger of this.ride.passengers){
+              this.userService.getPassengerData(passenger.id).subscribe(
+                value => {
+                  value.profilePicture = "data:image/png;base64," + value.profilePicture;
+                  this.passengers.push(value);
+                }
+              )
+            }
+          }
           this.reviewService.findReviewForRide(this.ride.id).subscribe(
             val => {
               for(let review of val.vehicleReviews){

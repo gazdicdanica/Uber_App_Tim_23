@@ -5,7 +5,7 @@
     <div class="map-div">
       <app-map [startLocation]="ride.locations[0].departure" [endLocation]="ride.locations[0].destination"></app-map>
     </div>
-    <div id="action-div"><button (click)="orderAgain()" mat-raised-button color="accent" class="form-btn">Order again</button></div>
+    <div *ngIf="role==='ROLE_USER'" id="action-div"><button (click)="orderAgain()" mat-raised-button color="accent" class="form-btn">Order again</button></div>
     <div id="ride-info">
       <div id="date-time">
         <p>{{ ride.startTime |date: 'fullDate' }}</p>
@@ -34,9 +34,9 @@
       <p>{{ ride.totalCost }} RSD</p>
     </div>
     <mat-divider></mat-divider>
-    <div id="driver-info-div">
+    <div *ngIf="role==='ROLE_USER'" id="driver-info-div">
       <div class="col" id="driver-info">
-        <div id="img-wrapper">
+        <div class="img-wrapper">
           <img src="{{driverData.profilePicture}}">
         </div>
         <div>
@@ -50,6 +50,20 @@
         <p>{{ride.vehicleType}}</p>
       </div>
 
+    </div>
+
+    <div *ngIf="role==='ROLE_DRIVER'" id="passenger-info-div">
+      <p class="title">Passengers</p>
+      <div class="passenger-wrapper">
+        <div class="col passenger-wrapper" *ngFor="let passenger of passengers">
+          <div class="img-wrapper">
+            <img src="{{passenger.profilePicture}}">
+          </div>
+          <div>
+            <p class="title">{{passenger.name}} {{passenger.surname}}</p>
+          </div>
+        </div>
+      </div>
     </div>
     <mat-divider></mat-divider>
 
@@ -87,7 +101,7 @@
         
         
       </div>
-      <div (click)="addReview()" *ngIf="!hasReview && canReview" class="review-card add-review"> 
+      <div (click)="addReview()" *ngIf="!hasReview && canReview && role === 'ROLE_USER'" class="review-card add-review"> 
         <p>+ Add review</p>
       </div>
 
