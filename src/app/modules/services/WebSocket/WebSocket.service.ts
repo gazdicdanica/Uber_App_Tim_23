@@ -21,6 +21,9 @@ export class WebSocketService {
   }
 
   closeConnection(){
-    this.stompClient.disconnect();
+    if(this.stompClient){
+      this.stompClient.disconnect();
+    }
+    
   }
 }

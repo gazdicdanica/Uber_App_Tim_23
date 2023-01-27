@@ -19,6 +19,10 @@ export class ConfirmationComponent implements OnInit{
       this.authService.activate(this.activationId).subscribe(
         {
           next: (res) => {
+            console.log(res);
+          },
+          error: (err) => {
+            console.log(err);
           }
         }
       );
