@@ -18,7 +18,7 @@ export class SignUpFormComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     name: new FormControl('', [Validators.required]),
     surname: new FormControl('', [Validators.required]),
-    telNum: new FormControl('', [Validators.required, Validators.pattern("^(\\+381)?(0)?6(([0-6]|[8-9])\\d{7}|(77|78)\\d{6}){1}$")]),
+    telephoneNumber: new FormControl('', [Validators.required, Validators.pattern("^(\\+381)?(0)?6(([0-6]|[8-9])\\d{7}|(77|78)\\d{6}){1}$")]),
     password: new FormControl('', [Validators.required]),
     confirmPassword: new FormControl('', [Validators.required])
   }, {validators: confirmPasswordValidator});
@@ -38,6 +38,7 @@ export class SignUpFormComponent {
           if (error instanceof HttpErrorResponse) {
             this.responseError = true;
           }
+          console.log(error);
         },
       });
     

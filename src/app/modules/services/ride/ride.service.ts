@@ -85,4 +85,8 @@ export class RideService {
   getRideById(id: number): Observable<any> {
     return this.httpClient.get(environment.apiHost+"/ride/"+id);
   }
+
+  addFavorite(data : any) : Observable<any>{
+    return this.httpClient.post(environment.apiHost + "/ride/favorites", data);
+  }
 }

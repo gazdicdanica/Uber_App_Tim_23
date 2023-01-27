@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/modules/auth/auth.service';
@@ -16,7 +16,7 @@ import { PanicDialogComponent } from '../panic-dialog/panic-dialog.component';
   templateUrl: './in-ride-passenger.component.html',
   styleUrls: ['./in-ride-passenger.component.css']
 })
-export class InRidePassengerComponent {
+export class InRidePassengerComponent implements OnInit, OnDestroy{
   role!: any;
   startLocation! : Location;
   endLocation! : Location;
@@ -33,6 +33,10 @@ export class InRidePassengerComponent {
 
   constructor(private authService: AuthService, private router: Router, private mapService: MapService, 
     private rideService: RideService, private wsService: WebSocketService, private dialog : MatDialog) {}
+
+  ngOnDestroy(): void {
+    this.wsService.closeConnection();
+  }
 
   ngOnInit() {
     this.role = this.authService.getRole();
@@ -54,7 +58,7 @@ export class InRidePassengerComponent {
       }
     );
 
-    this.stompClient = this.wsService.connect(true);
+    this.stompClient = this.wsService.connect();
     let that = this;
     this.stompClient.connect({}, function(){
       that.openSocket();

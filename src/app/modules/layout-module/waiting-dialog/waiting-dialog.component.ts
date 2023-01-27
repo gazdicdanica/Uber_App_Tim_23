@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject} from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
@@ -11,7 +11,7 @@ import { WebSocketService } from '../../services/WebSocket/WebSocket.service';
   templateUrl: './waiting-dialog.component.html',
   styleUrls: ['./waiting-dialog.component.css']
 })
-export class WaitingDialogComponent implements OnInit{
+export class WaitingDialogComponent implements OnInit, OnDestroy{
 
   stompClient: any;
 
@@ -26,11 +26,14 @@ export class WaitingDialogComponent implements OnInit{
     private authService: AuthService, private rideService: RideService, private router: Router){
       this.data = data;
   }
+  ngOnDestroy(): void {
+    this.wsService.closeConnection();
+  }
 
   ngOnInit(): void {
     this.title = "Waiting for driver...";
 
-    this.stompClient = this.wsService.connect(true);
+    this.stompClient = this.wsService.connect();
     let that = this;
     if(this.stompClient.status != "CONNECTED"){
       this.stompClient.connect({}, function(){

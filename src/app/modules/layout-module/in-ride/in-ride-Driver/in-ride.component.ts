@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { error } from 'jquery';
 import { latLng, LatLng } from 'leaflet';
@@ -20,7 +20,7 @@ import { ReviewDialogComponent } from '../../review-dialog/review-dialog.compone
   templateUrl: './in-ride.component.html',
   styleUrls: ['./in-ride.component.css']
 })
-export class InRideComponent {
+export class InRideComponent implements OnInit, OnDestroy{
   startLocation: any = new Location(0, 0, '');
   endLocation: any = new Location(0, 0, '');
   role: any;
@@ -54,6 +54,9 @@ export class InRideComponent {
       }
     );
   }
+  ngOnDestroy(): void {
+    this.wsService.closeConnection();
+  }
 
   addItem(estimationValue: string[]){
     this.estimationValue = estimationValue;
@@ -73,7 +76,7 @@ export class InRideComponent {
 
   ngOnInit() {
     this.role = this.authService.getRole();
-    this.stompClient = this.wsService.connect(true);
+    this.stompClient = this.wsService.connect();
     let that = this;
     this.stompClient.connect({}, function(){
       that.openSocket();
@@ -177,4 +180,6 @@ export class InRideComponent {
       
     });
   }
+
+
 }

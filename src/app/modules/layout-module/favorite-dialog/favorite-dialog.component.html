@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Add favorite ride</h1>
+
+<mat-dialog-content [formGroup]="favoriteGroup">
+    <mat-form-field class="whole">
+        <mat-label>Favorite name</mat-label>
+        <input matInput type="text" name="name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="whole">
+        <mat-label>Departure</mat-label>
+        <input type="text" matInput formControlName="departure">
+    </mat-form-field>
+    <mat-form-field class="whole">
+        <mat-label>Destination</mat-label>
+        <input type="text" matInput formControlName="destination">
+    </mat-form-field>
+    <div class="wrapper">
+        <mat-form-field class="half">
+            <mat-label>Friends</mat-label>
+            <input type="number" matInput formControlName="passengerNum">
+        </mat-form-field>
+        <mat-form-field class="half">
+            <mat-label>Vehicle type</mat-label>
+            <input type="text" matInput formControlName="vehicleType">
+        </mat-form-field>
+    
+        
+    </div>
+    <mat-checkbox class="input-data-ch" id="babies" name="babies" formControlName="babies">Babies</mat-checkbox>
+    <mat-checkbox class="input-data-ch" id="pets" name="pets" formControlName="pets">Pets</mat-checkbox>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button (click)="cancel()" mat-raised-button color="primary" class="form-btn" >Cancel</button>
+    <button (click)="submit()" mat-raised-button color="accent" class="form-btn" >Submit</button>
+</mat-dialog-actions>

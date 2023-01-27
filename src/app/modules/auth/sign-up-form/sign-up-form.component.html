@@ -23,12 +23,12 @@
                     <input matInput type="text" name="surname" formControlName="surname"/>
                 </mat-form-field>
             </div>
-            <mat-error *ngIf="signUpForm.controls.telNum.errors?.['pattern'] &&  form.submitted">
+            <mat-error *ngIf="signUpForm.controls.telephoneNumber.errors?.['pattern'] &&  form.submitted">
                 Invalid telephone number format.
             </mat-error>
             <mat-form-field class="form-input" appearance="outline">
                 <mat-label>Phone</mat-label>
-                <input matInput type="tel" name="telNum" formControlName="telNum"/>
+                <input matInput type="tel" name="telNum" formControlName="telephoneNumber"/>
             </mat-form-field>
             <mat-form-field class="form-input" appearance="outline">
                 <mat-label>Password</mat-label>

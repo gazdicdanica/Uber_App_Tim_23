@@ -12,17 +12,18 @@ export class WebSocketService {
 
   constructor() { }
 
-  connect(newConnection : boolean){
+  connect(){
     let socket = new SockJS("http://localhost:8080/socket");
 
-    if(newConnection){
-      return Stomp.over(socket);
-    }
-    if(this.stompClient == null){
-      this.stompClient = Stomp.over(socket);
+    this.stompClient = Stomp.over(socket);
+   
+    return this.stompClient;
+  }
+
+  closeConnection(){
+    if(this.stompClient){
+      this.stompClient.disconnect();
     }
     
-
-    return this.stompClient;
   }
 }
