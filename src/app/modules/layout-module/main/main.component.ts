@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MapService } from '../../map/map.service';
 import { Router } from '@angular/router';
 import { Location } from '../../map/Location';
@@ -16,7 +16,7 @@ import { Ride } from '../../model/Ride';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit{
+export class MainComponent implements OnInit, OnDestroy{
   startLocation! : Location;
   endLocation! : Location;
   role: any;
@@ -27,6 +27,9 @@ export class MainComponent implements OnInit{
 
   constructor(private mapService: MapService, private router:Router, private authService: AuthService,
     private wsService: WebSocketService, private dialog: MatDialog) {
+  }
+  ngOnDestroy(): void {
+    this.wsService.closeConnection();
   }
 
   ngAfterViewInit() : void{
@@ -65,7 +68,7 @@ export class MainComponent implements OnInit{
       }
 
       if(this.stompClient == null){
-        this.stompClient = this.wsService.connect(false);
+        this.stompClient = this.wsService.connect();
         let that = this;
         this.stompClient.connect({}, function() {
           that.openSocket();
@@ -74,7 +77,7 @@ export class MainComponent implements OnInit{
       
     } else if (this.role == "ROLE_USER") {
         if(this.stompClient == null) {
-          this.stompClient = this.wsService.connect(false);
+          this.stompClient = this.wsService.connect();
           let that = this;
           this.stompClient.connect({}, function() {
             that.openSocketPassenger();
