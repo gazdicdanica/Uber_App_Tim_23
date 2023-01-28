@@ -66,32 +66,46 @@ export class ReviewDialogComponent implements OnInit{
   submit(){
     let driverValid = false;
     let vehicleValid = false;
+    let sendDriver = false;
+    let sendVehicle = false;
 
     if(this.review.value.driverComment !== null && this.review.value.driverComment !== undefined){
-      if(this.driverRating === 0){
+      if(this.driverRating === 0 && this.review.value.driverComment!= ""){
         alert("Please leave a rating for driver");
       }else{
-        let comment : string = this.review.value.driverComment;
-        this.reviewService.createReviewDriver(new Review(0, this.driverRating, comment,  this.passenger), this.rideId).subscribe(
-        );
         driverValid = true;
+        if(this.driverRating !== 0){
+          sendDriver = true;
+        }
+
       }
     }
     if(this.review.value.vehicleComment !== null && this.review.value.vehicleComment !== undefined){
-      if(this.vehicleRating === 0){
+      if(this.vehicleRating === 0 && this.review.value.vehicleComment != ""){
         alert("Please leave a rating for vehicle");
 
       }else{
-        
-        let comment : string = this.review.value.vehicleComment;
-        this.reviewService.createReviewVehicle(new Review(0, this.driverRating, comment,  this.passenger), this.rideId).subscribe();
-        vehicleValid = true;
+        vehicleValid = true;  
+        if(this.vehicleRating !== 0){
+          sendVehicle = true;
+        }
         
       }
     }
 
     if(driverValid && vehicleValid){
+      let comment : any= this.review.value.driverComment;
+      if(sendDriver){
+        this.reviewService.createReviewDriver(new Review(0, this.driverRating, comment,  this.passenger), this.rideId).subscribe(
+      );
+      }
+      
+      comment = this.review.value.vehicleComment;
+      if(sendVehicle){
+        this.reviewService.createReviewVehicle(new Review(0, this.vehicleRating, comment,  this.passenger), this.rideId).subscribe();
+      }
       this.dialogRef.close();
+      
     }
    
   }
