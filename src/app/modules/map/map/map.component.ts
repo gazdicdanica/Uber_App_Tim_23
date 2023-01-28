@@ -11,6 +11,7 @@ import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { Vehicle } from '../../model/vehicle';
 import { Ride } from '../../model/Ride';
+import { WebSocketService } from '../../services/WebSocket/WebSocket.service';
 
 @Component({
   selector: 'app-map',
@@ -22,13 +23,14 @@ export class MapComponent{
   currentDriverLoc!: Location;
   public lat!: number;
   public lng!: number;
+  stompClient: any;
 
   // vehicles: any = {};
   // rides: any = {};
   // mainGroup: L.LayerGroup[] = [];
   // private stompClient: any;
 
-  constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService){}
+  constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService, private wsService: WebSocketService){}
 
   ngOnInit(): void {
     this.authService.userState$.subscribe((result) => {
@@ -210,6 +212,23 @@ export class MapComponent{
 
   }
 
+  setDriversLocation(): void {
+    if(this.stompClient == null) {
+      this.stompClient = this.wsService.connect();
+      let that = this;
+      this.stompClient.connect({}, function() {
+        that.stompClient.subscribe("/update-vehicle-location/", (message: {body: string}) => {
+          let response: Vehicle[] = JSON.parse(message.body);
+          response.forEach(element => {
+            console.log("Dodao vozilo");
+            that.addMarker(element.currentLocation.latitude, element.currentLocation.longitude);
+          });
+        });
+      });
+    }
+    
+  }
+
   ngAfterViewInit(): void {
 
     let DefaultIcon = L.icon({
@@ -228,7 +247,8 @@ export class MapComponent{
         },
       });
     } else {
-        this.getLocation()
+      this.setDriversLocation();
+      this.getLocation()
     }
 
     L.Marker.prototype.options.icon = DefaultIcon;
