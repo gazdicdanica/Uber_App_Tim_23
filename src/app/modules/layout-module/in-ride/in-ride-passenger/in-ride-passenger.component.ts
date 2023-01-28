@@ -132,7 +132,6 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
       let response : Ride = JSON.parse(message.body);
       this.rideStatus = response.status;
       if(this.rideStatus === "FINISHED"){
-        // TODO oceni voznju
         this.openReviewDialog();
         this.router.navigate(["/main"]);
         this.mapService.setStartValue(new Location(0, 0, ''));

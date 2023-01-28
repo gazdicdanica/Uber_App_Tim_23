@@ -4,6 +4,9 @@
     
         <form class="reset-password-code-form" [formGroup]="resetPassword" (ngSubmit)="resetPasswordWithCode()">
 
+            <mat-error *ngIf="hasError">
+                Invalid code
+            </mat-error> 
             <mat-form-field appearance="outline">
                 <mat-label>Reset Code</mat-label>
                 <input class="form-input" matInput type="text" name="code" formControlName="code"/>

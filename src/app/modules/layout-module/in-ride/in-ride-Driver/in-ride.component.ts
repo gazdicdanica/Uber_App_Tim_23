@@ -179,6 +179,16 @@ export class InRideComponent implements OnInit, OnDestroy{
       }
       
     });
+
+    this.stompClient.subscribe("/ride-cancel/" + this.authService.getId(), (message : {body : string}) => {
+      let response: Ride = JSON.parse(message.body);
+      alert("Pending ride is canceled");
+      if(this.dialog){
+        this.dialog.closeAll();
+      }
+      this.router.navigate(["/main"]);
+      
+    });
   }
 
 
