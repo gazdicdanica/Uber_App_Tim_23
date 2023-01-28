@@ -18,6 +18,9 @@
     </mat-form-field>
 
     <!-- stars -->
+
+    <h1>Vehicle review</h1>
+
     <div>
         <button mat-icon-button (click)="rate(i+1, false)" color="accent" *ngFor="let ratingId of ratingArrVehicle;index as i" [id]="'star_'+i" >
             <mat-icon>
@@ -25,9 +28,6 @@
             </mat-icon>
         </button>
     </div>
-    
-
-    <h1>Vehicle review</h1>
     <mat-form-field class="form-input">
         <mat-label>Comment...</mat-label>
         <input matInput type="text" name="vehicleComment" formControlName="vehicleComment">

@@ -19,6 +19,8 @@ export class ChangePwInputCodeComponent {
     password: new FormControl('', [Validators.required]),
   });
 
+  hasError: boolean = false;
+
   resetPasswordWithCode(): void {
     if (this.resetPassword.valid){
       const val = {
@@ -28,19 +30,15 @@ export class ChangePwInputCodeComponent {
       }
       this.userService.resetPassword(val).subscribe({
         next: (result) => {
-          if(result.status == 200) {
-            this.authService.logout();
-            this.router.navigate(['/main']);
-            alert("Password Successfully Updated");
-          }
+          this.authService.logout();
+          this.router.navigate(['/main']);
+          alert("Password Successfully Updated");
+          
         },
         error: (error) => {
           console.log(error);
-          if(error.status == 200) {
-            this.authService.logout();
-            this.router.navigate(['/main']);
-            alert("Password Successfully Updated");
-          }
+          this.hasError = true;
+          
         }
       });
   }
