@@ -33,6 +33,7 @@ import { RideDetailsComponent } from './ride-details/ride-details.component';
 import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
 import { FavoriteRidesComponent } from './favorite-rides/favorite-rides.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { FavoriteRidesComponent } from './favorite-rides/favorite-rides.componen
     RideDetailsComponent,
     ReviewDialogComponent,
     FavoriteDialogComponent,
-    FavoriteRidesComponent
+    FavoriteRidesComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
