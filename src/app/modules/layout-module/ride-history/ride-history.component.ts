@@ -14,7 +14,7 @@ import { RideService } from '../../services/ride/ride.service';
   styleUrls: ['./ride-history.component.css']
 })
 export class RideHistoryComponent  implements OnInit{
-  displayedColumns: string[] = ['departure', 'destination', 'status', 'vehicleType', 'startTime', 'endTime', 'totalCost'];
+  displayedColumns: string[] = ['departure', 'destination', 'status', 'startTime', 'endTime'];
 
   dataSource!: MatTableDataSource<RidePaginatedResponse>;
   ridesPaginated: RidePaginatedResponse[] = []

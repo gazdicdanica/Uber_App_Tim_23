@@ -115,6 +115,9 @@ export class RideDetailsComponent {
                 if(Math.floor(diff / 1000 / 60 / 60) > 72 || this.ride.status!=="FINISHED"){
                   this.canReview = false;
                 }
+                if(this.ride.status !== "FINISHED"){
+                  this.canReview = false;
+                }
                 
               }
             }
