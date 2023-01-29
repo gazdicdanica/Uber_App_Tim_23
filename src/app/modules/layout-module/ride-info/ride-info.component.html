@@ -6,7 +6,7 @@
 <div class="center">
     <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" [parentName]="name" id="search-component"></app-search-locations>
 </div>
-<div id="favorite-div">
+<div *ngIf="role === 'ROLE_USER'" id="favorite-div">
     <button (click)="openFavoriteDialog()" id="favorite-btn" color="accent" mat-fab><mat-icon style="color: white;">favorite</mat-icon></button>
 </div>
 

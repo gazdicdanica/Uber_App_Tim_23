@@ -32,6 +32,7 @@ import { PanicDialogComponent } from './in-ride/panic-dialog/panic-dialog.compon
 import { RideDetailsComponent } from './ride-details/ride-details.component';
 import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
+import { FavoriteRidesComponent } from './favorite-rides/favorite-rides.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.compo
     PanicDialogComponent,
     RideDetailsComponent,
     ReviewDialogComponent,
-    FavoriteDialogComponent
+    FavoriteDialogComponent,
+    FavoriteRidesComponent
   ],
   imports: [
     BrowserModule,

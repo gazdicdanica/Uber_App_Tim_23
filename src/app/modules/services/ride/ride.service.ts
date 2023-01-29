@@ -8,6 +8,7 @@ import { RideRequest } from '../../model/RideRequest';
 import { Ride } from '../../model/Ride';
 import { VehicleType } from '../../model/vehicleType';
 import { Location } from '../../model/Location';
+import { Favorite } from '../../model/Favorite';
 
 
 @Injectable({
@@ -88,5 +89,9 @@ export class RideService {
 
   addFavorite(data : any) : Observable<any>{
     return this.httpClient.post(environment.apiHost + "/ride/favorites", data);
+  }
+
+  getFavorites() : Observable<Favorite[]>{
+    return this.httpClient.get<Favorite[]>(environment.apiHost + "/ride/favorites");
   }
 }

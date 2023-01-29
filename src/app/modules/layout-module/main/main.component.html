@@ -6,6 +6,14 @@
     <div class="center">
         <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" [parentName]="name" id="search-component"></app-search-locations>
     </div>
+
+    <div id="favorite-wrapper">
+        <div *ngIf="role === 'ROLE_USER'">
+
+        </div>
+
+    </div>
+
     <div id="company-info-columns">
         <div class="column">
             <div class="heading">
