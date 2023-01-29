@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Favorite } from '../../model/Favorite';
 import { RideService } from '../../services/ride/ride.service';
 
@@ -10,9 +11,9 @@ import { RideService } from '../../services/ride/ride.service';
 })
 export class FavoriteRidesComponent implements OnInit{
 
-  constructor(private rideService: RideService) {}
+  constructor(private rideService: RideService, private router: Router) {}
 
-  displayedColumns: String[] = ['name', 'departure', 'destination', 'vehicleType', 'babyTransport', 'petTransport'];
+  displayedColumns: String[] = ['name', 'departure', 'destination', 'friends','vehicleType', 'babyTransport', 'petTransport'];
 
   dataSource!: MatTableDataSource<Favorite>;
   data!: Favorite[];
@@ -34,6 +35,13 @@ export class FavoriteRidesComponent implements OnInit{
         console.log(error);
       }
     })
+  }
+
+  orderRide(element : Favorite) : void{
+    console.log(element);
+    this.rideService.setFavorite(element);
+    this.router.navigate(['/rideInfo']);
+
   }
 
 }

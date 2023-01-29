@@ -25,6 +25,9 @@ export class RideService {
   private end = new BehaviorSubject<Location>(new Location(0, 0, ''));
   end$ = this.end.asObservable();
 
+  private favorite = new BehaviorSubject<Favorite>(new Favorite(0, "", [], [], "", false, false));
+  favorite$ = this.favorite.asObservable();
+
 
   constructor(private authService: AuthService, private router: Router, private httpClient: HttpClient) { }
 
@@ -43,6 +46,10 @@ export class RideService {
 
   setRide(value: Ride): void {
     this.rideData.next(value);
+  }
+
+  setFavorite(value : Favorite) : void{
+    this.favorite.next(value);
   }
 
   withdrawRide(id: number) : Observable<Ride>{
