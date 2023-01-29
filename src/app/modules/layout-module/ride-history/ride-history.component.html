@@ -27,11 +27,6 @@
                 <td mat-cell *matCellDef="let element">{{ element.status }}</td>
             </ng-container>
 
-            <ng-container matColumnDef="vehicleType">
-                <th mat-header-cell mat-sort-header="vehicleType" *matHeaderCellDef>Vehicle Type</th>
-                <td mat-cell *matCellDef="let element">{{ element.vehicleType }}</td>
-            </ng-container>
-
             <ng-container  matColumnDef="startTime">
                 <th mat-header-cell mat-sort-header="startTime" *matHeaderCellDef>Start Time</th>
                 <td mat-cell *matCellDef="let element">{{ element.startTime | date: 'medium' }}</td>
@@ -40,11 +35,6 @@
             <ng-container matColumnDef="endTime">
                 <th mat-header-cell mat-sort-header="endTime" *matHeaderCellDef>Finish Time</th>
                 <td mat-cell *matCellDef="let element">{{ element.endTime | date: 'medium' }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="totalCost">
-                <th mat-header-cell mat-sort-header="totalCost" *matHeaderCellDef>Price</th>
-                <td mat-cell *matCellDef="let element">{{ element.totalCost }}</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
