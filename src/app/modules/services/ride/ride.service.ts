@@ -8,6 +8,7 @@ import { RideRequest } from '../../model/RideRequest';
 import { Ride } from '../../model/Ride';
 import { VehicleType } from '../../model/vehicleType';
 import { Location } from '../../model/Location';
+import { Favorite } from '../../model/Favorite';
 
 
 @Injectable({
@@ -23,6 +24,9 @@ export class RideService {
 
   private end = new BehaviorSubject<Location>(new Location(0, 0, ''));
   end$ = this.end.asObservable();
+
+  private favorite = new BehaviorSubject<Favorite>(new Favorite(0, "", [], [], "", false, false));
+  favorite$ = this.favorite.asObservable();
 
 
   constructor(private authService: AuthService, private router: Router, private httpClient: HttpClient) { }
@@ -42,6 +46,10 @@ export class RideService {
 
   setRide(value: Ride): void {
     this.rideData.next(value);
+  }
+
+  setFavorite(value : Favorite) : void{
+    this.favorite.next(value);
   }
 
   withdrawRide(id: number) : Observable<Ride>{
@@ -88,5 +96,9 @@ export class RideService {
 
   addFavorite(data : any) : Observable<any>{
     return this.httpClient.post(environment.apiHost + "/ride/favorites", data);
+  }
+
+  getFavorites() : Observable<Favorite[]>{
+    return this.httpClient.get<Favorite[]>(environment.apiHost + "/ride/favorites");
   }
 }

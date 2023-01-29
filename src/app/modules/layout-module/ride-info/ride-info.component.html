@@ -6,7 +6,7 @@
 <div class="center">
     <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" [parentName]="name" id="search-component"></app-search-locations>
 </div>
-<div id="favorite-div">
+<div *ngIf="role === 'ROLE_USER'" id="favorite-div">
     <button (click)="openFavoriteDialog()" id="favorite-btn" color="accent" mat-fab><mat-icon style="color: white;">favorite</mat-icon></button>
 </div>
 
@@ -23,8 +23,8 @@
             </mat-form-field>
             <button mat-raised-button class="start-ride-btn" color="accent" (click)="addFriend()" >Add Friend</button>
             <section style="margin-left: 15px;">
-                <mat-checkbox class="input-data-ch" id="babies" name="babies" (change)="changeBaby()">Babies</mat-checkbox>
-                <mat-checkbox class="input-data-ch" id="pets" name="pets" (change)="changePets()">Pets</mat-checkbox>
+                <mat-checkbox [checked]="isBaby" class="input-data-ch" id="babies" name="babies" (change)="changeBaby()">Babies</mat-checkbox>
+                <mat-checkbox [checked]="isPets" class="input-data-ch" id="pets" name="pets" (change)="changePets()">Pets</mat-checkbox>
             </section>
         </div>
         <div class="column-info">

@@ -19,6 +19,7 @@ import { RideHistoryComponent } from './modules/layout-module/ride-history/ride-
 import { AuthGuard } from './modules/guard/auth/auth.guard';
 import { RideDetailsComponent } from './modules/layout-module/ride-details/ride-details.component';
 import { CanDeactivateGuard } from './modules/guard/deactivate/can-deactivate.guard';
+import { FavoriteRidesComponent } from './modules/layout-module/favorite-rides/favorite-rides.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,
@@ -47,20 +48,21 @@ const routes: Routes = [
     role: 'ROLE_DRIVER'
   }},
   {path: 'resetPwViaCode', component: ChangePwInputCodeComponent},
-  {path: 'inRide', component: InRideComponent},
-  {path: 'psngrInRide', component: InRidePassengerComponent},
-  {path: 'rideHistory', component: RideHistoryComponent},
   {path: 'inRide', component: InRideComponent,
   canActivate: [AuthGuard],
   data: {
     role: 'ROLE_DRIVER'
   }},
+  {path: 'rideHistory', component: RideHistoryComponent,
+canActivate: [AuthGuard]},
   {path: 'psngrInRide', component: InRidePassengerComponent,
   canActivate: [AuthGuard],
   canDeactivate: [CanDeactivateGuard],
   data: {
     role: 'ROLE_USER'
   }},
+  {path: 'favorites', component:FavoriteRidesComponent,
+canActivate: [AuthGuard]},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 

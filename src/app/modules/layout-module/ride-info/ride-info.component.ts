@@ -15,6 +15,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { WaitingDialogComponent } from '../waiting-dialog/waiting-dialog.component';
 import { Ride } from '../../model/Ride';
 import { FavoriteDialogComponent } from '../favorite-dialog/favorite-dialog.component';
+import { Favorite } from '../../model/Favorite';
 
 @Component({
   selector: 'app-ride-info',
@@ -40,6 +41,7 @@ export class RideInfoComponent implements OnInit{
   @ViewChildren("vehicleCard") vehicleCard! : QueryList<ElementRef>
 
   rideData: any;
+  favorite!: Favorite;
 
   vehicleTypes!: VehicleType[];
 
@@ -63,6 +65,21 @@ export class RideInfoComponent implements OnInit{
     this.mapService.formGroupObservable.subscribe((value) => {
 
       this.rideData = value;
+    });
+
+    this.rideService.favorite$.subscribe((value) => {
+      this.favorite = value;
+      if(this.favorite.id != 0){
+        this.startLocation = value.locations[0].departure;
+        this.endLocation = value.locations[0].destination;
+        this.selectType(value.vehicleType);
+        for(let user of value.passengers.slice(1)){
+          if(user.id != localStorage.getItem("id")) this.addFriendByEmail(user.email);
+        }
+        this.isBaby = value.babyTransport;
+        this.isPets = value.petTransport;
+
+      }
     })
 
     this.mapService.setDrawRoute(true);   
@@ -134,6 +151,17 @@ export class RideInfoComponent implements OnInit{
     }
   }
 
+  addFriendByEmail(email : string){
+    this.userService.doesUserExist(email).subscribe({
+      next: (result) => {
+        this.friend.push(new UserShort(null, email));
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
   addFriend(): void {
     const field: any = document.getElementById('friend');
     if (field != undefined && this.friend.length <= 2) {
@@ -171,6 +199,7 @@ export class RideInfoComponent implements OnInit{
   }
 
   openFavoriteDialog(){
+
     if(this.startLocation.address === "" || this.endLocation.address === ""){
       alert("Please choose both start and end locations");
       return;
