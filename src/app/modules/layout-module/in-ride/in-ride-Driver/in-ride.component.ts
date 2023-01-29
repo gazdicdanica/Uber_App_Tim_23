@@ -144,12 +144,6 @@ export class InRideComponent implements OnInit, OnDestroy{
 
     this.dialog.open(DeclineDialogComponent, dialogConfig);
     this.driverService.updateLocation(this.startLocation).subscribe();
-    this.dialog.afterAllClosed.subscribe(e=> {
-      this.router.navigate(['/main']);
-      this.mapService.setStartValue(new Location(0, 0, ''));
-      this.mapService.setEndValue(new Location(0, 0, ''));
-      this.mapService.setDrawRoute(false);
-    })
     
   }
 
