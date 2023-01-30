@@ -94,6 +94,7 @@ export class MapComponent{
   private click!: boolean;
 
   private markers : Array<L.Marker> = new Array<L.Marker>();
+  private drivers: Array<L.Marker> = new Array<L.Marker>();
   private clicks : number = 0;
 
   private map!: L.Map;
@@ -113,7 +114,7 @@ export class MapComponent{
   private driverIcon = L.icon({
     iconUrl: 'assets/images/driverLocation.png',
     iconSize: [40,40],
-    iconAnchor: [22, 20]
+    iconAnchor: [22, 20],
   });
 
   private passengerIcon = L.icon({
@@ -183,6 +184,21 @@ export class MapComponent{
     this.markers.push(L.marker([latitude, longitude]).addTo(this.map));
   }
 
+
+
+  // L.marker(L.latLng(result.latitude, result.longitude), 
+  // {draggable:false, icon: this.driverIcon}).addTo(this.map);
+
+  addVehicle(vehicle: any): void {
+    if (vehicle.rideStatus == "FINISHED") {
+      this.drivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
+        {draggable: false, icon: this.availableIcon}).bindTooltip("Available " + vehicle.vehicle.vehicleType.type).addTo(this.map));
+    } else {
+      this.drivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
+        {draggable: false, icon: this.unavailableIcon}).bindTooltip("Busy").addTo(this.map));
+    }
+  }
+
   private makeMarker(location: Location) : L.Marker {
     return L.marker([location.latitude, location.longitude],{draggable: false});
   }
@@ -218,11 +234,11 @@ export class MapComponent{
       let that = this;
       this.stompClient.connect({}, function() {
         that.stompClient.subscribe("/update-vehicle-location/", (message: {body: string}) => {
-          let response: Vehicle[] = JSON.parse(message.body);
-          response.forEach(element => {
-            console.log("Dodao vozilo");
-            that.addMarker(element.currentLocation.latitude, element.currentLocation.longitude);
-          });
+          let response: any = JSON.parse(message.body);
+          for (let element of response) {
+            console.log("Lokacija: " + element.vehicle.currentLocation.longitude + " : " + element.vehicle.currentLocation.latitude + "\n");
+            that.addVehicle(element);
+          }
         });
       });
     }
