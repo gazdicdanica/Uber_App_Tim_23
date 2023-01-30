@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -100,5 +100,14 @@ export class RideService {
 
   getFavorites() : Observable<Favorite[]>{
     return this.httpClient.get<Favorite[]>(environment.apiHost + "/ride/favorites");
+  }
+
+  getRidesByDate(start: Date, end : Date) : Observable<any>{
+    start.setHours(0, -start.getTimezoneOffset(), 0, 0);
+    end.setHours(0, -end.getTimezoneOffset(),0, 0);
+    let params = new HttpParams()
+    .set("start", start.toISOString()).set("end", end.toISOString());
+
+    return this.httpClient.get(environment.apiHost + "/report", {params : params});
   }
 }

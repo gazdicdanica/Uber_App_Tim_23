@@ -34,6 +34,7 @@ import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 import { FavoriteDialogComponent } from './favorite-dialog/favorite-dialog.component';
 import { FavoriteRidesComponent } from './favorite-rides/favorite-rides.component';
 import { ReportsComponent } from './reports/reports.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -77,9 +78,10 @@ import { ReportsComponent } from './reports/reports.component';
     ModelModule,
     ReactiveFormsModule,
     FormsModule,
-    VehicleModule
+    VehicleModule,
+    NgChartsModule
   ],
-  exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent],
+  exports: [SideNavbarComponent, PersonalInfoComponent, ProfileComponent, NgChartsModule],
   entryComponents: [NewRideDialogComponent]
 })
 export class LayoutModuleModule { }

@@ -1,0 +1,27 @@
+.example-container{
+    height: 87%;
+}
+
+
+mat-sidenav{
+    width: 15%;
+} 
+
+#details {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+#date-range, #criteria, #generate{
+    margin: 20px;
+}
+
+#generate{
+    color: white !important;
+    font-size: large;
+    font-weight: bold;
+    padding: 28px;
+    margin-right: 40px;
+}
+
