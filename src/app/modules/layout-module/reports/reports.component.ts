@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChartData } from 'chart.js';
 import { RideService } from '../../services/ride/ride.service';
 import 'chartjs-adapter-date-fns';
-import * as moment from 'moment';
+import jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -84,7 +85,7 @@ export class ReportsComponent implements OnInit{
             }
             this.generateCharts();
 
-            
+
           },
           error : (error) => {
             console.log(error);
@@ -131,5 +132,31 @@ export class ReportsComponent implements OnInit{
       }],
     }
     this.generate = true;
+  }
+
+  captureScreen() : void{
+    let data = document.getElementById('charts');
+    html2canvas(data!).then(canvas => {
+      let imgW = 208;
+      let pageH = 295;
+      let imgH = canvas.height *imgW / canvas.width;
+      let hLeft = imgH;
+
+      const contentDataURL = canvas.toDataURL('image/png');
+
+      hLeft -= pageH;
+      let position = 0;
+
+      let pdf = new jspdf('p', 'mm', 'a4');
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, imgW, imgH);
+
+      while (hLeft >= 0) {
+        position = hLeft - imgH;
+        pdf.addPage();
+        pdf.addImage(contentDataURL, 'PNG', 0, position, imgW, imgH);
+        hLeft -= pageH;
+      }
+      pdf.save("reports-" + this.reportCrit.value.startDate?.toLocaleDateString()+ "-" + this.reportCrit.value.endDate?.toLocaleDateString() +".pdf")
+    })
   }
 }
