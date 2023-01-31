@@ -82,10 +82,9 @@ export class ReportsComponent implements OnInit{
               this.totalPrice += ride.totalCost;
               this.totalKm += ride.totalDistance;
             }
-            console.log(this.rideNumber);
-
             this.generateCharts();
 
+            
           },
           error : (error) => {
             console.log(error);

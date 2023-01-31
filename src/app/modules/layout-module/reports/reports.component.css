@@ -29,3 +29,9 @@ mat-sidenav{
     padding: 50px;
 }
 
+.recap{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+

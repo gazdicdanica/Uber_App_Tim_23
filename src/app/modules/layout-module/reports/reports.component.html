@@ -23,7 +23,11 @@
                 [type]="'bar'"
                 [data]="rideNumberDataSet"
                  id="ride-chart"></canvas>
-                 <h3>Total : {{totalNum}}</h3>
+                 <div class="recap">
+                    <h3>TOTAL : {{totalNum}}</h3>
+                    <h3>AVERAGE : {{totalNum / rideNumber.size | number}} rides per day</h3>
+                 </div>
+                 
             </div>
             <div *ngIf="generate" class="chart-wrapper" id="km-wrapper">
                 <h1 >Kilometers passed by day</h1>
@@ -31,7 +35,11 @@
                 baseChart
                 [type]="'line'"
                 [data]="kmDataSet"></canvas>
-                <h3>Total : {{totalKm}} km</h3>
+                <div class="recap">
+                    <h3>TOTAL : {{totalKm}} km</h3>
+                    <h3>AVERAGE : {{totalKm / km.size | number}} kilometers per day</h3>
+                </div>
+                
             </div>
             <div *ngIf="generate" class="chart-wrapper" id="money-wrapper">
                 <h1 *ngIf="role === 'ROLE_USER'" >Money spent by day</h1>
@@ -40,7 +48,11 @@
                 baseChart
                 [type]="'line'"
                 [data]="priceDataSet"></canvas>
-                <h3>Total : {{totalPrice}} RSD</h3>
+                <div class="recap">
+                    <h3>TOTAL : {{totalPrice}} RSD</h3>
+                    <h3>AVERAGE : {{totalPrice / price.size | number}} RSD per day</h3>
+                </div>
+                
             </div>
         </div>
     </mat-sidenav-content>
