@@ -16,24 +16,30 @@
                 <button (click)="generateReport()" color="accent" id="generate" mat-raised-button>Generate</button>
                 
             </div>
-            <div id="ride-num-wrapper">
+            <div *ngIf="generate" class="chart-wrapper" id="ride-num-wrapper">
+                <h1>Number of rides by day</h1>
                 <canvas
                 baseChart
                 [type]="'bar'"
                 [data]="rideNumberDataSet"
                  id="ride-chart"></canvas>
+                 <h3>Total : {{totalNum}}</h3>
             </div>
-            <div id="km-wrapper">
+            <div *ngIf="generate" class="chart-wrapper" id="km-wrapper">
+                <h1 >Kilometers passed by day</h1>
                 <canvas id="km-chart"
                 baseChart
                 [type]="'line'"
-                [data]="priceDataSet"></canvas>
+                [data]="kmDataSet"></canvas>
+                <h3>Total : {{totalKm}} km</h3>
             </div>
-            <div id="money-wrapper">
+            <div *ngIf="generate" class="chart-wrapper" id="money-wrapper">
+                <h1 >Price spent by day</h1>
                 <canvas id="money-chart"
                 baseChart
                 [type]="'line'"
-                [data]="kmDataSet"></canvas>
+                [data]="priceDataSet"></canvas>
+                <h3>Total : {{totalPrice}} RSD</h3>
             </div>
         </div>
     </mat-sidenav-content>

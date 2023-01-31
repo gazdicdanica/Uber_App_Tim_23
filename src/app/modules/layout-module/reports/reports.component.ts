@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChartData } from 'chart.js';
-import { Chart } from 'chart.js/dist';
-import { ChartConfiguration, ChartOptions } from 'chart.js/dist/types/index';
 import { RideService } from '../../services/ride/ride.service';
+import 'chartjs-adapter-date-fns';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-reports',
@@ -14,12 +14,17 @@ export class ReportsComponent implements OnInit{
 
   rideNumber : Map<string, number> = new Map<string, number>;
   rideNumberDataSet! : ChartData<'bar', {key: string, value : number} []>;
+  totalNum : number = 0;
 
   price : Map<string, number> = new Map<string, number>;
   priceDataSet! : ChartData<'line', {key: string, value : number} []>;
+  totalPrice : number = 0;
 
   km : Map<string, number> = new Map<string, number>;
   kmDataSet! : ChartData<'line', {key: string, value : number} []>;
+  totalKm : number = 0;
+
+  generate : boolean = false;
 
   
   constructor(private rideService: RideService) {}
@@ -37,7 +42,7 @@ export class ReportsComponent implements OnInit{
     let currentDate = new Date(start);
     currentDate.setHours(0, -currentDate.getTimezoneOffset(), 0, 0);
     while (currentDate <= end) {
-      let d = new Date(currentDate).toISOString();
+      let d = new Date(currentDate).toLocaleDateString();
       this.rideNumber.set(d, 0);
       this.price.set(d, 0);
       this.km.set(d, 0);
@@ -47,6 +52,9 @@ export class ReportsComponent implements OnInit{
 
 
   generateReport(){
+    this.totalKm = 0;
+    this.totalNum = 0;
+    this.totalPrice = 0;
     if(this.reportCrit.valid){
       if(this.reportCrit.value.startDate !== undefined && this.reportCrit.value.startDate !== null && this.reportCrit.value.endDate !== undefined && this.reportCrit.value.endDate !== null){
         this.getBetweenDates(this.reportCrit.value.startDate, this.reportCrit.value.endDate);
@@ -57,18 +65,21 @@ export class ReportsComponent implements OnInit{
             for(let ride of result){
               let startTime = new Date(ride.startTime);
               startTime.setHours(0, -startTime.getTimezoneOffset(), 0, 0);
-              if(this.rideNumber.has(startTime.toISOString())){
-                let current : number = this.rideNumber.get(startTime.toISOString())!;
-                let currPrice : number = this.price.get(startTime.toISOString())!;
-                let currKm : number = this.km.get(startTime.toISOString())!;
-                this.rideNumber.set(startTime.toISOString(), current + 1);
-                this.price.set(startTime.toISOString() , currPrice + ride.totalCost);
-                this.km.set(startTime.toISOString(), currKm + ride.totalDistance);
+              if(this.rideNumber.has(startTime.toLocaleDateString())){
+                let current : number = this.rideNumber.get(startTime.toLocaleDateString())!;
+                let currPrice : number = this.price.get(startTime.toLocaleDateString())!;
+                let currKm : number = this.km.get(startTime.toLocaleDateString())!;
+                this.rideNumber.set(startTime.toLocaleDateString(), current + 1);
+                this.price.set(startTime.toLocaleDateString() , currPrice + ride.totalCost);
+                this.km.set(startTime.toLocaleDateString(), currKm + ride.totalDistance);
               }else{
-                this.rideNumber.set(startTime.toISOString(), 1);
-                this.price.set(startTime.toISOString() , ride.totalCost);
-                this.km.set(startTime.toISOString(), ride.totalDistance);
+                this.rideNumber.set(startTime.toLocaleDateString(), 1);
+                this.price.set(startTime.toLocaleDateString() , ride.totalCost);
+                this.km.set(startTime.toLocaleDateString(), ride.totalDistance);
               }
+              this.totalNum += 1;
+              this.totalPrice += ride.totalCost;
+              this.totalKm += ride.totalDistance;
             }
             console.log(this.rideNumber);
 
@@ -89,6 +100,7 @@ export class ReportsComponent implements OnInit{
   generateCharts(){
     this.rideNumberDataSet = {
       datasets: [{
+        label: "Num of rides by day",
         data: Array.from(this.rideNumber, ([key, value]) => ({key, value})),
         parsing : {
           xAxisKey: 'key',
@@ -99,6 +111,7 @@ export class ReportsComponent implements OnInit{
 
     this.priceDataSet = {
       datasets: [{
+        label: "Money spent by day",
         data: Array.from(this.price, ([key, value]) => ({key, value})),
         parsing : {
           xAxisKey: 'key',
@@ -109,6 +122,7 @@ export class ReportsComponent implements OnInit{
 
     this.kmDataSet = {
       datasets: [{
+        label: "km passed by day",
         data: Array.from(this.km, ([key, value]) => ({key, value})),
         parsing : {
           xAxisKey: 'key',
@@ -116,5 +130,6 @@ export class ReportsComponent implements OnInit{
         },
       }],
     }
+    this.generate = true;
   }
 }
