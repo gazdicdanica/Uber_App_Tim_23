@@ -4,6 +4,7 @@ import { ChartData } from 'chart.js';
 import { RideService } from '../../services/ride/ride.service';
 import 'chartjs-adapter-date-fns';
 import * as moment from 'moment';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-reports',
@@ -25,12 +26,12 @@ export class ReportsComponent implements OnInit{
   totalKm : number = 0;
 
   generate : boolean = false;
-
+  role : string = "";
   
-  constructor(private rideService: RideService) {}
+  constructor(private rideService: RideService, private authService: AuthService) {}
 
   ngOnInit(){
-    
+    this.role = this.authService.getRole();
   }
 
   reportCrit=  new FormGroup({

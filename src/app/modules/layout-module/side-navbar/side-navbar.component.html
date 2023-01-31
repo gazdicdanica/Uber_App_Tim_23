@@ -4,5 +4,5 @@
     <li *ngIf="role === 'ROLE_USER'" [routerLink]="['/favorites']">Favorite rides</li>
     <li [routerLink]="['/profile']">Account</li>
     <li [routerLink]="['/documents']" *ngIf="role === 'ROLE_DRIVER'">Documents</li>
-    <li>Reports</li>
+    <li [routerLink]="['/reports']">Reports</li>
 </ul>

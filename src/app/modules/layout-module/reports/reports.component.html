@@ -34,7 +34,8 @@
                 <h3>Total : {{totalKm}} km</h3>
             </div>
             <div *ngIf="generate" class="chart-wrapper" id="money-wrapper">
-                <h1 >Price spent by day</h1>
+                <h1 *ngIf="role === 'ROLE_USER'" >Money spent by day</h1>
+                <h1 *ngIf="role === 'ROLE_DRIVER'">Money earned by day</h1>
                 <canvas id="money-chart"
                 baseChart
                 [type]="'line'"
