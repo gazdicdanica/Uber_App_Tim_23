@@ -20,6 +20,7 @@ import { AuthGuard } from './modules/guard/auth/auth.guard';
 import { RideDetailsComponent } from './modules/layout-module/ride-details/ride-details.component';
 import { CanDeactivateGuard } from './modules/guard/deactivate/can-deactivate.guard';
 import { FavoriteRidesComponent } from './modules/layout-module/favorite-rides/favorite-rides.component';
+import { ReportsComponent } from './modules/layout-module/reports/reports.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent,
@@ -62,7 +63,9 @@ canActivate: [AuthGuard]},
     role: 'ROLE_USER'
   }},
   {path: 'favorites', component:FavoriteRidesComponent,
-canActivate: [AuthGuard]},
+canActivate: [AuthGuard]},  
+  {path: 'reports', component:ReportsComponent,
+  canActivate: [AuthGuard]},
   { path: '', pathMatch: 'full', redirectTo: 'main' }
 ];
 
