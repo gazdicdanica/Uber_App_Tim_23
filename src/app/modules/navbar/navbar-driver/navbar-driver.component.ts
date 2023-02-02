@@ -14,10 +14,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./navbar-driver.component.css']
 })
 export class NavbarDriverComponent implements OnInit{
-  checked: boolean;
+  checked!: boolean;
 
   constructor(private driverService: DriverService, private authService: AuthService, private router: Router) {
-    this.checked = false;
   }
 
   online = new FormGroup({
@@ -30,34 +29,42 @@ export class NavbarDriverComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.driverService.getDriverStatus().subscribe(result => {
+      this.checked = result;
+    })
+  }
+
+  startShift() : void{
+    this.driverService.changeDriverState(true).subscribe({
+      next: (result) => {
+        this.checked = true;
+      },
+      error: (error) => {
+        console.log(error);
+        alert("Your Shift Cannot Start Now");
+        this.checked = false;
+      },
+    });
+
+  }
+
+  endShift() : void{
+    this.driverService.changeDriverState(false).subscribe({
+      next: (result) => {
+        this.checked = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.checked = true;
+      },
+    });
   }
 
   changed($event: MatSlideToggleChange) {
     if($event.checked) {
-      this.driverService.changeDriverState(true).subscribe({
-        next: (result) => {
-          this.checked = true;
-        },
-        error: (error) => {
-          console.log(error);
-          alert("Your Shift Cannot Start Now")
-          this.checked = false;
-
-          // this.online.patchValue({
-          //   super: false
-          // })
-        },
-      });
+      this.startShift();
     } else {
-      this.driverService.changeDriverState(false).subscribe({
-        next: (result) => {
-          this.checked = false;
-        },
-        error: (error) => {
-          console.log(error);
-          this.checked = true;
-        },
-      });
+      this.endShift();
     }
     this.checked = $event.checked;
   }
