@@ -8,7 +8,7 @@ import { Location } from 'src/app/modules/model/Location';
 import { Ride } from 'src/app/modules/model/Ride';
 import { DriverService } from 'src/app/modules/services/driver/driver.service';
 import { RideService } from 'src/app/modules/services/ride/ride.service';
-import { Observable } from 'rxjs';
+import { interval, Observable } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DeclineDialogComponent } from '../../decline-dialog/decline-dialog.component';
 import { PanicDialogComponent } from '../panic-dialog/panic-dialog.component';
