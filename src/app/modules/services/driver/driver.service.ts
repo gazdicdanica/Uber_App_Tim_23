@@ -46,4 +46,8 @@ export class DriverService {
   updateLocation(location: Location): Observable<any> {
     return this.httpClient.put<any>(environment.apiHost+"/vehicle/"+this.getId()+"/location", location);
   }
+
+  getDriverStatus() : Observable<boolean>{
+    return this.httpClient.get<boolean>(environment.apiHost + "/driver/"+this.getId() + "/status");
+  }
 }
