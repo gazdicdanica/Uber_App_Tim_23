@@ -76,7 +76,6 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
       this.search = x;
       this.search.style.display = "none";
       if(this.startLocation != null) {
-        // console.log("USLI SMO")
         this.mapService.setDrawRoute(true);
       }
     }
@@ -130,6 +129,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
 
     this.stompClient.subscribe("/ride-passenger/" + this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
+      this.rideData = response;
       this.rideStatus = response.status;
       if(this.rideStatus === "FINISHED"){
         this.openReviewDialog();

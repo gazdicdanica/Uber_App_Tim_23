@@ -3,14 +3,9 @@ import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapService } from '../map.service';
 import { Location } from '../Location';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { SelectorContext } from '@angular/compiler';
+import { BehaviorSubject, forkJoin, interval, Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { DriverService } from '../../services/driver/driver.service';
-import * as SockJS from 'sockjs-client';
-import * as Stomp from 'stompjs';
-import { Vehicle } from '../../model/vehicle';
-import { Ride } from '../../model/Ride';
 import { WebSocketService } from '../../services/WebSocket/WebSocket.service';
 
 @Component({
@@ -20,7 +15,7 @@ import { WebSocketService } from '../../services/WebSocket/WebSocket.service';
 })
 export class MapComponent{
   role: any;
-  currentDriverLoc!: Location;
+  currentDriverLoc!: L.Marker;
   public lat!: number;
   public lng!: number;
   stompClient: any;
@@ -71,7 +66,6 @@ export class MapComponent{
   private timeInMinutes: number = 0;
 
   @Input() set startLocation(value: Location){
-    console.log(value);
     this._startLocation.next(value);
   }
 
@@ -80,7 +74,6 @@ export class MapComponent{
   }
 
   @Input() set endLocation(value: Location){
-    console.log(value);
     this._endLocation.next(value);
   }
 
@@ -94,7 +87,8 @@ export class MapComponent{
   private click!: boolean;
 
   private markers : Array<L.Marker> = new Array<L.Marker>();
-  private drivers: Array<L.Marker> = new Array<L.Marker>();
+  private activeDrivers: Array<L.Marker> = new Array<L.Marker>();
+  private busyDrivers: Array<L.Marker> = new Array<L.Marker>();
   private clicks : number = 0;
 
   private map!: L.Map;
@@ -190,13 +184,64 @@ export class MapComponent{
   // {draggable:false, icon: this.driverIcon}).addTo(this.map);
 
   addVehicle(vehicle: any): void {
-    if (vehicle.rideStatus == "FINISHED") {
-      this.drivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
-        {draggable: false, icon: this.availableIcon}).bindTooltip("Available " + vehicle.vehicle.vehicleType.type).addTo(this.map));
+    if (vehicle.rideStatus == "FINISHED" && !this.checkPresentOnMap(vehicle)) {
+        this.activeDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude],
+          {draggable: false, icon: this.availableIcon, title: vehicle.vehicle.id}).bindTooltip("Available " + vehicle.vehicle.vehicleType.type).addTo(this.map));
+
+    } else if (vehicle.rideStatus == "ACTIVE" && !this.checkPresentOnMap(vehicle)) {
+        this.busyDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
+          {draggable: false, icon: this.unavailableIcon, title: vehicle.vehicle.id}).bindTooltip("Busy").addTo(this.map));
+
+    } else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "ACTIVE" &&
+        this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Available')) {
+
+          const index = this.activeDrivers.indexOf(this.getVehicleMarkerById(vehicle.vehicle.id));
+          this.map.removeLayer(this.getVehicleMarkerById(vehicle.vehicle.id));
+          this.activeDrivers.splice(index, 1);
+          this.busyDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
+            {draggable: false, icon: this.unavailableIcon, title: vehicle.vehicle.id}).bindTooltip("Busy").addTo(this.map));
+
+    } else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "FINISHED" &&
+    this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Busy')) {
+
+          const index = this.busyDrivers.indexOf(this.getVehicleMarkerById(vehicle.vehicle.id));
+          this.map.removeLayer(this.getVehicleMarkerById(vehicle.vehicle.id));
+          this.busyDrivers.splice(index, 1);
+          this.activeDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude],
+            {draggable: false, icon: this.availableIcon, title: vehicle.vehicle.id}).bindTooltip("Available " + vehicle.vehicle.vehicleType.type).addTo(this.map));
+
     } else {
-      this.drivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
-        {draggable: false, icon: this.unavailableIcon}).bindTooltip("Busy").addTo(this.map));
+          this.getVehicleMarkerById(vehicle.vehicle.id).setLatLng(new L.LatLng(vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude));
     }
+  }
+
+  checkPresentOnMap(vehicle: any): boolean {
+      for (let driverMarker of this.activeDrivers) {
+          if(driverMarker.options.title == vehicle.vehicle.id) {
+            return true;
+          }
+      }
+      for (let driverMarker of this.busyDrivers) {
+        if(driverMarker.options.title == vehicle.vehicle.id) {
+          return true;
+        }
+      }
+      return false;
+  }
+
+  getVehicleMarkerById(id: string): L.Marker {
+    for (let driverMarker of this.activeDrivers) {
+      if (driverMarker.options.title == id) {
+        return driverMarker;
+      }
+    }
+    for (let driverMarker of this.busyDrivers) {
+      if (driverMarker.options.title == id) {
+        return driverMarker;
+      }
+    }
+    console.log("You shall not pass");
+    return new L.Marker(new L.LatLng(0, 0));
   }
 
   private makeMarker(location: Location) : L.Marker {
@@ -209,7 +254,6 @@ export class MapComponent{
       this.map.removeControl(this.routingControl);
     }
 
-    console.log("route");
 
     this.routingControl = L.Routing.control({waypoints: [L.marker([start.latitude, start.longitude]).getLatLng(),
        L.marker([end.latitude, end.longitude]).getLatLng()],
@@ -222,7 +266,6 @@ export class MapComponent{
       this.distance = ((e.routes[0].summary.totalDistance) / 1000);
       this.timeInMinutes = ((e.routes[0].summary.totalTime) % 3600 / 60);
       this.estimationEvent.emit([this.distance.toPrecision(2), this.timeInMinutes.toPrecision(2)]);
-      console.log(this.distance + " " + this.timeInMinutes);
 
     });
 
@@ -236,7 +279,6 @@ export class MapComponent{
         that.stompClient.subscribe("/update-vehicle-location/", (message: {body: string}) => {
           let response: any = JSON.parse(message.body);
           for (let element of response) {
-            console.log("Lokacija: " + element.vehicle.currentLocation.longitude + " : " + element.vehicle.currentLocation.latitude + "\n");
             that.addVehicle(element);
           }
         });
@@ -252,15 +294,21 @@ export class MapComponent{
     });
 
     if(this.role === 'ROLE_DRIVER') {
-      this.driverService.getDriverLocation(this.driverService.getId()).subscribe({
-        next: (result) => {
-          this.currentDriverLoc = result;
-          L.marker(L.latLng(result.latitude, result.longitude), 
-          {draggable:false, icon: this.driverIcon}).addTo(this.map);
-        },
-        error: (error) => {
-          console.log(error);
-        },
+      interval(2000).subscribe( x=> {
+        this.driverService.getDriverLocation(this.driverService.getId()).subscribe({
+          next: (result) => {
+            if (!this.currentDriverLoc) {
+              this.currentDriverLoc = L.marker(L.latLng(result.latitude, result.longitude), 
+              {draggable:false, icon: this.driverIcon});
+              this.currentDriverLoc.addTo(this.map);
+            } else {
+              this.currentDriverLoc.setLatLng(new L.LatLng(result.latitude, result.longitude));
+            }
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
       });
     } else {
       this.setDriversLocation();
@@ -298,7 +346,6 @@ export class MapComponent{
     this._endLocation.subscribe(
       x => {
         this.addMarker(x.latitude, x.longitude);
-        console.log(this.drawRoute + " " + this.startLocation + " " + this.endLocation);
         if(this.drawRoute && this.startLocation.latitude !== 0 && this.endLocation.latitude !== 0){
           this.route(this.startLocation, this.endLocation);
         }
