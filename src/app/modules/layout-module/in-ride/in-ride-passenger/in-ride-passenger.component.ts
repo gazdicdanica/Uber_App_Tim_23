@@ -62,12 +62,16 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
     let that = this;
     this.stompClient.connect({}, function(){
       that.openSocket();
-    })
+    });
+
+    this.mapService.estimation$.subscribe(
+      e=> {this.estimationValue[1] = e;}
+    )
 
   }
 
   addItem(estimationValue: string[]){
-    this.estimationValue = estimationValue;
+    this.estimationValue[0] = estimationValue[0];
   }
 
   ngAfterViewInit() {
