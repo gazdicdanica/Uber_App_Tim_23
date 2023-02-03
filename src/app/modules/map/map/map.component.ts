@@ -21,10 +21,6 @@ export class MapComponent{
   public lng!: number;
   stompClient: any;
 
-  // vehicles: any = {};
-  // rides: any = {};
-  // mainGroup: L.LayerGroup[] = [];
-  // private stompClient: any;
 
   constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService, private wsService: WebSocketService){}
 
@@ -33,26 +29,7 @@ export class MapComponent{
       this.role = result;
     });
 
-    // this.initializeWebSocketConnection();
-    
-    // this.mapService.getAllActiveRides().subscribe((ret) => {
-    //   for (let ride of ret) {
-    //     let color = Math.floor(Math.random() * 16777215).toString(16);
-    //     let geoLayerRouteGroup: L.LayerGroup = new L.LayerGroup();
-    //     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
-    //       let routeLayer = L.geoJSON(step.geometry);
-    //       routeLayer.setStyle({ color: `#${color}` });
-    //       routeLayer.addTo(geoLayerRouteGroup);
-    //       this.rides[ride.id] = geoLayerRouteGroup;
-    //     }
-    //     let markerLayer = L.marker([ride.vehicle.currentLocation.longitude, ride.vehicle.currentLocation.latitude], {
-    //       icon: this.unavailableIcon
-    //     });
-    //     markerLayer.addTo(geoLayerRouteGroup);
-    //     this.vehicles[ride.vehicle.id] = markerLayer;
-    //     this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
-    //   }
-    // });
+  
   }
 
   @Output() estimationEvent = new EventEmitter<string[]>();
@@ -278,7 +255,6 @@ export class MapComponent{
           for (let element of response) {
             console.log(message.body);
             console.log("\n\n\n" + element.duration);
-            that.mapService.setEstimation(element.duration);
             that.addVehicle(element);
             
           }
