@@ -7,6 +7,7 @@ import { BehaviorSubject, forkJoin, interval, Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { DriverService } from '../../services/driver/driver.service';
 import { WebSocketService } from '../../services/WebSocket/WebSocket.service';
+import { VehicleLocation } from '../../model/VehicleLocation';
 
 @Component({
   selector: 'app-map',
@@ -20,11 +21,6 @@ export class MapComponent{
   public lng!: number;
   stompClient: any;
 
-  // vehicles: any = {};
-  // rides: any = {};
-  // mainGroup: L.LayerGroup[] = [];
-  // private stompClient: any;
-
   constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService, private wsService: WebSocketService){}
 
   ngOnInit(): void {
@@ -32,26 +28,6 @@ export class MapComponent{
       this.role = result;
     });
 
-    // this.initializeWebSocketConnection();
-    
-    // this.mapService.getAllActiveRides().subscribe((ret) => {
-    //   for (let ride of ret) {
-    //     let color = Math.floor(Math.random() * 16777215).toString(16);
-    //     let geoLayerRouteGroup: L.LayerGroup = new L.LayerGroup();
-    //     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
-    //       let routeLayer = L.geoJSON(step.geometry);
-    //       routeLayer.setStyle({ color: `#${color}` });
-    //       routeLayer.addTo(geoLayerRouteGroup);
-    //       this.rides[ride.id] = geoLayerRouteGroup;
-    //     }
-    //     let markerLayer = L.marker([ride.vehicle.currentLocation.longitude, ride.vehicle.currentLocation.latitude], {
-    //       icon: this.unavailableIcon
-    //     });
-    //     markerLayer.addTo(geoLayerRouteGroup);
-    //     this.vehicles[ride.vehicle.id] = markerLayer;
-    //     this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
-    //   }
-    // });
   }
 
   @Output() estimationEvent = new EventEmitter<string[]>();
@@ -179,10 +155,6 @@ export class MapComponent{
   }
 
 
-
-  // L.marker(L.latLng(result.latitude, result.longitude), 
-  // {draggable:false, icon: this.driverIcon}).addTo(this.map);
-
   addVehicle(vehicle: any): void {
     if (vehicle.rideStatus == "FINISHED" && !this.checkPresentOnMap(vehicle)) {
         this.activeDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude],
@@ -277,9 +249,13 @@ export class MapComponent{
       let that = this;
       this.stompClient.connect({}, function() {
         that.stompClient.subscribe("/update-vehicle-location/", (message: {body: string}) => {
-          let response: any = JSON.parse(message.body);
+          let response: VehicleLocation[] = JSON.parse(message.body);
           for (let element of response) {
-            that.addVehicle(element);
+            console.log(message.body);
+            console.log("\n\n\n" + element.duration);
+            if(element.driverId == that.authService.getId()) that.mapService.setEstimation(element.duration);
+            else that.addVehicle(element);
+            
           }
         });
       });
@@ -311,9 +287,9 @@ export class MapComponent{
         });
       });
     } else {
-      this.setDriversLocation();
       this.getLocation()
     }
+    this.setDriversLocation();
 
     L.Marker.prototype.options.icon = DefaultIcon;
     if(this.map == null){
@@ -322,15 +298,6 @@ export class MapComponent{
 
     this.registerOnClick();
 
-
-    // let fork$ = forkJoin([this._startLocation, this._endLocation]);
-    // fork$.subscribe({
-    //   next: (res) =>{
-    //     this.addMarker(res[0].latitude, res[0].longitude);
-    //     this.addMarker(res[1].latitude, res[1].longitude);
-    //     this.route(this.startLocation, this.endLocation);
-    //   }
-    // })
     this.mapService.drawRoute$.subscribe(
       e => {
         this.drawRoute = e;
@@ -372,45 +339,5 @@ export class MapComponent{
     }
   }
 
-  // initializeWebSocketConnection() {
-  //   let ws = new SockJS('http://localhost:8080/socket');
-  //   this.stompClient = Stomp.over(ws);
-  //   this.stompClient.debug = null;
-  //   let that = this;
-  //   this.stompClient.connect({}, function () {
-  //     that.openGlobalSocket();
-  //   });
-  // }
 
-  // openGlobalSocket() {
-  //   this.stompClient.subscribe('/map-updates/update-vehicle-position', (message: { body: string }) => {
-  //     let vehicle: Vehicle = JSON.parse(message.body);
-  //     let existingVehicle = this.vehicles[vehicle.id];
-  //     existingVehicle.setLatLng([vehicle.currentLocation.longitude, vehicle.currentLocation.latitude]);
-  //     existingVehicle.update();
-  //   });
-  //   this.stompClient.subscribe('/map-updates/new-ride', (message: { body: string }) => {
-  //     let ride: Ride = JSON.parse(message.body);
-  //     let geoLayerRouteGroup: L.LayerGroup = new L.LayerGroup();
-  //     let color = Math.floor(Math.random() * 16777215).toString(16);
-  //     for (let step of JSON.parse(ride.routeJSON)['routes'][0]['legs'][0]['steps']) {
-  //       let routeLayer = L.geoJSON(step.geometry);
-  //       routeLayer.setStyle({ color: `#${color}` });
-  //       routeLayer.addTo(geoLayerRouteGroup);
-  //       this.rides[ride.id] = geoLayerRouteGroup;
-  //     }
-  //     let markerLayer = L.marker([ride.vehicle.currentLocation.longitude, ride.vehicle.currentLocation.latitude], {
-  //       icon: this.unavailableIcon,
-  //     });
-  //     markerLayer.addTo(geoLayerRouteGroup);
-  //     this.vehicles[ride.vehicle.id] = markerLayer;
-  //     this.mainGroup = [...this.mainGroup, geoLayerRouteGroup];
-  //   });
-  //   this.stompClient.subscribe('/map-updates/ended-ride', (message: { body: string }) => {
-  //     let ride: Ride = JSON.parse(message.body);
-  //     this.mainGroup = this.mainGroup.filter((lg: L.LayerGroup) => lg !== this.rides[ride.id]);
-  //     delete this.vehicles[ride.vehicle.id];
-  //     delete this.rides[ride.id];
-  //   });
-  // }
 }

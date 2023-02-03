@@ -62,7 +62,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
     let that = this;
     this.stompClient.connect({}, function(){
       that.openSocket();
-    })
+    });
 
   }
 

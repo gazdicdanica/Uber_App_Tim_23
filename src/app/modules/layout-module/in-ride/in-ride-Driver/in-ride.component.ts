@@ -80,7 +80,7 @@ export class InRideComponent implements OnInit, OnDestroy{
     let that = this;
     this.stompClient.connect({}, function(){
       that.openSocket();
-    })
+    });
   }
 
   startRide(): void {
