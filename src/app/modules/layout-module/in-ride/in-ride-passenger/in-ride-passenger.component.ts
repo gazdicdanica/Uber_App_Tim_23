@@ -71,7 +71,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
   }
 
   addItem(estimationValue: string[]){
-    this.estimationValue[0] = estimationValue[0];
+    this.estimationValue = estimationValue;
   }
 
   ngAfterViewInit() {
