@@ -21,6 +21,9 @@ export class MapService {
 
   private formGroupValue = new BehaviorSubject<any>(null);
   formGroupObservable = this.formGroupValue.asObservable();
+
+  private estimation = new BehaviorSubject<string> ("");
+  estimation$ = this.estimation.asObservable();
   
   constructor(private http: HttpClient) { }
 
@@ -39,6 +42,10 @@ export class MapService {
 
   setFormGroupValue(value: any){
     this.formGroupValue.next(value);
+  }
+
+  setEstimation(value : string){
+    this.estimation.next(value);
   }
 
   search(street: string): Observable<any> {

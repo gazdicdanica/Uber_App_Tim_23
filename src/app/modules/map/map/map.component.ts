@@ -21,7 +21,6 @@ export class MapComponent{
   public lng!: number;
   stompClient: any;
 
-
   constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService, private wsService: WebSocketService){}
 
   ngOnInit(): void {
@@ -29,7 +28,6 @@ export class MapComponent{
       this.role = result;
     });
 
-  
   }
 
   @Output() estimationEvent = new EventEmitter<string[]>();
@@ -255,7 +253,8 @@ export class MapComponent{
           for (let element of response) {
             console.log(message.body);
             console.log("\n\n\n" + element.duration);
-            that.addVehicle(element);
+            if(element.driverId == that.authService.getId()) that.mapService.setEstimation(element.duration);
+            else that.addVehicle(element);
             
           }
         });
@@ -288,9 +287,9 @@ export class MapComponent{
         });
       });
     } else {
-      this.setDriversLocation();
       this.getLocation()
     }
+    this.setDriversLocation();
 
     L.Marker.prototype.options.icon = DefaultIcon;
     if(this.map == null){
