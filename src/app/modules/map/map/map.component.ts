@@ -157,42 +157,72 @@ export class MapComponent{
 
 
   addVehicle(vehicle: any): void {
+    let id: number = vehicle.vehicle.id;
     if (vehicle.rideStatus == "FINISHED" && !this.checkPresentOnMap(vehicle)) {
-        this.activeDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude],
-          {draggable: false, icon: this.availableIcon, title: vehicle.vehicle.id}).bindTooltip("Available " + vehicle.vehicle.vehicleType.type).addTo(this.map));
+
+      this.addVehicleMarkerByStatus(vehicle, "FINISHED");
 
     } else if (vehicle.rideStatus == "ACTIVE" && !this.checkPresentOnMap(vehicle)) {
-        this.busyDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
-          {draggable: false, icon: this.unavailableIcon, title: vehicle.vehicle.id}).bindTooltip("Busy").addTo(this.map));
+
+      this.addVehicleMarkerByStatus(vehicle, "ACTIVE");
 
     } else if (vehicle.rideStatus == "PANIC" && !this.checkPresentOnMap(vehicle)) {
-      this.panicDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude],
-        {draggable: false, icon: this.panic, title: vehicle.vehicle.id}).bindTooltip("Panic " + vehicle.vehicle.vehicleType.type).addTo(this.map));
+
+      this.addVehicleMarkerByStatus(vehicle, "PANIC");
 
     }else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "ACTIVE" &&
         this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Available')) {
 
-          const index = this.activeDrivers.indexOf(this.getVehicleMarkerById(vehicle.vehicle.id));
-          this.map.removeLayer(this.getVehicleMarkerById(vehicle.vehicle.id));
-          this.activeDrivers.splice(index, 1);
-          this.busyDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
-            {draggable: false, icon: this.unavailableIcon, title: vehicle.vehicle.id}).bindTooltip("Busy").addTo(this.map));
+          this.removeVehicleMarkerById(id);
+          this.addVehicleMarkerByStatus(vehicle, "ACTIVE");
 
     } else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "FINISHED" &&
         this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Busy')) {
 
-          const index = this.busyDrivers.indexOf(this.getVehicleMarkerById(vehicle.vehicle.id));
-          this.map.removeLayer(this.getVehicleMarkerById(vehicle.vehicle.id));
-          this.busyDrivers.splice(index, 1);
-          this.activeDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude],
-            {draggable: false, icon: this.availableIcon, title: vehicle.vehicle.id}).bindTooltip("Available " + vehicle.vehicle.vehicleType.type).addTo(this.map));
+          this.removeVehicleMarkerById(id);
+          this.addVehicleMarkerByStatus(vehicle, "FINISHED");
 
-    } else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "PANIC" &&
-        this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Panic')) {
+    } else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "PANIC") {
 
-          this.getVehicleMarkerById(vehicle.vehicle.id).setLatLng(new L.LatLng(vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude));
+        this.removeVehicleMarkerById(id);
+        this.addVehicleMarkerByStatus(vehicle, "PANIC");
+
     } else {
           this.getVehicleMarkerById(vehicle.vehicle.id).setLatLng(new L.LatLng(vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude));
+    }
+  }
+
+  addVehicleMarkerByStatus(vehicle: any, status: string): void {
+    let id: string = vehicle.vehicle.id.toString();
+    let lat = vehicle.vehicle.currentLocation.latitude;
+    let lng = vehicle.vehicle.currentLocation.longitude;
+    if (status === "ACTIVE") {
+
+      this.busyDrivers.push(L.marker([lat, lng], 
+        {draggable: false, icon: this.unavailableIcon, title: id}).bindTooltip("Busy").addTo(this.map));
+
+    } else if (status === "FINISHED") {
+
+      this.activeDrivers.push(L.marker([lat, lng],
+        {draggable: false, icon: this.availableIcon, title: id}).bindTooltip("Available " + id).addTo(this.map));
+
+    } else if (status === "PANIC") {
+
+      this.panicDrivers.push(L.marker([lat, lng],
+        {draggable: false, icon: this.panic, title: id}).bindTooltip("Panic").addTo(this.map));
+
+    }
+  }
+
+  removeVehicleMarkerById(id: number) {
+    let tempId: string = id.toString();
+    let data = [this.activeDrivers, this.busyDrivers, this.panicDrivers];
+    for (let list of data) {
+      const indx = list.indexOf(this.getVehicleMarkerById(tempId));
+      if(indx != -1) {
+        this.map.removeLayer(this.getVehicleMarkerById(tempId));
+        list.splice(indx, 1);
+      }
     }
   }
 
@@ -260,6 +290,7 @@ export class MapComponent{
         that.stompClient.subscribe("/update-vehicle-location/", (message: {body: string}) => {
           let response: VehicleLocation[] = JSON.parse(message.body);
           for (let element of response) {
+            console.log(response)
             if(element.driverId == that.authService.getId()) that.mapService.setEstimation(element.duration);
             else that.addVehicle(element);
             
