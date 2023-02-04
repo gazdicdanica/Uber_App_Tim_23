@@ -121,7 +121,7 @@ export class RideInfoComponent implements OnInit{
           this.rideService.setRide(result);          
           if(this.isSchedule) {
             alert("System notified, see you soon");
-            this.router.navigate(['/main']);
+            this.router.navigate(['/']);
           } else {
             this.openWaitDialog(result);
           }
@@ -129,7 +129,7 @@ export class RideInfoComponent implements OnInit{
         },
         error: (error) => {
           alert(error.error.message);
-          this.router.navigate(["/main"]);
+          this.router.navigate(["/"]);
         }
       });
     }

@@ -119,7 +119,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
     this.stompClient.subscribe("/ride-panic/" + this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
         this.openPanicDialog();
-        this.router.navigate(["/main"]);
+        this.router.navigate(["/"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);
@@ -144,7 +144,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
       this.rideStatus = response.status;
       if(this.rideStatus === "FINISHED"){
         this.openReviewDialog();
-        this.router.navigate(["/main"]);
+        this.router.navigate(["/"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);

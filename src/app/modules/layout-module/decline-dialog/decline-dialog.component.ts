@@ -41,7 +41,7 @@ export class DeclineDialogComponent implements OnInit {
           this.mapService.setEndValue(new Location(0, 0, ''));
           this.mapService.setDrawRoute(false);
 
-          this.router.navigate(['/main']);
+          this.router.navigate(['/']);
         })
 
       }else{

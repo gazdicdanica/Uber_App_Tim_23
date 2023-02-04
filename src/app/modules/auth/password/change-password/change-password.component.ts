@@ -37,7 +37,7 @@ export class ChangePasswordComponent {
         next: (result) => {
             alert("Password successfuly updated - Please Re-Login");
             this.authService.logout();
-            this.router.navigate(['/main']);
+            this.router.navigate(['/']);
         },
         error: (error) => {
           console.log(error);

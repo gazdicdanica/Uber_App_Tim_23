@@ -38,7 +38,7 @@ export class LoginComponent {
           localStorage.setItem('email', loginVal.email!);
           
           this.authService.setUser();
-          this.router.navigate(['/main']);
+          this.router.navigate(['/']);
 
         },
         error: (error) => {

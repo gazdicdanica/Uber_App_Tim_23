@@ -122,7 +122,7 @@ export class MainComponent implements OnInit, OnDestroy{
       if(this.dialog){
         this.dialog.closeAll();
       }
-      this.router.navigate(["/main"]);
+      this.router.navigate(["/"]);
       
     });
   }
