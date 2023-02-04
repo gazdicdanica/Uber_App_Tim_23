@@ -118,7 +118,7 @@ export class InRideComponent implements OnInit, OnDestroy{
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);
-        this.router.navigate(['/main']);
+        this.router.navigate(['/']);
       },
       error: (error) => {
         console.log(error);
@@ -166,7 +166,7 @@ export class InRideComponent implements OnInit, OnDestroy{
 
       if(response.status === "PANIC"){
         this.openPanicDialog();
-        this.router.navigate(["/main"]);
+        this.router.navigate(["/"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);
@@ -180,7 +180,7 @@ export class InRideComponent implements OnInit, OnDestroy{
       if(this.dialog){
         this.dialog.closeAll();
       }
-      this.router.navigate(["/main"]);
+      this.router.navigate(["/"]);
       
     });
   }

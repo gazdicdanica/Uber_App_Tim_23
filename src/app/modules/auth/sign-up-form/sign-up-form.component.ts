@@ -31,7 +31,7 @@ export class SignUpFormComponent {
       this.authService.signup(this.signUpForm.value)
       .subscribe({
         next: (res) => {
-          this.router.navigate(['/main']);
+          this.router.navigate(['/']);
           alert("An activation mail has been sent.\nTo continue click the link in mail!");
         },
         error: (error) => {

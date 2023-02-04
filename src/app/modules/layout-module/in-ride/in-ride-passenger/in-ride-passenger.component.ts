@@ -119,7 +119,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
     this.stompClient.subscribe("/ride-panic/" + this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
         this.openPanicDialog();
-        this.router.navigate(["/main"]);
+        this.router.navigate(["/"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);
@@ -128,13 +128,23 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
       
     });
 
+    let i : boolean = false;
+
+    this.stompClient.subscribe("/driver-arrived/"+this.rideData.id, (message : {body : string}) => {
+      if(!i){
+        alert("Driver arrived on departure location!");
+        i = true;
+      }
+      
+    })
+
     this.stompClient.subscribe("/ride-passenger/" + this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
       this.rideData = response;
       this.rideStatus = response.status;
       if(this.rideStatus === "FINISHED"){
         this.openReviewDialog();
-        this.router.navigate(["/main"]);
+        this.router.navigate(["/"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);

@@ -18,7 +18,6 @@ import { InRidePassengerComponent } from './modules/layout-module/in-ride/in-rid
 import { RideHistoryComponent } from './modules/layout-module/ride-history/ride-history.component';
 import { AuthGuard } from './modules/guard/auth/auth.guard';
 import { RideDetailsComponent } from './modules/layout-module/ride-details/ride-details.component';
-import { CanDeactivateGuard } from './modules/guard/deactivate/can-deactivate.guard';
 import { FavoriteRidesComponent } from './modules/layout-module/favorite-rides/favorite-rides.component';
 import { ReportsComponent } from './modules/layout-module/reports/reports.component';
 
@@ -58,7 +57,6 @@ const routes: Routes = [
 canActivate: [AuthGuard]},
   {path: 'psngrInRide', component: InRidePassengerComponent,
   canActivate: [AuthGuard],
-  canDeactivate: [CanDeactivateGuard],
   data: {
     role: 'ROLE_USER'
   }},
