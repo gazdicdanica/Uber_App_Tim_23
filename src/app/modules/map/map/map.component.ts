@@ -65,6 +65,7 @@ export class MapComponent{
   private markers : Array<L.Marker> = new Array<L.Marker>();
   private activeDrivers: Array<L.Marker> = new Array<L.Marker>();
   private busyDrivers: Array<L.Marker> = new Array<L.Marker>();
+  private panicDrivers: Array<L.Marker> = new Array<L.Marker>();
   private clicks : number = 0;
 
   private map!: L.Map;
@@ -87,8 +88,8 @@ export class MapComponent{
     iconAnchor: [22, 20],
   });
 
-  private passengerIcon = L.icon({
-    iconUrl: 'assets/images/passengerLocation.png',
+  private panic = L.icon({
+    iconUrl: 'assets/images/panic.png',
     iconSize: [40,40],
     iconAnchor: [22, 20]
   });
@@ -164,7 +165,11 @@ export class MapComponent{
         this.busyDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude], 
           {draggable: false, icon: this.unavailableIcon, title: vehicle.vehicle.id}).bindTooltip("Busy").addTo(this.map));
 
-    } else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "ACTIVE" &&
+    } else if (vehicle.rideStatus == "PANIC" && !this.checkPresentOnMap(vehicle)) {
+      this.panicDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude],
+        {draggable: false, icon: this.panic, title: vehicle.vehicle.id}).bindTooltip("Panic " + vehicle.vehicle.vehicleType.type).addTo(this.map));
+
+    }else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "ACTIVE" &&
         this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Available')) {
 
           const index = this.activeDrivers.indexOf(this.getVehicleMarkerById(vehicle.vehicle.id));
@@ -174,7 +179,7 @@ export class MapComponent{
             {draggable: false, icon: this.unavailableIcon, title: vehicle.vehicle.id}).bindTooltip("Busy").addTo(this.map));
 
     } else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "FINISHED" &&
-    this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Busy')) {
+        this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Busy')) {
 
           const index = this.busyDrivers.indexOf(this.getVehicleMarkerById(vehicle.vehicle.id));
           this.map.removeLayer(this.getVehicleMarkerById(vehicle.vehicle.id));
@@ -182,6 +187,10 @@ export class MapComponent{
           this.activeDrivers.push(L.marker([vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude],
             {draggable: false, icon: this.availableIcon, title: vehicle.vehicle.id}).bindTooltip("Available " + vehicle.vehicle.vehicleType.type).addTo(this.map));
 
+    } else if (this.checkPresentOnMap(vehicle) && vehicle.rideStatus == "PANIC" &&
+        this.getVehicleMarkerById(vehicle.vehicle.id).getTooltip()?.getContent()?.toString().includes('Panic')) {
+
+          this.getVehicleMarkerById(vehicle.vehicle.id).setLatLng(new L.LatLng(vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude));
     } else {
           this.getVehicleMarkerById(vehicle.vehicle.id).setLatLng(new L.LatLng(vehicle.vehicle.currentLocation.latitude, vehicle.vehicle.currentLocation.longitude));
     }
@@ -251,11 +260,10 @@ export class MapComponent{
         that.stompClient.subscribe("/update-vehicle-location/", (message: {body: string}) => {
           let response: VehicleLocation[] = JSON.parse(message.body);
           for (let element of response) {
-            console.log(message.body);
-            console.log("\n\n\n" + element.duration);
             if(element.driverId == that.authService.getId()) that.mapService.setEstimation(element.duration);
             else that.addVehicle(element);
             
+            that.tryStyleMap();
           }
         });
       });
@@ -271,6 +279,9 @@ export class MapComponent{
 
     if(this.role === 'ROLE_DRIVER') {
       interval(2000).subscribe( x=> {
+
+        this.tryStyleMap();
+
         this.driverService.getDriverLocation(this.driverService.getId()).subscribe({
           next: (result) => {
             if (!this.currentDriverLoc) {
@@ -339,5 +350,11 @@ export class MapComponent{
     }
   }
 
+  tryStyleMap(): void {
+    const mapsDecor = <HTMLElement>document.getElementsByClassName('leaflet-control-container')[0];
+    if (mapsDecor != undefined) {
+      mapsDecor.style.visibility = 'hidden';
+    }
 
+  }
 }
