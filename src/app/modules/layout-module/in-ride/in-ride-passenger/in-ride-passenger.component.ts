@@ -128,6 +128,16 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
       
     });
 
+    let i : boolean = false;
+
+    this.stompClient.subscribe("/driver-arrived/"+this.rideData.id, (message : {body : string}) => {
+      if(!i){
+        alert("Driver arrived on departure location!");
+        i = true;
+      }
+      
+    })
+
     this.stompClient.subscribe("/ride-passenger/" + this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
       this.rideData = response;
