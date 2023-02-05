@@ -9,10 +9,10 @@
             <div class="dropdown-content">
                 <a href="#" [routerLink]="['/']">Home</a>
                 <a [routerLink]="['/rideHistory']">Ride History</a>
-                <a [routerLink]="['/favorites']">Favorite rides</a>
+                <a id="favorite-rides" [routerLink]="['/favorites']">Favorite rides</a>
                 <a [routerLink]="['/profile']">Account</a>
                 <a [routerLink]="['/reports']">Reports</a>
-                <a (click)="logout()">Log out</a>
+                <a id="logout-btn-psngr" (click)="logout()">Log out</a>
             </div>
         </div>
     </div>
