@@ -90,7 +90,7 @@
             <div class="rating">
               <button mat-icon-button color="accent" *ngFor="let ratingId of ratingArrVehicle;index as i" [id]="'star_'+i" >
                 <mat-icon>
-                  {{showIcon(i, true)}}
+                  {{showIcon(i, false)}}
                 </mat-icon>
               </button>
               <p class="title">{{getText(vehicleReview.rating)}}</p>
