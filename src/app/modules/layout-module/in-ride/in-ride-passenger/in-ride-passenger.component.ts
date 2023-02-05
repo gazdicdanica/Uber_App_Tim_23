@@ -35,7 +35,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
     private rideService: RideService, private wsService: WebSocketService, private dialog : MatDialog) {}
 
   ngOnDestroy(): void {
-    this.wsService.closeConnection();
+    this.wsService.closeConnection(this.stompClient);
   }
 
   ngOnInit() {
@@ -58,11 +58,13 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
       }
     );
 
-    this.stompClient = this.wsService.connect();
-    let that = this;
-    this.stompClient.connect({}, function(){
-      that.openSocket();
-    });
+    if(this.stompClient == null){
+      this.stompClient = this.wsService.connect();
+      let that = this;
+      this.stompClient.connect({}, function(){
+        that.openSocket();
+      })
+    ;}
 
   }
 

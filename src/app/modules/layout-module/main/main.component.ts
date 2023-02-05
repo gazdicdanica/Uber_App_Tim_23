@@ -29,7 +29,7 @@ export class MainComponent implements OnInit, OnDestroy{
     private wsService: WebSocketService, private dialog: MatDialog) {
   }
   ngOnDestroy(): void {
-    this.wsService.closeConnection();
+    this.wsService.closeConnection(this.stompClient);
   }
 
   ngAfterViewInit() : void{
@@ -90,7 +90,7 @@ export class MainComponent implements OnInit, OnDestroy{
     this.stompClient.subscribe("/linkPassengers/"+this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
       console.log(response);
-      this.openDialog(response, false);
+      this.openDialog(response);
     });
 
     this.stompClient.subscribe("/scheduledNotifications/"+this.authService.getId(), (message: {body: string}) => {
@@ -100,7 +100,7 @@ export class MainComponent implements OnInit, OnDestroy{
         alert("Unsuccessful ride schedule \nUnfortunately, all drivers are busy.\nPlease try again");
       }else if(response.status == "ACCEPTED"){
         alert("Ride scheduled successfuly\n\nDriver is on his way!");
-        this.openDialog(response, false);
+        this.openDialog(response);
       }
     });
   }
@@ -108,13 +108,13 @@ export class MainComponent implements OnInit, OnDestroy{
   openSocket(): void{
     this.stompClient.subscribe("/ride-driver/"+this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
-      this.openDialog(response, true);
+      this.openDialog(response);
     });
 
-    this.stompClient.subscribe("/ride-passenger/"+this.authService.getId(), (message: {body: string}) => {
-      let response: Ride = JSON.parse(message.body);
-      this.openDialog(response, false);
-    });
+    // this.stompClient.subscribe("/ride-passenger/"+this.authService.getId(), (message: {body: string}) => {
+    //   let response: Ride = JSON.parse(message.body);
+    //   this.openDialog(response, false);
+    // });
 
     this.stompClient.subscribe("/ride-cancel/" + this.authService.getId(), (message : {body : string}) => {
       let response: Ride = JSON.parse(message.body);
@@ -127,7 +127,7 @@ export class MainComponent implements OnInit, OnDestroy{
     });
   }
 
-  openDialog(response: Ride, isDriver: boolean){
+  openDialog(response: Ride){
 
     const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;

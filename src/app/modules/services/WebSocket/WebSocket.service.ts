@@ -6,24 +6,25 @@ import { NewRideDialogComponent } from '../../layout-module/new-ride-dialog/new-
 @Injectable({
   providedIn: 'root'
 })
-export class WebSocketService {
+export class WebSocketService{
 
   public stompClient: any = null;
+  private socket : any = null;
 
   constructor() { }
 
   connect(){
-    let socket = new SockJS("http://192.168.0.21:8080/socket");
-
-    this.stompClient = Stomp.over(socket);
+    this.socket = new SockJS("http://192.168.0.21:8080/socket");
+    
+    this.stompClient = Stomp.over(this.socket);
    
     return this.stompClient;
   }
 
-  closeConnection(){
-    if(this.stompClient){
-      this.stompClient.disconnect();
-    }
+  closeConnection(stomp : any){
+    stomp.disconnect();
     
   }
+
+  
 }
