@@ -111,7 +111,9 @@ export class RideInfoComponent implements OnInit{
     } else{
       this.isSchedule = false;
     }
+    console.log(time);
     this.rideReq = new RideRequest(route, this.friend, this.vehicleType, time, this.isBaby, this.isPets, Number(this.estimationValue[1]));
+    console.log(this.rideReq);
 
     if (this.vehicleType == "") {
       alert("Please Choose Vehicle Type");

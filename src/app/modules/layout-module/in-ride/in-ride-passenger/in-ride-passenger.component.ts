@@ -35,7 +35,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
     private rideService: RideService, private wsService: WebSocketService, private dialog : MatDialog) {}
 
   ngOnDestroy(): void {
-    this.wsService.closeConnection();
+    this.wsService.closeConnection(this.stompClient);
   }
 
   ngOnInit() {
@@ -58,11 +58,13 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
       }
     );
 
-    this.stompClient = this.wsService.connect();
-    let that = this;
-    this.stompClient.connect({}, function(){
-      that.openSocket();
-    });
+    if(this.stompClient == null){
+      this.stompClient = this.wsService.connect();
+      let that = this;
+      this.stompClient.connect({}, function(){
+        that.openSocket();
+      })
+    ;}
 
   }
 
@@ -119,10 +121,10 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
     this.stompClient.subscribe("/ride-panic/" + this.authService.getId(), (message: {body: string}) => {
       let response : Ride = JSON.parse(message.body);
         this.openPanicDialog();
-        this.router.navigate(["/"]);
         this.mapService.setStartValue(new Location(0, 0, ''));
         this.mapService.setEndValue(new Location(0, 0, ''));
         this.mapService.setDrawRoute(false);
+        this.router.navigate(["/"]);
         this.rideStatus = "PANIC";
       
       
