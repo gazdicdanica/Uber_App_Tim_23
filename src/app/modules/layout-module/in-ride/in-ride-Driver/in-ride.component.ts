@@ -55,7 +55,7 @@ export class InRideComponent implements OnInit, OnDestroy{
     );
   }
   ngOnDestroy(): void {
-    this.stompClient.disconnect();
+    this.wsService.closeConnection(this.stompClient);
   }
 
   addItem(estimationValue: string[]){
