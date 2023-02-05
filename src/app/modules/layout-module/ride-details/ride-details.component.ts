@@ -92,6 +92,7 @@ export class RideDetailsComponent {
           }
           this.reviewService.findReviewForRide(this.ride.id).subscribe(
             val => {
+              console.log(val);
               for(let review of val.vehicleReviews){
                 if(review.passenger.id == this.authService.getId()){
                   this.vehicleReview = review;
