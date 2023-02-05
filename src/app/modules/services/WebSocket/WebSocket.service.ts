@@ -6,9 +6,10 @@ import { NewRideDialogComponent } from '../../layout-module/new-ride-dialog/new-
 @Injectable({
   providedIn: 'root'
 })
-export class WebSocketService {
+export class WebSocketService{
 
   public stompClient: any = null;
+  private socket : any = null;
 
   constructor() { }
 
@@ -20,10 +21,10 @@ export class WebSocketService {
     return this.stompClient;
   }
 
-  closeConnection(){
-    if(this.stompClient){
-      this.stompClient.disconnect();
-    }
+  closeConnection(stomp : any){
+    stomp.disconnect();
     
   }
+
+  
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapService } from '../map.service';
@@ -14,7 +14,7 @@ import { VehicleLocation } from '../../model/VehicleLocation';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent{
+export class MapComponent implements OnDestroy{
   role: any;
   currentDriverLoc!: L.Marker;
   public lat!: number;
@@ -22,6 +22,10 @@ export class MapComponent{
   stompClient: any;
 
   constructor(private mapService: MapService, private authService: AuthService, private driverService: DriverService, private wsService: WebSocketService){}
+  
+  ngOnDestroy(): void {
+    this.wsService.closeConnection(this.stompClient);
+  }
 
   ngOnInit(): void {
     this.authService.userState$.subscribe((result) => {

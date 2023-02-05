@@ -27,13 +27,14 @@ export class WaitingDialogComponent implements OnInit, OnDestroy{
       this.data = data;
   }
   ngOnDestroy(): void {
-    this.wsService.closeConnection();
+    this.wsService.closeConnection(this.stompClient);
   }
 
   ngOnInit(): void {
     this.title = "Waiting for driver...";
 
-    this.stompClient = this.wsService.connect();
+    if(this.stompClient == null)
+      this.stompClient = this.wsService.connect();
     let that = this;
     if(this.stompClient.status != "CONNECTED"){
       this.stompClient.connect({}, function(){

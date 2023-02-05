@@ -55,7 +55,7 @@ export class InRideComponent implements OnInit, OnDestroy{
     );
   }
   ngOnDestroy(): void {
-    this.wsService.closeConnection();
+    this.stompClient.disconnect();
   }
 
   addItem(estimationValue: string[]){
@@ -75,12 +75,15 @@ export class InRideComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
-    this.role = this.authService.getRole();
-    this.stompClient = this.wsService.connect();
-    let that = this;
-    this.stompClient.connect({}, function(){
-      that.openSocket();
-    });
+    if(this.stompClient == null){
+      this.role = this.authService.getRole();
+      this.stompClient = this.wsService.connect();
+      let that = this;
+      this.stompClient.connect({}, function(){
+        that.openSocket();
+      });
+    }
+    
   }
 
   startRide(): void {
