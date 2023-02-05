@@ -112,6 +112,11 @@ export class RideInfoComponent implements OnInit{
       this.isSchedule = false;
     }
     console.log(time);
+    console.log(typeof(time));
+    if(time != null && new Date(time) < new Date()){
+      alert("You cannot pick time in the past");
+      return;
+    }
     this.rideReq = new RideRequest(route, this.friend, this.vehicleType, time, this.isBaby, this.isPets, Number(this.estimationValue[1]));
     console.log(this.rideReq);
 
