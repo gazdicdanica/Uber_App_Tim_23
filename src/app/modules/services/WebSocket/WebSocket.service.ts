@@ -22,7 +22,8 @@ export class WebSocketService{
   }
 
   closeConnection(stomp : any){
-    stomp.disconnect();
+    if(stomp != null)
+      stomp.disconnect();
     
   }
 
