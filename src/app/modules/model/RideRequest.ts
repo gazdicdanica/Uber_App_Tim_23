@@ -6,7 +6,7 @@ export class RideRequest {
     locations: Array<Route>;
     passengers: UserShort[];
     vehicleType: string;
-    scheduleTime: null | Date;
+    scheduledTime: null | Date;
     babyTransport: boolean;
     petTransport: boolean;
     estimatedTime: number;
@@ -15,7 +15,7 @@ export class RideRequest {
         this.locations = [loc];
         this.passengers = psngr;
         this.vehicleType = vt;
-        this.scheduleTime = schdTime;
+        this.scheduledTime = schdTime;
         this.babyTransport = bT;
         this.petTransport = pT;
         this.estimatedTime = estimateTime;
