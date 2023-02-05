@@ -34,8 +34,14 @@ export class LoginComponent {
       this.authService.login(loginVal).subscribe({
         next: (result) => {
           let accessToken = JSON.stringify(result).split(",")[0] + "}";
+          let refreshToken = "{" + JSON.stringify(result).split(",")[1];
+
           localStorage.setItem('user', accessToken);
           localStorage.setItem('email', loginVal.email!);
+          localStorage.setItem('refresh', refreshToken);
+          
+          console.log("access na loginu:", localStorage.getItem('user'));
+          console.log("refresh na loginu:", localStorage.getItem('refresh'));
           
           this.authService.setUser();
           this.router.navigate(['/']);

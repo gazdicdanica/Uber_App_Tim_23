@@ -5,8 +5,8 @@
     </div>
     <div id="accinfo" [formGroup]="online" class="driver-navbar-container">
         
-        <p *ngIf="checked">Online</p>
-        <p *ngIf="!checked">Offline</p>
+        <p id="online-text" *ngIf="checked">Online</p>
+        <p id="offline-text" *ngIf="!checked">Offline</p>
         <mat-slide-toggle 
             id="onlineToggle"
             class="toggle"
@@ -24,7 +24,7 @@
                 <a [routerLink]="['/profile']">Account</a>
                 <a [routerLink]="['/documents']">Documents</a>
                 <a [routerLink]="['/reports']">Reports</a>
-                <a (click)="logout()">Log out</a>
+                <a id="logout-btn" (click)="logout()">Log out</a>
             </div>
         </div>
     </div>

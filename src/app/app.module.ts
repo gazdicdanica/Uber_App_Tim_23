@@ -32,11 +32,9 @@ import { MatTableModule } from '@angular/material/table';
     MapModule,
     NavbarModule,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: Interceptor,
-    multi: true,
-  }],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
