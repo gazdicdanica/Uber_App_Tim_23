@@ -37,11 +37,6 @@ export class DeclineDialogComponent implements OnInit {
       if(this.panic){
         this.rideService.panic(this.ride.id, {"reason" : this.decline.value.reason}).subscribe((value) => {
           this.dialogRef.close();
-          this.mapService.setStartValue(new Location(0, 0, ''));
-          this.mapService.setEndValue(new Location(0, 0, ''));
-          this.mapService.setDrawRoute(false);
-
-          this.router.navigate(['/']);
         })
 
       }else{
