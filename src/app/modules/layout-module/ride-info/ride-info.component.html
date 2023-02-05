@@ -1,0 +1,43 @@
+<div class="map-div">
+    <app-map 
+    (estimationEvent)="addItem($event)"
+    [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
+</div>
+<div class="center">
+    <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" [parentName]="name" id="search-component"></app-search-locations>
+</div>
+<div *ngIf="role === 'ROLE_USER'" id="favorite-div">
+    <button (click)="openFavoriteDialog()" id="favorite-btn" color="accent" mat-fab><mat-icon style="color: white;">favorite</mat-icon></button>
+</div>
+
+<div id="ride-info">
+    <div class="column-wrapper">
+        <div class="column-info estimation">
+            <p id="time-estimate">{{ estimationValue[1] }} min</p>
+            <p id="distance">({{estimationValue[0]}} km)</p>
+        </div>
+        <div *ngIf="role == 'ROLE_USER'" class="column-info">
+            <mat-form-field id="input-friend" appearance="outline">
+                <mat-label>Add Friend</mat-label>
+                <input class="form-input" id="friend" matInput type="text" name="friend"/>
+            </mat-form-field>
+            <button mat-raised-button class="btn" id="add-friend-btn" color="accent" (click)="addFriend()" >Add Friend</button>
+            <section style="margin-left: 15px;">
+                <mat-checkbox [checked]="isBaby" class="input-data-ch" id="babies" name="babies" (change)="changeBaby()">Babies</mat-checkbox>
+                <mat-checkbox [checked]="isPets" class="input-data-ch" id="pets" name="pets" (change)="changePets()">Pets</mat-checkbox>
+            </section>
+        </div>
+        <div class="column-info">
+            <button class="btn" mat-raised-button *ngIf="role != 'ROLE_USER'" color="accent" disabled="true">Start ride</button>
+            <button class="btn" id="start-ride-btn" mat-raised-button *ngIf="role == 'ROLE_USER'" color="accent" (click)="createRide()" >Start ride</button>
+        
+        </div>
+
+    </div>
+    <mat-divider></mat-divider>
+    <div class="vehicle-container">
+        <app-vehicle-ride #vehicleCard class="column" [ngClass]="{'selectedType' : vehicleType == type.type}" (click)="selectType(type.type)" *ngFor="let type of vehicleTypes" [price]="type.price" [type]="type.type"></app-vehicle-ride>
+    </div>
+    <div></div>
+</div>
+

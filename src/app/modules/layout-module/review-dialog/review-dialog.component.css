@@ -1,0 +1,19 @@
+ mat-dialog-content{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+ }
+
+ mat-dialog-content h1{
+    margin-top: 20px;
+ }
+
+ .form-btn{
+    width: 100px;
+    font-weight: bold;
+    font-size: medium;
+    padding: 25px;
+    color: white !important;
+
+    margin-right: 20px;
+}

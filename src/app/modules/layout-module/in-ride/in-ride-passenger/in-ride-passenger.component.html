@@ -1,0 +1,16 @@
+<div class="master-div">
+    <div class="data-div" >
+        <div id="estimate-div">
+            <p id="timer">{{estimationValue[1]}} min</p>
+            <p id="distance">({{estimationValue[0]}} km)</p>
+        </div>
+    </div>
+    <div class="map-div">
+        <app-map
+        (estimationEvent)="addItem($event)"
+        [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
+    </div>
+    <div *ngIf="rideStatus==='ACTIVE'" class="panic-div">
+        <button color="warn" class="form-btn panic-btn" id="panic-btn" (click)="panic()" mat-raised-button>P A N I C</button>
+    </div>
+</div>

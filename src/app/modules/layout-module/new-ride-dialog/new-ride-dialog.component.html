@@ -1,0 +1,44 @@
+<!-- TODO: change mat-dialog-title appearance -->
+<h1 mat-dialog-title> Accept ride? </h1>
+
+<mat-dialog-content [formGroup]="newRide">
+
+    <mat-form-field class="whole">
+        <mat-label>Departure</mat-label>
+        <input type="text" matInput formControlName="departure">
+    </mat-form-field>
+    <mat-form-field class="whole">
+        <mat-label>Destination</mat-label>
+        <input type="text" matInput formControlName="destination">
+    </mat-form-field>
+    <div class="wrapper">
+        <mat-form-field class="half">
+            <mat-label>Estimated time</mat-label>
+            <input type="number" matInput formControlName="time">
+            <span matSuffix>min</span>
+        </mat-form-field>
+        <mat-form-field class="half">
+            <mat-label>Distance</mat-label>
+            <input type="number" step="any" matInput formControlName="distance">
+            <span matSuffix>km</span>
+        </mat-form-field>
+        <mat-form-field class="half">
+            <mat-label>Passengers</mat-label>
+            <input type="number" matInput formControlName="passengerNum">
+        </mat-form-field>
+        <mat-form-field class="half">
+            <mat-label>Price</mat-label>
+            <input type="number" step="any" matInput formControlName="price">
+            <span matSuffix>RSD</span>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" *ngIf="role == 'ROLE_DRIVER'">
+    <button (click)="decline()" class="form-btn" mat-raised-button color="primary">Decline</button>
+    <button (click)="accept()" class="form-btn" mat-raised-button color="accent">Accept</button>
+</mat-dialog-actions>
+
+<mat-dialog-actions align="end" *ngIf="role == 'ROLE_USER'">
+    <button class="form-btn" mat-raised-button color="accent" (click)="passengerToInRide()">Ok</button>
+</mat-dialog-actions>

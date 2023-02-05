@@ -1,0 +1,19 @@
+<mat-toolbar id="passenger" color="primary">
+    <div id="logo" [routerLink]="['/']">
+        <h1 style="color: #f57804;"><b>Air</b></h1>
+        <h1 style="color: #545454"><b>Ride</b></h1>
+    </div>
+    <div id="accinfo" class="driver-navbar-container">
+        <div class="dropdown">
+            <img id="photo2" src="./../../../../assets/images/pngwing.com.png">
+            <div class="dropdown-content">
+                <a href="#" [routerLink]="['/']">Home</a>
+                <a [routerLink]="['/rideHistory']">Ride History</a>
+                <a id="favorite-rides" [routerLink]="['/favorites']">Favorite rides</a>
+                <a [routerLink]="['/profile']">Account</a>
+                <a [routerLink]="['/reports']">Reports</a>
+                <a id="logout-btn-psngr" (click)="logout()">Log out</a>
+            </div>
+        </div>
+    </div>
+</mat-toolbar>

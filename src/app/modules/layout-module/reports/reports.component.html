@@ -1,0 +1,64 @@
+<mat-sidenav-container class="example-container">
+    <mat-sidenav mode="side" opened><app-side-navbar></app-side-navbar></mat-sidenav>
+    <mat-sidenav-content class="main">
+        <div id="content-wrapper">
+            <div [formGroup]="reportCrit" id="details">
+                <mat-form-field id="date-range">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input formControlName="startDate" matStartDate placeholder="Start date">
+                        <input formControlName="endDate" matEndDate placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+                
+                <button (click)="generateReport()" color="accent" id="generate" mat-raised-button>Generate</button>
+                
+            </div>
+            <div id="charts">
+                <div *ngIf="generate" class="chart-wrapper" id="ride-num-wrapper">
+                    <h1>Number of rides by day</h1>
+                    <canvas
+                    baseChart
+                    [type]="'bar'"
+                    [data]="rideNumberDataSet"
+                     id="ride-chart"></canvas>
+                     <div class="recap">
+                        <h3>TOTAL : {{totalNum}}</h3>
+                        <h3>AVERAGE : {{totalNum / rideNumber.size | number}} rides per day</h3>
+                     </div>
+                     
+                </div>
+                <div *ngIf="generate" class="chart-wrapper" id="km-wrapper">
+                    <h1 >Kilometers passed by day</h1>
+                    <canvas id="km-chart"
+                    baseChart
+                    [type]="'line'"
+                    [data]="kmDataSet"></canvas>
+                    <div class="recap">
+                        <h3>TOTAL : {{totalKm}} km</h3>
+                        <h3>AVERAGE : {{totalKm / km.size | number}} kilometers per day</h3>
+                    </div>
+                    
+                </div>
+                <div *ngIf="generate" class="chart-wrapper" id="money-wrapper">
+                    <h1 *ngIf="role === 'ROLE_USER'" >Money spent by day</h1>
+                    <h1 *ngIf="role === 'ROLE_DRIVER'">Money earned by day</h1>
+                    <canvas id="money-chart"
+                    baseChart
+                    [type]="'line'"
+                    [data]="priceDataSet"></canvas>
+                    <div class="recap">
+                        <h3>TOTAL : {{totalPrice}} RSD</h3>
+                        <h3>AVERAGE : {{totalPrice / price.size | number}} RSD per day</h3>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div *ngIf="generate" id="btn-div">
+            <button mat-raised-button color="accent" (click)="captureScreen()" value="CPTURE" class="form-btn" id="export-btn">Export to PDF</button>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

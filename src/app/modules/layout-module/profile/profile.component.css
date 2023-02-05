@@ -1,0 +1,14 @@
+.example-container{
+    height: 90%;
+}
+
+
+mat-sidenav{
+    width: 15%;
+}
+
+/* .mat-sidenav-content,
+.mat-sidenav-container,
+.mat-drawer-content {
+    transform: none !important;
+} */

@@ -1,0 +1,17 @@
+mat-dialog-content{
+    background-color: #7c1212;
+
+    display: flex;
+    justify-content: center;
+    /* padding: 30px; */
+    height: 100%;
+    align-items: center;
+}
+
+p{
+    color: white;
+    font-weight: bold;
+    font-size: x-large;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}

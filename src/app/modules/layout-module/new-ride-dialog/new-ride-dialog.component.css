@@ -1,0 +1,29 @@
+.whole{
+    width: 100%;
+}
+
+.half{
+    width: 48%;
+}
+
+.form-btn{
+    width: 100px;
+    font-weight: bold;
+    font-size: medium;
+    padding: 25px;
+    color: white !important;
+}
+
+.wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.mat-dialog-title{
+    font-size: large;
+}
+
+span{
+    padding-right: 10px;
+}

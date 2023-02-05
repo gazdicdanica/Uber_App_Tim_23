@@ -1,0 +1,90 @@
+#container{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    min-height: 150px;
+}
+
+#container:hover{
+    opacity: 80%;
+    cursor: pointer;
+}
+
+#no-vehicle{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    width:100%;
+    height:150px;
+}
+
+#yes-vehicle{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    
+}
+
+.type-model{
+    width:100%;
+    margin-bottom: 10px;
+}
+
+.type-model>div{
+    display: flex;
+    align-items: center;
+}
+
+.type-model>div:first-child{
+    width: 40%;
+}
+
+.type-model>div:last-child{
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+}
+p{
+    margin: 0;
+}
+
+.type-model{
+    display: flex;
+    flex-direction: row;
+}
+
+#model{
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#add-vehicle{
+    color:white !important;
+    font-size: large;
+    /* font-weight: bold; */
+}
+
+#registration{
+    font-size: large;
+    margin-bottom: 10px;
+}
+
+#capacity{
+    font-weight: lighter;
+    margin-bottom: 10px;
+}
+
+#boolean-data{
+    display: flex;
+}
+
+#boolean-data p{
+    font-weight: lighter;
+}
+
+#boolean-data div{
+    width: 50%;
+    display: flex;
+    align-items: center;
+}

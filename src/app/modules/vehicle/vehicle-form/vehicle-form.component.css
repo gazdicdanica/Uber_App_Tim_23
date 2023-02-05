@@ -1,0 +1,36 @@
+#main-content{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+form{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+mat-form-field{
+    width: 400px;
+}
+
+#checkbox-div{
+    display: flex;
+}
+
+#checkbox-div>div{
+    width: 50%;
+}
+
+#pets{
+    float:right;
+}
+
+.form-btn{
+    margin-top: 20px;
+    width: 400px;
+    font-weight: 400;
+    font-size: large;
+    padding: 30px;
+}

@@ -1,0 +1,30 @@
+<div>
+    <div id="main-view">
+        <h1>What's your email and password?</h1>
+        <mat-error *ngIf="hasError">
+            Incorrect username or password
+        </mat-error>        
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="form">
+                <mat-form-field class="form-input" appearance="outline">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput type="email" name="email" id="input-email-login" formControlName="email"/>
+                </mat-form-field>
+                <mat-form-field class="form-input" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" name="password" id="input-password-login" formControlName="password"/>
+                </mat-form-field>
+                <div style="text-align: right; width: 400px; margin-bottom:16px; text-decoration: none;"><a [routerLink]="['/resetPw']">Forgot password?</a></div>
+                
+            <mat-error *ngIf="hasError === 1">Bad Credential</mat-error>
+            <mat-error *ngIf="hasError === 2">User Does Not Exist Or You Have Been Blocked</mat-error>
+            <mat-error *ngIf="hasError === 3">Account Not Activated</mat-error>
+                <button class="form-btn" color="primary" id="login-btn-form" type="submit" mat-raised-button>Log in</button>
+            </div>
+        </form>
+        
+    </div>
+    <div class="bottom-link"><p class="bottom-p-text">Don't have an account? <a [routerLink]="['/signUp']">SIGN UP</a></p></div>
+</div>
+
+

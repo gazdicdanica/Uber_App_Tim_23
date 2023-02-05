@@ -1,0 +1,49 @@
+#container{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    float: left;
+    height: 80px;
+}
+
+#model-div{
+    margin-left: 15px;
+    width: 44%;
+    display: flex;
+    align-items: center;
+}
+
+#type{
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+#model{
+    font-weight: 100;
+    font-size: small;
+    margin-top: 0;
+}
+
+#car-img-div{
+    width: 20%;
+    padding: 10px;
+}
+
+#car-img{
+    width: 100%;
+}
+
+#dollar-icon{
+    width: 100%;
+    
+}
+
+#price-div{
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+}

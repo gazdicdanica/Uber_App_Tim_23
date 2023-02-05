@@ -1,0 +1,70 @@
+<div class="map-div" id="mapica">
+    <app-map [startLocation]="startLocation" [endLocation]="endLocation"></app-map>
+</div>
+
+<div *ngIf="role != 'ROLE_DRIVER'">
+    <div class="center">
+        <app-search-locations [startLocation]="startLocation.address" [endLocation]="endLocation.address" [parentName]="name" id="search-component"></app-search-locations>
+    </div>
+
+    <div id="favorite-wrapper">
+        <div *ngIf="role === 'ROLE_USER'">
+
+        </div>
+
+    </div>
+
+    <div id="company-info-columns">
+        <div class="column">
+            <div class="heading">
+                <img class="info-icon" src="./../../../assets/images/price-tag.png">
+                <h3>
+                    Lowest prices
+                </h3>
+            </div>
+            
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta nec mauris eget elementum. Sed vestibulum ut enim non congue. Praesent porta, nulla ac molestie tempor, risus nunc facilisis turpis, euismod vehicula ante ante id massa. Donec sit amet enim suscipit, mollis nisl posuere, varius neque. Suspendisse potenti. Praesent at dui lobortis lectus vulputate fermentum. Nam sodales elit in augue auctor vehicula eget ac diam. Aliquam vehicula non metus id ornare. Donec vel tortor sapien. Morbi a eleifend odio.
+            </p>
+        </div>
+        <div class="column">
+            <div class="heading">
+                <img class="info-icon" src="./../../../assets/images/storm.png">
+                
+                <h3>
+                    Fastest service
+                </h3>
+            </div>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta nec mauris eget elementum. Sed vestibulum ut enim non congue. Praesent porta, nulla ac molestie tempor, risus nunc facilisis turpis, euismod vehicula ante ante id massa. Donec sit amet enim suscipit, mollis nisl posuere, varius neque. Suspendisse potenti. Praesent at dui lobortis lectus vulputate fermentum. Nam sodales elit in augue auctor vehicula eget ac diam. Aliquam vehicula non metus id ornare. Donec vel tortor sapien. Morbi a eleifend odio.
+            </p>
+        </div>
+        <div class="column">
+            <div class="heading">
+                <img class="info-icon" src="./../../../assets/images/car.png">
+                
+                <h3>
+                    Comfiest vehicles
+                </h3>
+            </div>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta nec mauris eget elementum. Sed vestibulum ut enim non congue. Praesent porta, nulla ac molestie tempor, risus nunc facilisis turpis, euismod vehicula ante ante id massa. Donec sit amet enim suscipit, mollis nisl posuere, varius neque. Suspendisse potenti. Praesent at dui lobortis lectus vulputate fermentum. Nam sodales elit in augue auctor vehicula eget ac diam. Aliquam vehicula non metus id ornare. Donec vel tortor sapien. Morbi a eleifend odio.
+            </p>
+        </div>
+    </div>
+
+    <div id="security">
+        <img src="./../../../assets/images/shield.png">
+        <p>Your safety is our priority</p>
+    </div>
+
+    <div id="p-div">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta nec mauris eget elementum. Sed vestibulum ut enim non congue. Praesent porta, nulla ac molestie tempor, risus nunc facilisis turpis, euismod vehicula ante ante id massa. Donec sit amet enim suscipit, mollis nisl posuere, varius neque.
+        </p>
+        <p>
+            Suspendisse potenti. Praesent at dui lobortis lectus vulputate fermentum. Nam sodales elit in augue auctor vehicula eget ac diam. Aliquam vehicula non metus id ornare. Donec vel tortor sapien. Morbi a eleifend odio. Ut risus magna, fermentum sed finibus vel, dignissim at ex. Nam pharetra laoreet lorem, eget euismod est ultrices id.
+        </p>
+    </div>
+</div>
+

@@ -1,0 +1,43 @@
+<div id="main-content">
+    <div class="personal-info-wrapper">
+        <h1>Personal information</h1>
+        <div class="container">
+            <div class="avatar-upload">
+                <div class="avatar-edit">
+                    <label for="imageUpload"></label>
+                </div>
+                <div class="avatar-preview">
+                    <!-- <img id="imagePreview" [attr.src]="base64"/> -->
+                    <div id="imagePreview" style="background-image: url({{base64}});">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1 id="full-name"> {{fullName}}</h1>
+        <form [formGroup]="profileForm">
+            <mat-form-field appearance="outline">
+                <mat-label>e-mail</mat-label>
+                <input matInput type="email" name="email" formControlName="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                
+                <mat-label>phone</mat-label>
+                <input matInput type="tel" name="phone" formControlName="phone">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>address</mat-label>
+                <input matInput type="text" name="address" formControlName="address">
+            </mat-form-field>
+            <button class="form-btn" color="primary" [routerLink]="['/changePersonalInfo']" mat-raised-button>Edit data</button>
+        </form>
+    
+        <button id="log-out-btn" (click)="logout()" mat-raised-button>Log out</button>
+    
+    
+    </div>
+    
+    <div *ngIf="role === 'ROLE_DRIVER'" class="driver-data-wrapper">
+        <app-driver-data></app-driver-data>
+    </div>
+</div>
+

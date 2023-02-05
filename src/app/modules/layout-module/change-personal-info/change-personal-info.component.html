@@ -1,0 +1,38 @@
+<div class="personal-info-wrapper">
+    <form [formGroup]="profileForm">
+        <div class="container">
+            <div class="avatar-upload">
+                <div class="avatar-edit">
+                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" formControlName="picture" (change)="imageListener($event)"/>
+                    <label for="imageUpload"></label>
+                </div>
+                <div class="avatar-preview">
+                    <!-- <img id="imagePreview" [attr.src]="base64"/> -->
+                    <div id="imagePreview" style="background-image: url({{base64}});">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <mat-form-field appearance="outline">
+            <mat-label>name</mat-label>
+            <input matInput type="text" name="name" formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>surname</mat-label>
+            <input matInput type="text" name="surname" formControlName="surname">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>phone</mat-label>
+            <input matInput type="tel" name="phone" formControlName="phone">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>address</mat-label>
+            <input matInput type="text" name="address" formControlName="address">
+        </mat-form-field>
+        <mat-form-field (click)="navigateToChangePassword()" appearance="outline">
+            <mat-label>password</mat-label>
+            <input matInput type="text" name="password" formControlName="password">
+        </mat-form-field>
+        <button class="form-btn" color="primary" type="submit"  (click)="updateUser()" mat-raised-button>Save changes</button>
+    </form>
+</div>
