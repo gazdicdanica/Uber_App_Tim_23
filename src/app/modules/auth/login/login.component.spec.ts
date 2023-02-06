@@ -20,4 +20,16 @@ describe('LoginComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('blank form should be invalid', ()=>{
+    component.loginForm.controls['email'].setValue('');
+    component.loginForm.controls['password'].setValue('');
+    expect(component.loginForm.valid).toBeFalsy();
+  });
+
+  it('formshould be valid', ()=>{
+    component.loginForm.controls['email'].setValue('abc@email.com');
+    component.loginForm.controls['password'].setValue('123');
+    expect(component.loginForm.valid).toBeTruthy();
+  })
 });
