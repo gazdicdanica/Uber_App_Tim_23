@@ -21,15 +21,15 @@
                 <mat-label>Add Friend</mat-label>
                 <input class="form-input" id="friend" matInput type="text" name="friend"/>
             </mat-form-field>
-            <button mat-raised-button class="start-ride-btn" color="accent" (click)="addFriend()" >Add Friend</button>
+            <button mat-raised-button class="btn" id="add-friend-btn" color="accent" (click)="addFriend()" >Add Friend</button>
             <section style="margin-left: 15px;">
                 <mat-checkbox [checked]="isBaby" class="input-data-ch" id="babies" name="babies" (change)="changeBaby()">Babies</mat-checkbox>
                 <mat-checkbox [checked]="isPets" class="input-data-ch" id="pets" name="pets" (change)="changePets()">Pets</mat-checkbox>
             </section>
         </div>
         <div class="column-info">
-            <button class="start-ride-btn" mat-raised-button *ngIf="role != 'ROLE_USER'" color="accent" disabled="true">Start ride</button>
-            <button class="start-ride-btn" mat-raised-button *ngIf="role == 'ROLE_USER'" color="accent" (click)="createRide()" >Start ride</button>
+            <button class="btn" mat-raised-button *ngIf="role != 'ROLE_USER'" color="accent" disabled="true">Start ride</button>
+            <button class="btn" id="start-ride-btn" mat-raised-button *ngIf="role == 'ROLE_USER'" color="accent" (click)="createRide()" >Start ride</button>
         
         </div>
 
