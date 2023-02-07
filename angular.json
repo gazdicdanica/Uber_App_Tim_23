@@ -93,7 +93,9 @@
               "./node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/polyfills.js"
+            ]
           }
         }
       }
