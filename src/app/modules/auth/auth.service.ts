@@ -29,8 +29,8 @@ export class AuthService {
     return false;
   }
 
-  login(auth: any): Observable<Token> {
-    return this.http.post<Token>(environment.apiHost + '/user/login', auth);
+  login(auth: any): Observable<any> {
+    return this.http.post<any>(environment.apiHost + '/user/login', auth);
   }
   
   signup(user: any): Observable<any>{
