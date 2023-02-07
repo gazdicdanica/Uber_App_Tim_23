@@ -113,6 +113,7 @@ export class RideInfoComponent implements OnInit{
     }
     console.log(time);
     console.log(typeof(time));
+    console.log(new Date(time));
     if(time != null && new Date(time) < new Date()){
       alert("You cannot pick time in the past");
       return;

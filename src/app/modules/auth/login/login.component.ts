@@ -44,12 +44,12 @@ export class LoginComponent {
           console.log("refresh na loginu:", localStorage.getItem('refresh'));
           
           this.authService.setUser();
+          console.log("router");
           this.router.navigate(['/']);
 
         },
         error: (error) => {
           console.log(error);
-          if (error instanceof HttpErrorResponse) {
             if(error.status == 500){
               this.hasError = 1;
             } else if (error.status == 400) {
@@ -57,7 +57,7 @@ export class LoginComponent {
             } else if (error.status == 404) {
               this.hasError = 3;
             }
-          }
+          
         },
       });
     }

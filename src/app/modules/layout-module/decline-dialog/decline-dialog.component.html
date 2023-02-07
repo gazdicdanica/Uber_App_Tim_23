@@ -3,12 +3,12 @@
 <mat-dialog-content [formGroup]="decline">
 
     <mat-form-field appearance="outline">
-        <textarea matInput formControlName="reason"></textarea>
+        <textarea id="panic-reason" matInput formControlName="reason"></textarea>
     </mat-form-field>
 
 </mat-dialog-content>
 
 <mat-action-list align="end">
-    <button *ngIf="panic" (click)="cancel()" mat-raised-button color="primary" class="form-btn">Cancel</button>
-    <button (click)="submit()" color="accent" class="form-btn" mat-raised-button>Submit</button>
+    <button id="panic-cancel" *ngIf="panic" (click)="cancel()" mat-raised-button color="primary" class="form-btn">Cancel</button>
+    <button id="panic-submit" (click)="submit()" color="accent" class="form-btn" mat-raised-button>Submit</button>
 </mat-action-list>

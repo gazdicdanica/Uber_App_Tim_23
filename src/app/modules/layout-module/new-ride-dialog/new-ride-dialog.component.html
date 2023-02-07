@@ -35,8 +35,8 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" *ngIf="role == 'ROLE_DRIVER'">
-    <button (click)="decline()" class="form-btn" mat-raised-button color="primary">Decline</button>
-    <button (click)="accept()" class="form-btn" mat-raised-button color="accent">Accept</button>
+    <button (click)="decline()" id="decline-ride-btn" class="form-btn" mat-raised-button color="primary">Decline</button>
+    <button (click)="accept()" id="accept-ride-btn" class="form-btn" mat-raised-button color="accent">Accept</button>
 </mat-dialog-actions>
 
 <mat-dialog-actions align="end" *ngIf="role == 'ROLE_USER'">
