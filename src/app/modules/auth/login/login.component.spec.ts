@@ -1,3 +1,4 @@
+
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { AuthService } from '../auth.service';
 import { LoginComponent } from './login.component';
@@ -20,9 +21,7 @@ const tokenData = {accessToken : "accessToken", refreshToken: "refreshToken"}
 describe('LoginComponent unit tests', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  // let loginSpy;
   let router : Router;
-  // let routerSpy;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,6 +34,7 @@ describe('LoginComponent unit tests', () => {
       ]
     })
     .compileComponents();
+
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
 
@@ -178,3 +178,4 @@ describe('LoginComponent unit tests', () => {
   }));
   
 });
+
