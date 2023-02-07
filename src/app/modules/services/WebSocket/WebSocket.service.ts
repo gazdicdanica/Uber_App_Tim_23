@@ -14,7 +14,7 @@ export class WebSocketService{
   constructor() { }
 
   connect(){
-    let socket = new SockJS("http://192.168.0.21:8080/socket");
+    let socket = new SockJS("http://192.168.1.105:8080/socket");
 
     this.stompClient = Stomp.over(socket);
    
