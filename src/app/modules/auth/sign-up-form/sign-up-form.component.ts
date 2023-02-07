@@ -31,14 +31,12 @@ export class SignUpFormComponent {
       this.authService.signup(this.signUpForm.value)
       .subscribe({
         next: (res) => {
+          this.responseError = false;
           this.router.navigate(['/']);
           alert("An activation mail has been sent.\nTo continue click the link in mail!");
         },
         error: (error) => {
-          if (error instanceof HttpErrorResponse) {
-            this.responseError = true;
-          }
-          console.log(error);
+          this.responseError = true;
         },
       });
     

@@ -7,16 +7,19 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { SignUpFormComponent } from './sign-up-form.component';
 import { AuthService } from '../auth.service';
+import { Observable, of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
-const authServiceSpy = jasmine.createSpyObj('AuthService', ['signup']);
 
 const testData = {email: 'test3@email.com', name: 'testName', surname: 'testSurname', phone: '0649911442',
                   password: 'sifra123#', confirmPassword: 'sifra123#'}
 
+const authServiceSpy = jasmine.createSpyObj('AuthService', ['signup'])
 describe('SignUpFormComponent Unit Tests', () => {
   let component: SignUpFormComponent;
   let fixture: ComponentFixture<SignUpFormComponent>;
-  let signUpSpy;
+  let router: Router;
+  
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,8 +30,8 @@ describe('SignUpFormComponent Unit Tests', () => {
       ]
     })
     .compileComponents();
-    signUpSpy = authServiceSpy.signup.and.returnValue(Promise.resolve(testData));
-
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture = TestBed.createComponent(SignUpFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -41,7 +44,7 @@ describe('SignUpFormComponent Unit Tests', () => {
   it('Component Inital State', ()=>{
     expect(component.responseError).toEqual(false);
     expect(component.signUpForm).toBeDefined();
-  });
+  }); 
 
   it('should make blank form invalid', ()=>{
     component.signUpForm.controls['email'].setValue('');
@@ -153,7 +156,7 @@ describe('SignUpFormComponent Unit Tests', () => {
     expect(component.signUpForm.valid).toBeTruthy();
   });
 
-  it('should call signip', fakeAsync(()=> {
+  it('should call signup', fakeAsync(()=> {
     component.signUpForm.controls['email'].setValue(testData.email);
     component.signUpForm.controls['name'].setValue(testData.name);
     component.signUpForm.controls['surname'].setValue(testData.surname);
@@ -168,6 +171,46 @@ describe('SignUpFormComponent Unit Tests', () => {
     expect(authServiceSpy.signup).toHaveBeenCalled();
   }));
 
-  
+  it('responseError variable should be set to true in case of an unseccessful API call', ()=>{
+    component.signUpForm.controls['email'].setValue(testData.email);
+    component.signUpForm.controls['name'].setValue(testData.name);
+    component.signUpForm.controls['surname'].setValue(testData.surname);
+    component.signUpForm.controls['telephoneNumber'].setValue(testData.phone);
+    component.signUpForm.controls['password'].setValue(testData.password);
+    component.signUpForm.controls['confirmPassword'].setValue(testData.confirmPassword);
+    authServiceSpy.signup.and.returnValue(throwError(() => new Error('test')));
+
+    component.signUp();
+    fixture.detectChanges();
+    expect(component.responseError).toBeTruthy();
+  });
+
+  it('valid API call should call router.navigate ', ()=>{
+    component.signUpForm.controls['email'].setValue(testData.email);
+    component.signUpForm.controls['name'].setValue(testData.name);
+    component.signUpForm.controls['surname'].setValue(testData.surname);
+    component.signUpForm.controls['telephoneNumber'].setValue(testData.phone);
+    component.signUpForm.controls['password'].setValue(testData.password);
+    component.signUpForm.controls['confirmPassword'].setValue(testData.confirmPassword);
+    authServiceSpy.signup.and.returnValue(of({}));
+
+    component.signUp();
+    fixture.detectChanges();
+    expect(router.navigate).toHaveBeenCalled();
+  });
+
+  it('valid API call should navigate to main', ()=>{
+    component.signUpForm.controls['email'].setValue(testData.email);
+    component.signUpForm.controls['name'].setValue(testData.name);
+    component.signUpForm.controls['surname'].setValue(testData.surname);
+    component.signUpForm.controls['telephoneNumber'].setValue(testData.phone);
+    component.signUpForm.controls['password'].setValue(testData.password);
+    component.signUpForm.controls['confirmPassword'].setValue(testData.confirmPassword);
+    authServiceSpy.signup.and.returnValue(of({}));
+    
+    component.signUp();
+    fixture.detectChanges();
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
+  });
 
 });

@@ -126,7 +126,7 @@ export class InRidePassengerComponent implements OnInit, OnDestroy{
         this.mapService.setDrawRoute(false);
         this.router.navigate(["/"]);
         this.rideStatus = "PANIC";
-      
+        this.rideData = response;
       
     });
 
